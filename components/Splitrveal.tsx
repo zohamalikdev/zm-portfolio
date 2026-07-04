@@ -1,25 +1,54 @@
 "use client";
 
+import React from "react";
+
+interface SplitrvealProps {
+  text: string;
+  baseDelay?: number;
+  delay?: number;
+  staggerDelay?: number;
+  className?: string;
+}
+
 export default function Splitrveal({
   text,
-  className = "",
   baseDelay = 0,
-}: {
-  text: string;
-  className?: string;
-  baseDelay?: number;
-}) {
+  delay = 0,
+  staggerDelay = 0.03,
+  className = "",
+}: SplitrvealProps) {
+  const letters = text.split("");
+  const totalDelay = baseDelay + delay;
+
   return (
-    <span className={`inline-block overflow-hidden ${className}`}>
-      {text.split("").map((char, i) => (
+    <span className={`inline-block ${className}`}>
+      {letters.map((letter, index) => (
         <span
-          key={i}
-          className="inline-block animate-[riseIn_0.8s_cubic-bezier(0.16,1,0.3,1)_backwards] motion-reduce:animate-none"
-          style={{ animationDelay: `${baseDelay + i * 0.03}s` }}
+          key={`${letter}-${index}`}
+          className="inline-block"
+          style={{
+            animation: `revealLetter 0.5s ease-out forwards`,
+            animationDelay: `${totalDelay + index * staggerDelay}s`,
+            opacity: 0,
+            transform: "translateY(20px)",
+          }}
         >
-          {char === " " ? "\u00A0" : char}
+          {letter === " " ? "\u00A0" : letter}
         </span>
       ))}
+
+      <style>{`
+        @keyframes revealLetter {
+          0% {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </span>
   );
 }

@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Magnetic from "@/components/Magnetic";
 import EnhancedCursor from "@/components/EnhancedCursor";
+import EnhancedHeroSection from "@/components/EnhancedHeroSection";
 import Splitrveal from "@/components/Splitrveal";
 import StickySection from "@/components/StickySection";
 import ScrollScrub from "@/components/ScrollScrub";
@@ -164,39 +165,10 @@ export default function Home() {
   return (
     <main className="relative bg-black text-white font-display overflow-x-hidden cursor-none">
       <EnhancedCursor />
- 
-      
- 
-      {/* ===== HERO 1 — full-bleed oversized type ===== */}
-      <StickySection zIndex={10} className="min-h-screen flex items-end px-0 bg-black overflow-hidden">
-        {/* Right-side vertical index — decorative page map, echoes the header nav */}
-        <nav className="absolute top-28 right-8 md:right-16 text-right font-mag-body text-xs md:text-sm space-y-2 z-10">
-          <a href="#about" className="block opacity-50 hover:opacity-100">Introduction</a>
-          <a href="#work" className="block font-bold hover:opacity-70">Projects</a>
-          <a href="#resume" className="block opacity-50 hover:opacity-100">Resume</a>
-          <a href="#about" className="block font-bold hover:opacity-70">Skills</a>
-          <a href="#contact" className="block opacity-50 hover:opacity-100">Services</a>
-        </nav>
- 
-        <h1
-          ref={heroTitleRef}
-          className="w-full font-display uppercase text-white/90 leading-[0.78] tracking-tight select-none"
-          style={{ fontSize: "clamp(64px, 15vw, 240px)", willChange: "transform" }}
-        >
-          <Splitrveal text="FULL" />
-          <br />
-          <Splitrveal text="STACK" baseDelay={0.15} />
-          <br />
-          <span className="inline-flex items-end">
-            <Splitrveal text="DEV" baseDelay={0.3} />
-            <span
-              className="inline-block bg-white/90 rounded-full ml-3 md:ml-5 mb-[0.05em]"
-              style={{ width: "0.55em", height: "0.55em" }}
-            />
-          </span>
-        </h1>
-      </StickySection>
- 
+
+      {/* ===== ENHANCED HERO SECTION ===== */}
+      <EnhancedHeroSection />
+
       {/* ===== HERO 2 — photo intro ===== */}
       <StickySection zIndex={20} className="min-h-screen flex flex-col justify-between px-8 md:px-16 py-24 bg-black">
         <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center flex-1">
@@ -213,7 +185,7 @@ export default function Home() {
               interface and infrastructure.
             </p>
           </ScrollScrub>
- 
+
           <ScrollScrub>
             <div className="relative aspect-[4/5] border-4 border-white overflow-hidden">
               <Image
@@ -225,25 +197,25 @@ export default function Home() {
             </div>
           </ScrollScrub>
         </div>
- 
+
         <div className="flex flex-col md:flex-row md:justify-between gap-3 md:gap-8 border-t-4 border-white pt-6 font-mag-body text-sm text-white/70">
           <span>zohamalik.dev@gmail.com</span>
           <span>linkedin.com/in/zohamalik-/</span>
           <span>github.com/zohamalikdev</span>
         </div>
       </StickySection>
- 
+
       {/* ===== ABOUT ===== */}
       <StickySection id="about" zIndex={30} className="bg-white text-black px-8 md:px-16 py-24 md:py-32 min-h-screen">
         <Marquee
           text="OPEN TO WORK — FULL STACK DEVELOPER — REMOTE READY —"
           className="text-black mb-16 border-y-4 border-black py-3 font-bold"
         />
- 
+
         <ScrollScrub>
           <p className="eyebrow mb-6">[ 03 ] — THE BRIEF</p>
         </ScrollScrub>
- 
+
         <div className="grid md:grid-cols-[1fr_1fr] gap-12 md:gap-20 border-t-4 border-black pt-12">
           <ScrollScrub>
             <h2 className="text-[48px] md:text-[80px] font-display leading-[0.95] uppercase">
@@ -252,7 +224,7 @@ export default function Home() {
               ME
             </h2>
           </ScrollScrub>
- 
+
           <ScrollScrub className="font-mag-body space-y-6 text-lg md:text-xl leading-relaxed text-black/80">
             <p>
               I'm a full stack developer and designer who moves fluidly between
@@ -264,7 +236,7 @@ export default function Home() {
               spacing, the load state — because that's where a product earns
               trust.
             </p>
- 
+
             <div className="border-t-4 border-black pt-6 grid grid-cols-2 gap-4 font-mag-body text-sm">
               <div>
                 <p className="text-black/50 mb-1 font-bold">STACK</p>
@@ -278,14 +250,14 @@ export default function Home() {
           </ScrollScrub>
         </div>
       </StickySection>
- 
+
       {/* ===== WORK — intro slide ===== */}
       <StickySection id="work" zIndex={40} className="bg-black text-white px-8 md:px-16 py-24 md:py-32 min-h-screen flex flex-col justify-center">
         <div className="flex justify-between items-start mb-12 font-mag-body text-xs md:text-sm tracking-wide">
           <span className="opacity-60">SELECTED WORK</span>
           <span className="opacity-60">( 04 PROJECTS )</span>
         </div>
- 
+
         <ScrollScrub>
           <h2 className="font-display uppercase leading-[0.85]" style={{ fontSize: "clamp(56px, 9vw, 130px)" }}>
             PROJECT
@@ -293,20 +265,20 @@ export default function Home() {
             PORTFOLIO
           </h2>
         </ScrollScrub>
- 
+
         <ScrollScrub>
           <p className="font-mag-body text-lg md:text-xl opacity-70 mt-8 max-w-lg">
             Four projects, four different problems — a storefront, an events
             platform, a product site, and a small tool. Scroll through each one.
           </p>
         </ScrollScrub>
- 
+
         <Marquee
           text="NODE.JS — POSTGRESQL — REACT — TYPESCRIPT — EXPRESS —"
           className="text-white mt-16 border-y-4 border-white py-3 font-bold"
         />
       </StickySection>
- 
+
       {/* ===== WORK — project slides ===== */}
       {[
         {
@@ -360,13 +332,13 @@ export default function Home() {
           <Projectslide {...project} />
         </StickySection>
       ))}
- 
+
       {/* ===== RESUME ===== */}
       <StickySection id="resume" zIndex={50} className="bg-white text-black px-8 md:px-16 py-24 md:py-32 min-h-screen">
         <ScrollScrub>
           <p className="eyebrow mb-6">[ 05 ] — CURRICULUM</p>
         </ScrollScrub>
- 
+
         <div className="grid md:grid-cols-[1fr_1fr] gap-12 md:gap-20 border-t-4 border-black pt-12">
           <ScrollScrub>
             <h2 className="text-[48px] md:text-[80px] font-display uppercase leading-[0.95] mb-8">
@@ -379,7 +351,7 @@ export default function Home() {
               DOWNLOAD PDF ↓
             </a>
           </ScrollScrub>
- 
+
           <div className="font-mag-body space-y-8">
             <ScrollScrub>
               <div className="border-t-4 border-black pt-6">
@@ -402,7 +374,7 @@ export default function Home() {
           </div>
         </div>
       </StickySection>
- 
+
       {/* ===== CONTACT ===== */}
       <StickySection id="contact" zIndex={60} className="bg-black text-white px-8 md:px-16 py-24 md:py-40 min-h-screen">
         <div className="flex justify-between items-start mb-12 font-mag-body text-xs md:text-sm tracking-wide">
@@ -413,7 +385,7 @@ export default function Home() {
             REMOTE · EST/BST
           </span>
         </div>
- 
+
         <ScrollScrub>
           <h2
             className="font-display uppercase leading-[0.8] mb-12"
@@ -430,7 +402,7 @@ export default function Home() {
             </span>
           </h2>
         </ScrollScrub>
- 
+
         <ScrollScrub>
           <a
             href="mailto:hello@zohamalik.dev"
@@ -439,7 +411,7 @@ export default function Home() {
             HELLO@ZOHAMALIK.DEV
           </a>
         </ScrollScrub>
- 
+
         <ScrollScrub>
           <div className="mt-16 flex flex-wrap gap-8 font-mag-body text-sm">
             <a href="#" className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn">GITHUB</a>
@@ -447,12 +419,12 @@ export default function Home() {
             <a href="#" className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn">TWITTER</a>
           </div>
         </ScrollScrub>
- 
+
         <Marquee
           text="THANKS FOR SCROLLING — LET'S BUILD SOMETHING —"
           className="text-white mt-16 border-t-4 border-white pt-6 font-bold"
         />
- 
+
         <div className="mt-10 flex justify-between brutal-tag text-white/40">
           <span>V.02 — MONOCHROME</span>
           <span>MULTAN, PK</span>
@@ -460,5 +432,4 @@ export default function Home() {
       </StickySection>
     </main>
   );
- 
 }
