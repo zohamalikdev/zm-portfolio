@@ -1,26 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ================= BASE ================= */
+
+* {
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: white;
+  color: black;
+  font-family: 'VT323', monospace;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-image:
+    linear-gradient(to right, #d9d9d9 1px, transparent 1px),
+    linear-gradient(to bottom, #d9d9d9 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+h1 {
+  letter-spacing: -2px;
+}
+
+/* ================= FONTS ================= */
+
+/* Retro / Pixel */
+.pixel-font {
+  font-family: 'VT323', monospace;
+}
+
+/* Desktop / Premium */
+.font-display {
+  font-family: 'Archivo Black', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+.font-mag-body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* ================= BOOT SCREEN ================= */
+
+.boot-font {
+  font-family: "VT323", monospace;
+  letter-spacing: 2px;
+}
+
+.boot-glow {
+  text-shadow:
+    0 0 4px rgba(0, 255, 102, 0.4),
+    0 0 8px rgba(0, 255, 102, 0.25),
+    0 0 12px rgba(0, 255, 102, 0.15);
+}
+
+.boot-old {
+  font-family: "VT323", monospace;
+  font-size: 42px;
+  color: #00ff66;
+  letter-spacing: 2px;
+  filter: blur(0.6px);
+  animation: bootFlicker 1.5s infinite steps(2, end);
+}
+
+@keyframes bootFlicker {
+  0% { opacity: 0.85; }
+  50% { opacity: 1; }
+  100% { opacity: 0.9; }
+}
+
+/* CRT overlay */
+.crt::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.08) 3px
+  );
+
+  mix-blend-mode: multiply;
+}
+
+.noise {
+  background-image: url("https://www.transparenttextures.com/patterns/noise.png");
+}
+
+/* ================= ANIMATIONS ================= */
+
+.pixel-cat {
+  position: fixed;
+  bottom: 80px;
+  left: -50px;
+  font-size: 32px;
+  animation: catWalk 18s linear infinite;
+}
+
+@keyframes catWalk {
+  from {
+    left: -50px;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+.float-sticker {
+  animation: float 3s ease-in-out infinite;
+}
+
+.float1 {
+  animation: float 4s ease-in-out infinite;
+}
+
+.float2 {
+  animation: float 3s ease-in-out infinite;
+}
+
+.float3 {
+  animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(-3deg);
+  }
+}
+
+/* ================= BRUTALIST THEME ================= */
+
+/* Hard offset shadow, no blur — the signature brutalist "sticker" shadow.
+   Use with .brutal-btn or .brutal-card so the shadow shifts on hover/press. */
+.brutal-shadow {
+  box-shadow: 8px 8px 0 0 #ffffff;
+}
+
+.brutal-shadow-dark {
+  box-shadow: 8px 8px 0 0 #000000;
+}
+
+/* Buttons/links: solid border, hard shadow, snaps toward the shadow on
+   hover instead of easing — instant, mechanical feedback. */
+.brutal-btn {
+  transition: transform 100ms linear, box-shadow 100ms linear, background-color 0ms, color 0ms;
+}
+
+.brutal-btn:hover {
+  transform: translate(4px, 4px);
+  box-shadow: 4px 4px 0 0 #ffffff;
+}
+
+.brutal-btn-dark:hover {
+  box-shadow: 4px 4px 0 0 #000000;
+}
+
+.brutal-btn:active {
+  transform: translate(8px, 8px);
+  box-shadow: 0 0 0 0 #ffffff;
+}
+
+.brutal-btn-dark:active {
+  box-shadow: 0 0 0 0 #000000;
+}
+
+/* Instant invert on hover — no color easing, brutalist hovers snap. */
+.brutal-invert {
+  transition: background-color 0ms, color 0ms;
+}
+
+/* Corner tags — fixed exposed metadata, like a spec sheet stamped on the page. */
+.brutal-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Thick structural rule — replaces soft hairlines between brutalist blocks. */
+.brutal-rule {
+  border-top: 4px solid currentColor;
+}
+
+/* ================= ADD TO END OF globals.css ================= */
+
+/* ================= ADD TO END OF globals.css ================= */
+
+@keyframes riseIn {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee linear infinite;
 }

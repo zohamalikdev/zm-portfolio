@@ -1,65 +1,464 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
 import Image from "next/image";
+import Magnetic from "@/components/Magnetic";
+import EnhancedCursor from "@/components/EnhancedCursor";
+import Splitrveal from "@/components/Splitrveal";
+import StickySection from "@/components/StickySection";
+import ScrollScrub from "@/components/ScrollScrub";
+import Projectcard from "@/components/Projectcard";
+import Projectslide from "@/components/Projectslide";
+import { useScrollSkew } from "@/components/useScrollSkew";
+import Marquee from "@/components/Marquee";
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+  const [entered, setEntered] = useState(false);
+  const [booting, setBooting] = useState(false);
+  const [bootLines, setBootLines] = useState<string[]>([]);
+  const [typedText, setTypedText] = useState("");
+  const [activeWindow, setActiveWindow] = useState("");
+
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
+  useScrollSkew(heroTitleRef);
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      setMousePos({
+        x: e.clientX,
+        y: e.clientY,
+      });
+    };
+
+    window.addEventListener("mousemove", move);
+    return () => window.removeEventListener("mousemove", move);
+  }, []);
+
+  const bootSequence = [
+    "BOOTING ZOHA_OS...",
+    "INITIALIZING DESIGN ENGINE...",
+    "LOADING CREATIVE MODULE...",
+    "CHECKING JACK OF ALL TRADES STATUS...",
+    "ACCESS GRANTED.",
+  ];
+
+  const heroText =
+    "I build digital experiences that are clean, interactive, and impossible to ignore.";
+
+  // BOOT ANIMATION
+  useEffect(() => {
+    if (!booting) return;
+
+    let i = 0;
+    setBootLines([]);
+
+    const interval = setInterval(() => {
+      setBootLines((prev) => [...prev, bootSequence[i]]);
+      i++;
+
+      if (i >= bootSequence.length) {
+        clearInterval(interval);
+
+        setTimeout(() => {
+          setBooting(false);
+          setEntered(true);
+        }, 800);
+      }
+    }, 700);
+
+    return () => clearInterval(interval);
+  }, [booting]);
+
+  // TYPEWRITER EFFECT
+  useEffect(() => {
+    if (booting || entered) return;
+
+    let i = 0;
+    const interval = setInterval(() => {
+      setTypedText(heroText.slice(0, i));
+      i++;
+
+      if (i > heroText.length) clearInterval(interval);
+    }, 25);
+
+    return () => clearInterval(interval);
+  }, [booting, entered]);
+
+  // ================= BOOT SCREEN =================
+  if (booting) {
+    return (
+      <main className="min-h-screen bg-black text-green-500 flex items-center justify-center crt boot-old">
+        <div className="text-4xl tracking-wider space-y-3">
+          {bootLines.map((line, i) => (
+            <p key={i}>{line}</p>
+          ))}
         </div>
       </main>
-    </div>
+    );
+  }
+
+  // ================= LANDING PAGE =================
+  if (!entered) {
+    return (
+      <main className="min-h-screen grid md:grid-cols-2 bg-white text-black">
+        {/* LEFT HERO */}
+        <div className="bg-black text-white p-10 flex flex-col justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-3 h-3 bg-green-500 rounded-full" />
+            <span>ONLINE</span>
+          </div>
+
+          <div>
+            <h1 className="text-[110px] leading-none font-black">
+              JACK OF
+              <br />
+              ALL
+              <br />
+              TRADES.
+            </h1>
+
+            <p className="mt-6 text-2xl opacity-90">
+              MASTER OF SOME.
+              <br />
+              LIMITED BY NONE.
+            </p>
+          </div>
+
+          <p className="text-sm opacity-70">
+            Full Stack • Designer • Creative Explorer
+          </p>
+        </div>
+
+        {/* RIGHT INTRO */}
+        <div className="flex flex-col justify-center px-16">
+          <p className="tracking-widest">HELLO, I'M</p>
+
+          <h1 className="text-7xl font-black mt-4">
+            ZOHA
+            <br />
+            MALIK
+          </h1>
+
+          <p className="mt-8 text-xl min-h-[120px]">
+            {typedText}
+            <span className="animate-pulse">|</span>
+          </p>
+
+          <Magnetic>
+            <button
+              onClick={() => setBooting(true)}
+              className="mt-10 border-2 border-black px-8 py-3 w-fit hover:bg-black hover:text-white transition"
+            >
+              ENTER SYSTEM
+            </button>
+          </Magnetic>
+        </div>
+      </main>
+    );
+  }
+
+  // ================= DESKTOP =================
+  return (
+    <main className="relative bg-black text-white font-display overflow-x-hidden cursor-none">
+      <EnhancedCursor />
+ 
+      
+ 
+      {/* ===== HERO 1 — full-bleed oversized type ===== */}
+      <StickySection zIndex={10} className="min-h-screen flex items-end px-0 bg-black overflow-hidden">
+        {/* Right-side vertical index — decorative page map, echoes the header nav */}
+        <nav className="absolute top-28 right-8 md:right-16 text-right font-mag-body text-xs md:text-sm space-y-2 z-10">
+          <a href="#about" className="block opacity-50 hover:opacity-100">Introduction</a>
+          <a href="#work" className="block font-bold hover:opacity-70">Projects</a>
+          <a href="#resume" className="block opacity-50 hover:opacity-100">Resume</a>
+          <a href="#about" className="block font-bold hover:opacity-70">Skills</a>
+          <a href="#contact" className="block opacity-50 hover:opacity-100">Services</a>
+        </nav>
+ 
+        <h1
+          ref={heroTitleRef}
+          className="w-full font-display uppercase text-white/90 leading-[0.78] tracking-tight select-none"
+          style={{ fontSize: "clamp(64px, 15vw, 240px)", willChange: "transform" }}
+        >
+          <Splitrveal text="FULL" />
+          <br />
+          <Splitrveal text="STACK" baseDelay={0.15} />
+          <br />
+          <span className="inline-flex items-end">
+            <Splitrveal text="DEV" baseDelay={0.3} />
+            <span
+              className="inline-block bg-white/90 rounded-full ml-3 md:ml-5 mb-[0.05em]"
+              style={{ width: "0.55em", height: "0.55em" }}
+            />
+          </span>
+        </h1>
+      </StickySection>
+ 
+      {/* ===== HERO 2 — photo intro ===== */}
+      <StickySection zIndex={20} className="min-h-screen flex flex-col justify-between px-8 md:px-16 py-24 bg-black">
+        <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center flex-1">
+          <ScrollScrub>
+            <p className="font-mag-body text-lg md:text-xl text-white/60 mb-3">HELLO, I'M</p>
+            <h2 className="text-[48px] md:text-[80px] font-display uppercase leading-[0.9]">
+              ZOHA
+              <br />
+              MALIK
+            </h2>
+            <p className="font-mag-body text-base md:text-lg text-white/70 mt-6 max-w-md leading-relaxed">
+              I don't just build software — I build experiences people remember.
+              I'm a full stack developer and designer who moves fluidly between
+              interface and infrastructure.
+            </p>
+          </ScrollScrub>
+ 
+          <ScrollScrub>
+            <div className="relative aspect-[4/5] border-4 border-white overflow-hidden">
+              <Image
+                src="/projects/hero.jpeg"
+                alt="Zoha Malik"
+                fill
+                className="object-cover grayscale contrast-125"
+              />
+            </div>
+          </ScrollScrub>
+        </div>
+ 
+        <div className="flex flex-col md:flex-row md:justify-between gap-3 md:gap-8 border-t-4 border-white pt-6 font-mag-body text-sm text-white/70">
+          <span>zohamalik.dev@gmail.com</span>
+          <span>linkedin.com/in/zohamalik-/</span>
+          <span>github.com/zohamalikdev</span>
+        </div>
+      </StickySection>
+ 
+      {/* ===== ABOUT ===== */}
+      <StickySection id="about" zIndex={30} className="bg-white text-black px-8 md:px-16 py-24 md:py-32 min-h-screen">
+        <Marquee
+          text="OPEN TO WORK — FULL STACK DEVELOPER — REMOTE READY —"
+          className="text-black mb-16 border-y-4 border-black py-3 font-bold"
+        />
+ 
+        <ScrollScrub>
+          <p className="eyebrow mb-6">[ 03 ] — THE BRIEF</p>
+        </ScrollScrub>
+ 
+        <div className="grid md:grid-cols-[1fr_1fr] gap-12 md:gap-20 border-t-4 border-black pt-12">
+          <ScrollScrub>
+            <h2 className="text-[48px] md:text-[80px] font-display leading-[0.95] uppercase">
+              ABOUT
+              <br />
+              ME
+            </h2>
+          </ScrollScrub>
+ 
+          <ScrollScrub className="font-mag-body space-y-6 text-lg md:text-xl leading-relaxed text-black/80">
+            <p>
+              I'm a full stack developer and designer who moves fluidly between
+              interface and infrastructure. My work sits at the point where
+              clean code meets deliberate design.
+            </p>
+            <p>
+              I care about the details most people skip — the transition, the
+              spacing, the load state — because that's where a product earns
+              trust.
+            </p>
+ 
+            <div className="border-t-4 border-black pt-6 grid grid-cols-2 gap-4 font-mag-body text-sm">
+              <div>
+                <p className="text-black/50 mb-1 font-bold">STACK</p>
+                <p>React · Next.js · Node · TypeScript</p>
+              </div>
+              <div>
+                <p className="text-black/50 mb-1 font-bold">FOCUS</p>
+                <p>Frontend Systems · Product Design</p>
+              </div>
+            </div>
+          </ScrollScrub>
+        </div>
+      </StickySection>
+ 
+      {/* ===== WORK — intro slide ===== */}
+      <StickySection id="work" zIndex={40} className="bg-black text-white px-8 md:px-16 py-24 md:py-32 min-h-screen flex flex-col justify-center">
+        <div className="flex justify-between items-start mb-12 font-mag-body text-xs md:text-sm tracking-wide">
+          <span className="opacity-60">SELECTED WORK</span>
+          <span className="opacity-60">( 04 PROJECTS )</span>
+        </div>
+ 
+        <ScrollScrub>
+          <h2 className="font-display uppercase leading-[0.85]" style={{ fontSize: "clamp(56px, 9vw, 130px)" }}>
+            PROJECT
+            <br />
+            PORTFOLIO
+          </h2>
+        </ScrollScrub>
+ 
+        <ScrollScrub>
+          <p className="font-mag-body text-lg md:text-xl opacity-70 mt-8 max-w-lg">
+            Four projects, four different problems — a storefront, an events
+            platform, a product site, and a small tool. Scroll through each one.
+          </p>
+        </ScrollScrub>
+ 
+        <Marquee
+          text="NODE.JS — POSTGRESQL — REACT — TYPESCRIPT — EXPRESS —"
+          className="text-white mt-16 border-y-4 border-white py-3 font-bold"
+        />
+      </StickySection>
+ 
+      {/* ===== WORK — project slides ===== */}
+      {[
+        {
+          index: "01 / 04",
+          title: "Bazzar Shop",
+          description:
+            "A full-stack e-commerce platform with JWT authentication, an admin dashboard, and 11+ REST API endpoints powering the storefront.",
+          tags: ["NODE.JS", "EXPRESS", "POSTGRESQL"],
+          image: "/projects/bazzar.png",
+          liveHref: "https://zohamalikdev.github.io/Bazzar-Shop/index.html",
+          githubHref: "https://github.com/zohamalikdev",
+        },
+        {
+          index: "02 / 04",
+          title: "ArtWala",
+          description:
+            "An event management platform built end-to-end with PHP and MySQL, handling listings, bookings, and organizer tools.",
+          tags: ["PHP", "MYSQL", "FULL STACK"],
+          image: "/projects/artwala.png",
+          liveHref: "https://artwala.page.gd",
+          githubHref: "https://github.com/zohamalikdev",
+          reverse: true,
+        },
+        {
+          index: "03 / 04",
+          title: "DrinkCo",
+          description:
+            "A responsive frontend product site with custom breakpoint handling and a clean stacked mobile layout.",
+          tags: ["HTML", "CSS", "JAVASCRIPT"],
+          image: "/projects/drinkco.png",
+          liveHref: "https://zohamalikdev.github.io/DrinkCo/index.html",
+          githubHref: "https://github.com/zohamalikdev",
+        },
+        {
+          index: "04 / 04",
+          title: "Todo List",
+          description:
+            "A lightweight task manager focused on fast interactions and clean state handling.",
+          tags: ["JAVASCRIPT", "HTML", "CSS"],
+          image: "/projects/todo.png",
+          liveHref: "#",
+          githubHref: "https://github.com/zohamalikdev",
+          reverse: true,
+        },
+      ].map((project, i) => (
+        <StickySection
+          key={project.title}
+          zIndex={41 + i}
+          className="bg-black text-white border-t-4 border-white/20"
+        >
+          <Projectslide {...project} />
+        </StickySection>
+      ))}
+ 
+      {/* ===== RESUME ===== */}
+      <StickySection id="resume" zIndex={50} className="bg-white text-black px-8 md:px-16 py-24 md:py-32 min-h-screen">
+        <ScrollScrub>
+          <p className="eyebrow mb-6">[ 05 ] — CURRICULUM</p>
+        </ScrollScrub>
+ 
+        <div className="grid md:grid-cols-[1fr_1fr] gap-12 md:gap-20 border-t-4 border-black pt-12">
+          <ScrollScrub>
+            <h2 className="text-[48px] md:text-[80px] font-display uppercase leading-[0.95] mb-8">
+              RESUME
+            </h2>
+            <a
+              href="/resume.pdf"
+              className="font-mag-body inline-block border-2 border-black px-6 py-3 text-sm hover:bg-black hover:text-white brutal-btn-dark"
+            >
+              DOWNLOAD PDF ↓
+            </a>
+          </ScrollScrub>
+ 
+          <div className="font-mag-body space-y-8">
+            <ScrollScrub>
+              <div className="border-t-4 border-black pt-6">
+                <p className="text-black/50 text-sm mb-1 font-bold">2024 — PRESENT</p>
+                <p className="text-xl">Full Stack Developer, Freelance</p>
+              </div>
+            </ScrollScrub>
+            <ScrollScrub>
+              <div className="border-t-4 border-black pt-6">
+                <p className="text-black/50 text-sm mb-1 font-bold">2022 — 2024</p>
+                <p className="text-xl">Frontend Developer, Studio Role</p>
+              </div>
+            </ScrollScrub>
+            <ScrollScrub>
+              <div className="border-t-4 border-black pt-6">
+                <p className="text-black/50 text-sm mb-1 font-bold">EDUCATION</p>
+                <p className="text-xl">B.S. Computer Science</p>
+              </div>
+            </ScrollScrub>
+          </div>
+        </div>
+      </StickySection>
+ 
+      {/* ===== CONTACT ===== */}
+      <StickySection id="contact" zIndex={60} className="bg-black text-white px-8 md:px-16 py-24 md:py-40 min-h-screen">
+        <div className="flex justify-between items-start mb-12 font-mag-body text-xs md:text-sm tracking-wide">
+          <span className="opacity-60">[ 06 ] — GET IN TOUCH</span>
+          <span className="opacity-60 text-right">
+            AVAILABLE FOR WORK
+            <br />
+            REMOTE · EST/BST
+          </span>
+        </div>
+ 
+        <ScrollScrub>
+          <h2
+            className="font-display uppercase leading-[0.8] mb-12"
+            style={{ fontSize: "clamp(56px, 12vw, 160px)" }}
+          >
+            THANK
+            <br />
+            <span className="inline-flex items-end">
+              YOU
+              <span
+                className="inline-block bg-white rounded-full ml-3 md:ml-5 mb-[0.08em]"
+                style={{ width: "0.5em", height: "0.5em" }}
+              />
+            </span>
+          </h2>
+        </ScrollScrub>
+ 
+        <ScrollScrub>
+          <a
+            href="mailto:hello@zohamalik.dev"
+            className="block text-[28px] md:text-[56px] font-display uppercase leading-[0.95] hover:bg-white hover:text-black brutal-invert break-words border-y-4 border-white py-5"
+          >
+            HELLO@ZOHAMALIK.DEV
+          </a>
+        </ScrollScrub>
+ 
+        <ScrollScrub>
+          <div className="mt-16 flex flex-wrap gap-8 font-mag-body text-sm">
+            <a href="#" className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn">GITHUB</a>
+            <a href="#" className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn">LINKEDIN</a>
+            <a href="#" className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn">TWITTER</a>
+          </div>
+        </ScrollScrub>
+ 
+        <Marquee
+          text="THANKS FOR SCROLLING — LET'S BUILD SOMETHING —"
+          className="text-white mt-16 border-t-4 border-white pt-6 font-bold"
+        />
+ 
+        <div className="mt-10 flex justify-between brutal-tag text-white/40">
+          <span>V.02 — MONOCHROME</span>
+          <span>MULTAN, PK</span>
+        </div>
+      </StickySection>
+    </main>
   );
+ 
 }
