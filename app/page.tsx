@@ -16,6 +16,7 @@ import Projectslide from "@/components/Projectslide";
 import { useScrollSkew } from "@/components/useScrollSkew";
 import Marquee from "@/components/Marquee";
 import Resume from "@/components/Resume";
+import TypeWriter from "@/components/TypeWriter";
 import ContactForm from "@/components/ContactForm";
 import ClosingSection from "@/components/ClosingSection";
 
@@ -211,52 +212,101 @@ export default function Home() {
         </div>
       </StickySection>
 
+     
       {/* ===== ABOUT ===== */}
-      <StickySection id="about" zIndex={30} className="bg-white text-black px-8 md:px-16 py-24 md:py-32 min-h-screen">
+      <StickySection id="about" zIndex={30} className="bg-white text-black px-8 md:px-12 py-16 md:py-18 min-h-screen">
         <Marquee
           text="OPEN TO WORK — FULL STACK DEVELOPER — REMOTE READY —"
           className="text-black mb-16 border-y-4 border-black py-3 font-bold"
         />
-
-        <ScrollScrub>
-          <p className="eyebrow mb-6">[ 03 ] — THE BRIEF</p>
-        </ScrollScrub>
-
-        <div className="grid md:grid-cols-[1fr_1fr] gap-12 md:gap-20 border-t-4 border-black pt-12">
+ 
+        <div className="flex justify-between items-start mb-0 font-mag-body text-xs md:text-sm tracking-wide">
+          <span className="eyebrow">[ 03 ] — THE BRIEF</span>
+          <span className="opacity-60 text-right">
+            ISSUE NO. 03
+            <br />
+            VOL. 01
+          </span>
+        </div>
+ 
+        <div className="grid md:grid-cols-[1fr_1.3fr] gap-12 md:gap-20 border-t-4 border-black pt-12 mt-6">
+          {/* ===== LEFT: MASTHEAD ===== */}
           <ScrollScrub>
             <h2 className="text-[48px] md:text-[80px] font-display leading-[0.95] uppercase">
               ABOUT
               <br />
               ME
             </h2>
+ 
+            <p className="font-mag-body text-xs uppercase tracking-widest opacity-50 mt-6">
+              Words by Zoha Malik
+            </p>
+ 
+            <p className="pixel-font text-2xl md:text-3xl mt-8 border-t-2 border-black/20 pt-6">
+              <TypeWriter text="> full_stack_dev.designer()" />
+            </p>
+            <p className="pixel-font text-xl md:text-2xl opacity-60">
+              <TypeWriter text="> based_in: multan, pk" speed={35} />
+            </p>
           </ScrollScrub>
-
-          <ScrollScrub className="font-mag-body space-y-6 text-lg md:text-xl leading-relaxed text-black/80">
-            <p>
-              I'm a full stack developer and designer who moves fluidly between
-              interface and infrastructure. My work sits at the point where
-              clean code meets deliberate design.
-            </p>
-            <p>
-              I care about the details most people skip — the transition, the
-              spacing, the load state — because that's where a product earns
-              trust.
-            </p>
-
-            <div className="border-t-4 border-black pt-6 grid grid-cols-2 gap-4 font-mag-body text-sm">
-              <div>
-                <p className="text-black/50 mb-1 font-bold">STACK</p>
-                <p>React · Next.js · Node · TypeScript</p>
-              </div>
-              <div>
-                <p className="text-black/50 mb-1 font-bold">FOCUS</p>
-                <p>Frontend Systems · Product Design</p>
-              </div>
+ 
+          {/* ===== RIGHT: MAGAZINE COPY ===== */}
+          <ScrollScrub className="font-mag-body text-lg md:text-xl leading-relaxed text-black/80">
+            <div className="md:columns-2 gap-10 [column-rule:2px_solid_rgba(0,0,0,0.15)]">
+              <p className="mb-6 break-inside-avoid first-letter:font-display first-letter:text-6xl md:first-letter:text-7xl first-letter:float-left first-letter:leading-[0.75] first-letter:mr-3 first-letter:mt-1">
+                I didn't start out writing code — I started out designing for
+                freelance clients, learning to see layout, spacing, and
+                hierarchy before I ever touched a terminal. That eye for
+                design is still how I build everything today.
+              </p>
+              <p className="mb-6 break-inside-avoid">
+                Somewhere along the way I got pulled into the other half of
+                the stack — databases, APIs, the parts users never see but
+                always feel. Now I move across both sides without really
+                separating them; a good interface and a solid backend are
+                the same problem to me, just viewed from different angles.
+              </p>
             </div>
+ 
+            <blockquote className="border-l-4 border-black pl-6 my-8 font-display uppercase text-2xl md:text-3xl leading-[1.05]">
+              I care about the details most people skip.
+            </blockquote>
+           
           </ScrollScrub>
         </div>
       </StickySection>
+ 
+      {/* ===== WORK — intro slide ===== */}
+      <StickySection id="work" zIndex={40} className="bg-black text-white px-8 md:px-16 py-24 md:py-32 min-h-screen flex flex-col justify-center">
+        <div className="flex justify-between items-start mb-12 font-mag-body text-xs md:text-sm tracking-wide">
+          <span className="opacity-60">SELECTED WORK</span>
+          <span className="opacity-60">( 04 PROJECTS )</span>
+        </div>
+ 
+        <ScrollScrub>
+          <h2 className="font-display uppercase leading-[0.85]" style={{ fontSize: "clamp(56px, 9vw, 130px)" }}>
+            PROJECT
+            <br />
+            PORTFOLIO
+          </h2>
+        </ScrollScrub>
+ 
+        <ScrollScrub>
+          <p className="font-mag-body text-lg md:text-xl opacity-70 mt-8 max-w-lg">
+            Four projects, four different problems — a storefront, an events
+            platform, a product site, and a small tool. Scroll through each one.
+          </p>
+        </ScrollScrub>
+ 
+        <Marquee
+          text="NODE.JS — POSTGRESQL — REACT — TYPESCRIPT — EXPRESS —"
+          className="text-white mt-16 border-y-4 border-white py-3 font-bold"
+        />
+      </StickySection>
 
+
+
+     
       {/* ===== WORK — intro slide ===== */}
       <StickySection id="work" zIndex={40} className="bg-black text-white px-8 md:px-16 py-24 md:py-32 min-h-screen flex flex-col justify-center">
         <div className="flex justify-between items-start mb-12 font-mag-body text-xs md:text-sm tracking-wide">

@@ -50,7 +50,7 @@ export default function Resume() {
             </p>
             <Magnetic strength={0.25}>
               <a
-                href="/resume.pdf"
+                href="/Zoha_Malik_Resume.pdf"
                 className="font-mag-body inline-flex w-fit items-center gap-2 border-2 border-black px-6 py-3 text-sm mt-6 hover:bg-black hover:text-white brutal-btn-dark"
               >
                 DOWNLOAD PDF ↓
