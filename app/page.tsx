@@ -13,6 +13,7 @@ import Projectcard from "@/components/Projectcard";
 import Projectslide from "@/components/Projectslide";
 import { useScrollSkew } from "@/components/useScrollSkew";
 import Marquee from "@/components/Marquee";
+import ContactForm from "@/components/ContactForm";
 
 export default function Home() {
   const [entered, setEntered] = useState(false);
@@ -345,7 +346,7 @@ export default function Home() {
               RESUME
             </h2>
             <a
-              href="/resume.pdf"
+              href="/Zoha_Malik_Resume.pdf"
               className="font-mag-body inline-block border-2 border-black px-6 py-3 text-sm hover:bg-black hover:text-white brutal-btn-dark"
             >
               DOWNLOAD PDF ↓
@@ -408,15 +409,35 @@ export default function Home() {
             href="mailto:hello@zohamalik.dev"
             className="block text-[28px] md:text-[56px] font-display uppercase leading-[0.95] hover:bg-white hover:text-black brutal-invert break-words border-y-4 border-white py-5"
           >
-            HELLO@ZOHAMALIK.DEV
+            zohamalik.dev@gmail.com
           </a>
         </ScrollScrub>
 
+        <ContactForm />
+
         <ScrollScrub>
           <div className="mt-16 flex flex-wrap gap-8 font-mag-body text-sm">
-            <a href="#" className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn">GITHUB</a>
-            <a href="#" className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn">LINKEDIN</a>
-            <a href="#" className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn">TWITTER</a>
+
+
+            <a
+              href="https://github.com/zohamalikdev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn"
+            >
+              GITHUB
+            </a>
+
+            <a
+              href="https://linkedin.com/in/zohamalik-"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn"
+            >
+              LINKEDIN
+            </a>
+
+           
           </div>
         </ScrollScrub>
 
