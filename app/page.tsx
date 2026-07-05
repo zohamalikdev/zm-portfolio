@@ -15,6 +15,7 @@ import Projectcard from "@/components/Projectcard";
 import Projectslide from "@/components/Projectslide";
 import { useScrollSkew } from "@/components/useScrollSkew";
 import Marquee from "@/components/Marquee";
+import Resume from "@/components/Resume";
 import ContactForm from "@/components/ContactForm";
 import ClosingSection from "@/components/ClosingSection";
 
@@ -338,47 +339,7 @@ export default function Home() {
         </StickySection>
       ))}
 
-      {/* ===== RESUME ===== */}
-      <StickySection id="resume" zIndex={50} className="bg-white text-black px-8 md:px-16 py-24 md:py-32 min-h-screen">
-        <ScrollScrub>
-          <p className="eyebrow mb-6">[ 05 ] — CURRICULUM</p>
-        </ScrollScrub>
-
-        <div className="grid md:grid-cols-[1fr_1fr] gap-12 md:gap-20 border-t-4 border-black pt-12">
-          <ScrollScrub>
-            <h2 className="text-[48px] md:text-[80px] font-display uppercase leading-[0.95] mb-8">
-              RESUME
-            </h2>
-            <a
-              href="/Zoha_Malik_Resume.pdf"
-              className="font-mag-body inline-block border-2 border-black px-6 py-3 text-sm hover:bg-black hover:text-white brutal-btn-dark"
-            >
-              DOWNLOAD PDF ↓
-            </a>
-          </ScrollScrub>
-
-          <div className="font-mag-body space-y-8">
-            <ScrollScrub>
-              <div className="border-t-4 border-black pt-6">
-                <p className="text-black/50 text-sm mb-1 font-bold">2024 — PRESENT</p>
-                <p className="text-xl">Full Stack Developer, Freelance</p>
-              </div>
-            </ScrollScrub>
-            <ScrollScrub>
-              <div className="border-t-4 border-black pt-6">
-                <p className="text-black/50 text-sm mb-1 font-bold">2022 — 2024</p>
-                <p className="text-xl">Frontend Developer, Studio Role</p>
-              </div>
-            </ScrollScrub>
-            <ScrollScrub>
-              <div className="border-t-4 border-black pt-6">
-                <p className="text-black/50 text-sm mb-1 font-bold">EDUCATION</p>
-                <p className="text-xl">B.S. Computer Science</p>
-              </div>
-            </ScrollScrub>
-          </div>
-        </div>
-      </StickySection>
+    <Resume />
 
       {/* ===== CONTACT ===== */}
      <ClosingSection />

@@ -221,3 +221,69 @@ h1 {
 .animate-marquee {
   animation: marquee linear infinite;
 }
+
+/* ================= BRUTALIST THEME ================= */
+
+/* Hard offset shadow, no blur — the signature brutalist "sticker" shadow.
+   Use with .brutal-btn or .brutal-card so the shadow shifts on hover/press. */
+.brutal-shadow {
+  box-shadow: 8px 8px 0 0 #ffffff;
+}
+
+.brutal-shadow-dark {
+  box-shadow: 8px 8px 0 0 #000000;
+}
+
+/* Buttons/links: solid border, hard shadow, snaps toward the shadow on
+   hover instead of easing — instant, mechanical feedback. */
+.brutal-btn {
+  transition: transform 100ms linear, box-shadow 100ms linear, background-color 0ms, color 0ms;
+}
+
+.brutal-btn:hover {
+  transform: translate(4px, 4px);
+  box-shadow: 4px 4px 0 0 #ffffff;
+}
+
+.brutal-btn-dark:hover {
+  box-shadow: 4px 4px 0 0 #000000;
+}
+
+.brutal-btn:active {
+  transform: translate(8px, 8px);
+  box-shadow: 0 0 0 0 #ffffff;
+}
+
+.brutal-btn-dark:active {
+  box-shadow: 0 0 0 0 #000000;
+}
+
+/* Instant invert on hover — no color easing, brutalist hovers snap. */
+.brutal-invert {
+  transition: background-color 0ms, color 0ms;
+}
+
+/* Corner tags — fixed exposed metadata, like a spec sheet stamped on the page. */
+.brutal-tag {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+/* Thick structural rule — replaces soft hairlines between brutalist blocks. */
+.brutal-rule {
+  border-top: 4px solid currentColor;
+}
+
+/* Card hover-lift — starts flush, pops up with a hard shadow on hover.
+   Used for bento-grid cells so the grid feels alive without any blur/ease-in softness. */
+.brutal-card-hover {
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  box-shadow: 0 0 0 0 currentColor;
+}
+
+.brutal-card-hover:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0 0 currentColor;
+}
