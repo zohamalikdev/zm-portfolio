@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 import Magnetic from "@/components/Magnetic";
+import NavBar from "@/components/NavBar";
 import EnhancedCursor from "@/components/EnhancedCursor";
 import EnhancedHeroSection from "@/components/EnhancedHeroSection";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
 import Splitrveal from "@/components/Splitrveal";
 import StickySection from "@/components/StickySection";
 import ScrollScrub from "@/components/ScrollScrub";
@@ -166,7 +168,7 @@ export default function Home() {
   return (
     <main className="relative bg-black text-white font-display overflow-x-hidden cursor-none">
       <EnhancedCursor />
-
+      <ScrollProgressBar /> 
       {/* ===== ENHANCED HERO SECTION ===== */}
       <EnhancedHeroSection />
 
@@ -392,10 +394,10 @@ export default function Home() {
             className="font-display uppercase leading-[0.8] mb-12"
             style={{ fontSize: "clamp(56px, 12vw, 160px)" }}
           >
-            THANK
+            LET'S BUILD 
             <br />
             <span className="inline-flex items-end">
-              YOU
+              SOMETHING GREAT
               <span
                 className="inline-block bg-white rounded-full ml-3 md:ml-5 mb-[0.08em]"
                 style={{ width: "0.5em", height: "0.5em" }}
