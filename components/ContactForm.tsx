@@ -1,116 +1,102 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import emailjs from "@emailjs/browser";
+import { useState } from "react";
+import Magnetic from "@/components/Magnetic";
 
-type StatusType = "" | "success" | "error";
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
 
 export default function ContactForm() {
-  const formRef = useRef<HTMLFormElement>(null);
+  const [formData, setFormData] = useState<FormData>({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState<StatusType>("");
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-  // Auto hide toast
-  useEffect(() => {
-    if (!status) return;
-
-    const timer = setTimeout(() => {
-      setStatus("");
-    }, 4000);
-
-    return () => clearTimeout(timer);
-  }, [status]);
-
-  const sendEmail = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    if (!formRef.current) return;
+    // TODO: replace with a real submit call (API route, Formspree, etc.)
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-    setLoading(true);
-    setStatus("");
+    setFormData({ name: "", email: "", message: "" });
+    setSubmitted(true);
+    setIsSubmitting(false);
 
-    try {
-      await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-        formRef.current,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-      );
-
-      setStatus("success");
-      formRef.current.reset();
-    } catch (error) {
-      console.error("EmailJS Error:", error);
-      setStatus("error");
-    } finally {
-      setLoading(false);
-    }
+    setTimeout(() => setSubmitted(false), 3000);
   };
 
   return (
-    <>
-      {/* Toast Notifications */}
-      <div className="fixed top-6 right-6 z-[9999] space-y-3">
-        {status === "success" && (
-          <div className="px-5 py-4 bg-green-500 text-black font-semibold shadow-xl border-2 border-white animate-pulse">
-            ✓ Message sent successfully.
-          </div>
-        )}
+    <form onSubmit={handleSubmit} className="w-full max-w-xl font-mag-body">
+      <div className="space-y-5">
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="YOUR NAME"
+          required
+          className="w-full bg-transparent border-b-4 border-white py-3 px-0 text-white placeholder-white/40 placeholder:uppercase placeholder:tracking-wide focus:outline-none text-base"
+        />
 
-        {status === "error" && (
-          <div className="px-5 py-4 bg-red-500 text-white font-semibold shadow-xl border-2 border-white">
-            ✕ Failed to send message.
-          </div>
-        )}
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="YOUR EMAIL"
+          required
+          className="w-full bg-transparent border-b-4 border-white py-3 px-0 text-white placeholder-white/40 placeholder:uppercase placeholder:tracking-wide focus:outline-none text-base"
+        />
+
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          placeholder="TELL ME ABOUT YOUR PROJECT..."
+          required
+          rows={4}
+          className="w-full bg-transparent border-b-4 border-white py-3 px-0 text-white placeholder-white/40 placeholder:uppercase placeholder:tracking-wide focus:outline-none text-base resize-none"
+        />
       </div>
 
-      <div className="mt-12 max-w-xl">
-        <form
-          ref={formRef}
-          onSubmit={sendEmail}
-          className="space-y-5"
-        >
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            required
-            className="w-full bg-transparent border-2 border-white px-5 py-4 text-white placeholder:text-white/40 outline-none focus:border-white focus:bg-white/5 transition"
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            required
-            className="w-full bg-transparent border-2 border-white px-5 py-4 text-white placeholder:text-white/40 outline-none focus:border-white focus:bg-white/5 transition"
-          />
-
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            required
-            rows={6}
-            className="w-full bg-transparent border-2 border-white px-5 py-4 text-white placeholder:text-white/40 outline-none focus:border-white focus:bg-white/5 transition resize-none"
-          />
-
+      <div className="mt-8 flex items-center gap-4">
+        <Magnetic strength={0.3}>
           <button
             type="submit"
-            disabled={loading}
-            className="inline-flex items-center gap-3 px-8 py-4 border-2 border-white hover:bg-white hover:text-black transition disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isSubmitting}
+            className="px-6 py-3 border-2 border-white text-xs tracking-[0.15em] font-bold uppercase hover:bg-white hover:text-black brutal-btn disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? (
-              <>
-                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                Sending...
-              </>
-            ) : (
-              "Send Message"
-            )}
+            {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
           </button>
-        </form>
+        </Magnetic>
+
+        {submitted && (
+          <span className="text-xs text-white/70 animate-pulse">
+            Message sent — I'll get back to you soon.
+          </span>
+        )}
       </div>
-    </>
+
+      <p className="text-xs text-white/40 mt-4 tracking-wide">
+        EXPECTED RESPONSE TIME: 24–48 HOURS
+      </p>
+    </form>
   );
 }

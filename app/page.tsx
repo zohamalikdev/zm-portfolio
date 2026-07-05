@@ -16,6 +16,7 @@ import Projectslide from "@/components/Projectslide";
 import { useScrollSkew } from "@/components/useScrollSkew";
 import Marquee from "@/components/Marquee";
 import ContactForm from "@/components/ContactForm";
+import ClosingSection from "@/components/ClosingSection";
 
 export default function Home() {
   const [entered, setEntered] = useState(false);
@@ -169,6 +170,7 @@ export default function Home() {
     <main className="relative bg-black text-white font-display overflow-x-hidden cursor-none">
       <EnhancedCursor />
       <ScrollProgressBar /> 
+      <NavBar />
       {/* ===== ENHANCED HERO SECTION ===== */}
       <EnhancedHeroSection />
 
@@ -379,80 +381,8 @@ export default function Home() {
       </StickySection>
 
       {/* ===== CONTACT ===== */}
-      <StickySection id="contact" zIndex={60} className="bg-black text-white px-8 md:px-16 py-24 md:py-40 min-h-screen">
-        <div className="flex justify-between items-start mb-12 font-mag-body text-xs md:text-sm tracking-wide">
-          <span className="opacity-60">[ 06 ] — GET IN TOUCH</span>
-          <span className="opacity-60 text-right">
-            AVAILABLE FOR WORK
-            <br />
-            REMOTE · EST/BST
-          </span>
-        </div>
-
-        <ScrollScrub>
-          <h2
-            className="font-display uppercase leading-[0.8] mb-12"
-            style={{ fontSize: "clamp(56px, 12vw, 160px)" }}
-          >
-            LET'S BUILD 
-            <br />
-            <span className="inline-flex items-end">
-              SOMETHING GREAT
-              <span
-                className="inline-block bg-white rounded-full ml-3 md:ml-5 mb-[0.08em]"
-                style={{ width: "0.5em", height: "0.5em" }}
-              />
-            </span>
-          </h2>
-        </ScrollScrub>
-
-        <ScrollScrub>
-          <a
-            href="mailto:hello@zohamalik.dev"
-            className="block text-[28px] md:text-[56px] font-display uppercase leading-[0.95] hover:bg-white hover:text-black brutal-invert break-words border-y-4 border-white py-5"
-          >
-            zohamalik.dev@gmail.com
-          </a>
-        </ScrollScrub>
-
-        <ContactForm />
-
-        <ScrollScrub>
-          <div className="mt-16 flex flex-wrap gap-8 font-mag-body text-sm">
-
-
-            <a
-              href="https://github.com/zohamalikdev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn"
-            >
-              GITHUB
-            </a>
-
-            <a
-              href="https://linkedin.com/in/zohamalik-"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border-2 border-white px-4 py-2 hover:bg-white hover:text-black brutal-btn"
-            >
-              LINKEDIN
-            </a>
-
-           
-          </div>
-        </ScrollScrub>
-
-        <Marquee
-          text="THANKS FOR SCROLLING — LET'S BUILD SOMETHING —"
-          className="text-white mt-16 border-t-4 border-white pt-6 font-bold"
-        />
-
-        <div className="mt-10 flex justify-between brutal-tag text-white/40">
-          <span>V.02 — MONOCHROME</span>
-          <span>MULTAN, PK</span>
-        </div>
-      </StickySection>
+     <ClosingSection />
+    
     </main>
   );
 }
