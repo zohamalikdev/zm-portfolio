@@ -275,35 +275,6 @@ export default function Home() {
           </ScrollScrub>
         </div>
       </StickySection>
- 
-      {/* ===== WORK — intro slide ===== */}
-      <StickySection id="work" zIndex={40} className="bg-black text-white px-8 md:px-16 py-24 md:py-32 min-h-screen flex flex-col justify-center">
-        <div className="flex justify-between items-start mb-12 font-mag-body text-xs md:text-sm tracking-wide">
-          <span className="opacity-60">SELECTED WORK</span>
-          <span className="opacity-60">( 04 PROJECTS )</span>
-        </div>
- 
-        <ScrollScrub>
-          <h2 className="font-display uppercase leading-[0.85]" style={{ fontSize: "clamp(56px, 9vw, 130px)" }}>
-            PROJECT
-            <br />
-            PORTFOLIO
-          </h2>
-        </ScrollScrub>
- 
-        <ScrollScrub>
-          <p className="font-mag-body text-lg md:text-xl opacity-70 mt-8 max-w-lg">
-            Four projects, four different problems — a storefront, an events
-            platform, a product site, and a small tool. Scroll through each one.
-          </p>
-        </ScrollScrub>
- 
-        <Marquee
-          text="NODE.JS — POSTGRESQL — REACT — TYPESCRIPT — EXPRESS —"
-          className="text-white mt-16 border-y-4 border-white py-3 font-bold"
-        />
-      </StickySection>
-
 
 
      
