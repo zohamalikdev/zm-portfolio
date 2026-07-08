@@ -1,238 +1,221 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Splitrveal from "@/components/Splitrveal";
-import Magnetic from "@/components/Magnetic";
-import NavBar from "@/components/NavBar";
+import WelcomeModal from "@/components/WelcomeModal";
 
+import { useState } from "react";
+
+// the corners — this is what actually reads as "pixelated" rather than
+// clean vector icons with curves.
+type Pixel = [number, number, number, number, string]; // x, y, w, h, fill
+
+function PixelIcon({ pixels, size = 40 }: { pixels: Pixel[]; size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      shapeRendering="crispEdges"
+      style={{ imageRendering: "pixelated" }}
+    >
+      {pixels.map(([x, y, w, h, fill], i) => (
+        <rect key={i} x={x} y={y} width={w} height={h} fill={fill} />
+      ))}
+    </svg>
+  );
+}
+
+const K = "#000000"; // outline
+const Y = "#fde047"; // folder yellow
+const D = "#eab308"; // folder yellow, darker tab
+const W = "#ffffff"; // paper white
+const L = "#d1d5db"; // light gray (fold, bin fill)
+const G = "#9ca3af"; // gray (bin body/lid)
+
+function FolderIcon() {
+  const pixels: Pixel[] = [
+    [1, 2, 8, 3, K], // tab outline
+    [0, 4, 16, 11, K], // body outline
+    [2, 3, 6, 2, D], // tab fill
+    [1, 5, 14, 9, Y], // body fill
+  ];
+  return <PixelIcon pixels={pixels} />;
+}
+
+function FileIcon() {
+  const pixels: Pixel[] = [
+    [2, 1, 11, 13, K], // paper outline
+    [3, 2, 9, 11, W], // paper fill
+    [10, 2, 2, 2, L], // folded corner
+    [4, 6, 6, 1, K], // text line 1
+    [4, 8, 6, 1, K], // text line 2
+    [4, 10, 4, 1, K], // text line 3
+  ];
+  return <PixelIcon pixels={pixels} />;
+}
+
+function MailIcon() {
+  const pixels: Pixel[] = [
+    [1, 3, 14, 10, K], // envelope outline
+    [2, 4, 12, 8, W], // envelope fill
+    // flap, built pixel-by-pixel as a stepped triangle (no diagonals in rects)
+    [2, 4, 1, 1, K],
+    [13, 4, 1, 1, K],
+    [3, 5, 1, 1, K],
+    [12, 5, 1, 1, K],
+    [4, 6, 1, 1, K],
+    [11, 6, 1, 1, K],
+    [5, 7, 1, 1, K],
+    [10, 7, 1, 1, K],
+    [7, 8, 2, 1, K],
+  ];
+  return <PixelIcon pixels={pixels} />;
+}
+
+function BinIcon() {
+  const pixels: Pixel[] = [
+    [6, 0, 4, 1, K], // handle outline
+    [4, 1, 8, 2, K], // lid outline
+    [3, 4, 10, 11, K], // body outline
+    [5, 1, 6, 1, G], // lid fill
+    [4, 5, 8, 9, G], // body fill
+    [6, 6, 1, 6, K], // slat 1
+    [9, 6, 1, 6, K], // slat 2
+  ];
+  return <PixelIcon pixels={pixels} />;
+}
+
+const desktopIcons = [
+  { Icon: FolderIcon, label: "Projects", href: "#work" },
+  { Icon: FileIcon, label: "Resume", href: "#resume" },
+  { Icon: MailIcon, label: "Contact", href: "#contact" },
+  { Icon: BinIcon, label: "Recycle Bin", href: "#" },
+];
 
 export default function EnhancedHeroSection() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [showScroll, setShowScroll] = useState(true);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [showRecyclePopup, setShowRecyclePopup] = useState(false);
+  const wallpaper =
+        "bg-[url('/projects/windows.jpg')] bg-cover bg-center bg-no-repeat";
 
-  // Track mouse for glow effect
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
 
-      const rect = containerRef.current.getBoundingClientRect();
-      setMousePos({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      });
-    };
-
-    // Hide scroll indicator on scroll
-    const handleScroll = () => {
-      setShowScroll(window.scrollY <= 100);
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <section
-      ref={containerRef}
-      className="relative min-h-screen flex items-end px-8 md:px-16 py-24 bg-black text-white overflow-hidden"
-    >
-      {/* Background Layers */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black via-black to-black/80" />
+      id="hero"
+      className="relative min-h-screen overflow-hidden cursor-none">
+  
+      {/* ===== DESKTOP ICONS ===== */}
+      <div className="flex flex-col gap-4 w-fit mt-12">
+        {desktopIcons.map(({ Icon, label, href }) => {
+          const isRecycleBin = label === "Recycle Bin";
 
-      {/* Subtle Grid Pattern */}
-      <div className="absolute inset-0 -z-10 opacity-[0.03]">
-        <div className="absolute inset-0 bg-[linear-gradient(0deg,transparent_24%,rgba(255,255,255,.1)_25%,rgba(255,255,255,.1)_26%,transparent_27%,transparent_74%,rgba(255,255,255,.1)_75%,rgba(255,255,255,.1)_76%,transparent_77%,transparent)] bg-[size:50px_50px]" />
-      </div>
-
-      {/* Mouse Tracking Glow */}
-      <div
-        className="absolute pointer-events-none -z-10"
-        style={{
-          width: "400px",
-          height: "400px",
-          background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
-          transform: `translate(${mousePos.x - 200}px, ${mousePos.y - 200}px)`,
-          transition: "transform 0.3s ease-out",
-        }}
-      />
-
-      {/* Decorative Corners */}
-      <div className="absolute top-0 right-0 w-32 h-32 md:w-48 md:h-48 pointer-events-none opacity-10">
-        <div className="w-full h-full border-r-2 border-t-2 border-white" />
-      </div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 md:w-48 md:h-48 pointer-events-none opacity-10">
-        <div className="w-full h-full border-l-2 border-b-2 border-white" />
-      </div>
-
-      {/* Navigation */}
-      <NavBar />
-
-      {/* Main Content */}
-      <div className="relative w-full max-w-6xl">
-        {/* Status Indicator */}
-        <div
-          className="absolute -top-12 left-0 flex items-center gap-2 md:gap-3 opacity-70"
-          style={{ animation: "fadeIn 0.8s ease-out both" }}
-        >
-          <div className="w-2 h-2 md:w-3 md:h-3 bg-green-500 rounded-full animate-pulse" />
-          <span className="text-[10px] md:text-xs tracking-[0.2em] font-bold text-white/70">
-            AVAILABLE FOR WORK
-          </span>
-        </div>
-
-        {/* Hero Title */}
-        <h1 className="w-full font-display uppercase text-white/95 leading-[0.78] tracking-tighter select-none" style={{ fontSize: "clamp(56px, 14vw, 220px)" }}>
-          {/* FULL */}
-          <div className="relative overflow-hidden py-2">
-            <Splitrveal text="FULL" delay={0} />
-          </div>
-
-          {/* STACK */}
-          <div className="relative overflow-hidden py-2">
-            <Splitrveal text="STACK" baseDelay={0.1} delay={0.15} />
-          </div>
-
-          {/* DEV with Pulsing Dot */}
-          <div className="relative overflow-hidden py-2 flex items-end gap-3 md:gap-5">
-            <Splitrveal text="DEV" baseDelay={0.2} delay={0.3} />
-            <div
-              className="inline-block bg-white/90 rounded-full flex-shrink-0"
-              style={{
-                width: "0.55em",
-                height: "0.55em",
-                animation: "pulseGlow 2s ease-in-out infinite",
-                animationDelay: "0.8s",
-              }}
-            />
-          </div>
-        </h1>
-
-        {/* Subtitle */}
-        <p
-          className="mt-8 md:mt-12 max-w-2xl text-base md:text-lg leading-relaxed text-white/60 font-light tracking-wide"
-          style={{
-            animation: "fadeInUp 0.8s ease-out 0.4s both",
-          }}
-        >
-          Building modern web applications with clean design, scalable architecture and memorable user experiences.
-        </p>
-
-        {/* CTA Buttons */}
-        <div
-          className="mt-10 md:mt-16 flex flex-wrap gap-4"
-          style={{
-            animation: "fadeInUp 0.8s ease-out 0.5s both",
-          }}
-        >
-          <Magnetic strength={0.3}>
-            <a
-              href="#work"
-              className="group inline-flex items-center gap-2 px-6 md:px-8 py-3 md:py-4 border-2 border-white/70 hover:border-white text-xs md:text-sm tracking-[0.15em] font-bold uppercase transition-all duration-300 hover:bg-white hover:text-black relative overflow-hidden"
+          return isRecycleBin ? (
+            <button
+              key={label}
+              onClick={() => setShowRecyclePopup(true)}
+              className="group flex flex-col items-center gap-1 w-20 p-2 hover:bg-blue-600/50 rounded-sm transition-colors duration-100"
             >
-              Explore Projects
-              <svg
-                className="w-3 h-3 md:w-4 md:h-4 transition-transform duration-300 group-hover:translate-x-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </a>
-          </Magnetic>
+              <Icon />
 
-          <Magnetic strength={0.3}>
+              <span className="bg-black/40 group-hover:bg-blue-600 text-white text-xs font-bold text-center leading-tight px-1.5 py-0.5">
+                {label}
+              </span>
+            </button>
+          ) : (
             <a
-              href="/Zoha_Malik_Resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-6 md:px-8 py-3 md:py-4 border-2 border-white/70 hover:border-white hover:bg-white hover:text-black text-xs md:text-sm tracking-[0.15em] font-bold uppercase transition-all duration-300"
+              key={label}
+              href={href}
+              className="group flex flex-col items-center gap-1 w-20 p-2 hover:bg-blue-600/50 rounded-sm transition-colors duration-100"
             >
-              Download Resume
+              <Icon />
+
+              <span className="bg-black/40 group-hover:bg-blue-600 text-white text-xs font-bold text-center leading-tight px-1.5 py-0.5">
+                {label}
+              </span>
             </a>
-          </Magnetic>
-        </div>
+          );
+        })}
       </div>
 
-      {/* Scroll Indicator */}
-      {showScroll && (
-        <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
-          style={{ animation: "bounce 2s ease-in-out infinite" }}
-        >
-          <svg
-            className="w-6 h-6 text-white/50"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M19 14l-7 7m0 0l-7-7m7 7V3"
-            />
-          </svg>
-        </div>
+
+      {/* ===== WELCOME — now a real popup, fixed + centered, not inline content ===== */}
+      <WelcomeModal />
+
+      {showRecyclePopup && (
+        <>
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-black/20 z-[9998]"
+            onClick={() => setShowRecyclePopup(false)}
+          />
+
+          {/* XP Dialog */}
+          <div className="fixed inset-0 flex items-center justify-center z-[9999]">
+
+            <div className="w-[430px] bg-[#ECE9D8] rounded-md overflow-hidden shadow-2xl border border-[#003C74]">
+
+              {/* Title Bar */}
+              <div className="h-8 bg-gradient-to-r from-[#0A246A] to-[#3A6EA5] flex items-center justify-between px-1 text-white">
+
+                <div className="flex items-center gap-2">
+                  <BinIcon />
+                  <span className="text-sm font-bold">
+                    Recycle Bin
+                  </span>
+                </div>
+
+                <button
+                  onClick={() => setShowRecyclePopup(false)}
+                  className="w-6 h-6 bg-red-500 hover:bg-red-600 text-white text-xs rounded"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="flex gap-4 p-6">
+
+                <div className="text-5xl">
+                  💡
+                </div>
+
+                <div>
+
+                  <h2 className="font-bold text-lg mb-3">
+                    Cannot Delete Creativity
+                  </h2>
+
+                  <p className="text-sm leading-6">
+                    Windows cannot delete
+                    <strong> Creativity.dll </strong>
+                    because it is currently being used by
+                    <strong> ZohaOS.exe</strong>.
+                    <br /><br />
+                    Creativity is a protected system file.
+                  </p>
+
+                </div>
+
+              </div>
+
+              {/* Buttons */}
+              <div className="flex justify-end gap-3 px-5 pb-5">
+
+                <button
+                  onClick={() => setShowRecyclePopup(false)}
+                  className="px-7 py-1 bg-[#ECE9D8] border border-gray-500 shadow-[inset_1px_1px_white,inset_-1px_-1px_gray]"
+                >
+                  OK
+                </button>
+
+              </div>
+
+            </div>
+
+          </div>
+        </>
       )}
 
-      {/* Animations */}
-      <style>{`
-        @keyframes slideInDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
 
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes bounce {
-          0%, 100% {
-            transform: translateY(0) translateX(-50%);
-          }
-          50% {
-            transform: translateY(-10px) translateX(-50%);
-          }
-        }
-
-        @keyframes pulseGlow {
-          0%, 100% {
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-          }
-          50% {
-            box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
-          }
-        }
-      `}</style>
     </section>
   );
 }

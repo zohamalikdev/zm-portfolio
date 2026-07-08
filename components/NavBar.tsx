@@ -1,40 +1,43 @@
 "use client";
 
-import { useState } from "react";
-
-interface NavItem {
-  label: string;
-  href: string;
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
-  { label: "Resume", href: "#resume" },
-  { label: "Contact", href: "#contact" },
-];
-
 export default function NavBar() {
-  const [activeIndex, setActiveIndex] = useState(1);
+  const links = [
+    { label: "ABOUT", href: "#about" },
+    { label: "WORK", href: "#work" },
+    { label: "RESUME", href: "#resume" },
+    { label: "CONTACT", href: "#contact" },
+  ];
 
   return (
-    <nav className="fixed top-8 right-8 z-50">
-      <div className="flex items-center gap-2 px-2 py-2 rounded-full border-2 border-white/20 backdrop-blur-md bg-black/40 hover:border-white/40 transition-all duration-300">
-        {NAV_ITEMS.map((item, index) => (
-          <a
-            key={item.label}
-            href={item.href}
-            onMouseEnter={() => setActiveIndex(index)}
-            className={`px-4 py-2 rounded-full text-xs tracking-[0.1em] font-bold uppercase transition-all duration-300 relative ${
-              activeIndex === index
-                ? "text-black bg-white"
-                : "text-white/70 hover:text-white"
-            }`}
-          >
-            {item.label}
-          </a>
-        ))}
+    <header className="fixed top-0 left-0 right-0 z-[200] bg-gray-300 border-b-4 border-black shadow-md">
+      <div className="flex items-center justify-between px-3 py-1.5">
+        {/* System branding — plain, no nested border box */}
+        <div className="flex items-center gap-2">
+          <div className="w-4 h-4 bg-gradient-to-br from-blue-500 to-blue-700 border border-black" />
+          <span className="font-bold text-m tracking-wide">ZOHA_OS</span>
+        </div>
+
+        {/* Nav — styled like menu bar items */}
+        <nav className="hidden md:flex gap-1 font-bold text-m">
+          {links.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors duration-100"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
+        {/* Hire-me, styled like a raised button */}
+        <a
+          href="#contact"
+          className="px-3 py-1 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white text-m font-bold hover:bg-gray-200 transition-colors duration-100 active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white"
+        >
+          HIRE ME
+        </a>
       </div>
-    </nav>
+    </header>
   );
 }

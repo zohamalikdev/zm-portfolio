@@ -1,51 +1,96 @@
 "use client";
+
 import { useEffect, useRef, useState } from "react";
 
-export default function Typewriter({
-  text,
-  className = "",
-  speed = 30,
-}: {
-  text: string;
+interface TypewriterProps {
+  lines: string[];
   className?: string;
   speed?: number;
-}) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [typed, setTyped] = useState("");
+  lineDelay?: number;
+  onComplete?: () => void;
+}
+
+export default function Typewriter({
+  lines,
+  className = "",
+  speed = 35,
+  lineDelay = 500,
+  onComplete,
+}: TypewriterProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
   const [started, setStarted] = useState(false);
+  const [displayedLines, setDisplayedLines] = useState<string[]>([]);
+  const [currentLine, setCurrentLine] = useState("");
 
+  // Start when visible
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    if (!ref.current) return;
 
-    const io = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setStarted(true);
-          io.disconnect();
+          observer.disconnect();
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.4 }
     );
-    io.observe(el);
-    return () => io.disconnect();
+
+    observer.observe(ref.current);
+
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
     if (!started) return;
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setTyped(text.slice(0, i));
-      if (i >= text.length) clearInterval(interval);
-    }, speed);
-    return () => clearInterval(interval);
-  }, [started, text, speed]);
+
+    let cancelled = false;
+
+    async function type() {
+      const finished: string[] = [];
+
+      for (const line of lines) {
+        let text = "";
+
+        for (let i = 0; i < line.length; i++) {
+          if (cancelled) return;
+
+          text += line[i];
+          setCurrentLine(text);
+
+          await new Promise((r) => setTimeout(r, speed));
+        }
+
+        finished.push(line);
+        setDisplayedLines([...finished]);
+        setCurrentLine("");
+
+        await new Promise((r) => setTimeout(r, lineDelay));
+      }
+
+      onComplete?.();
+    }
+
+    type();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [started]);
 
   return (
-    <span ref={ref} className={className}>
-      {typed}
-      <span className="animate-pulse">|</span>
-    </span>
+    <div ref={ref} className={className}>
+      {displayedLines.map((line, index) => (
+        <p key={index}>{line}</p>
+      ))}
+
+      {currentLine && (
+        <p>
+          {currentLine}
+          <span className="animate-pulse">|</span>
+        </p>
+      )}
+    </div>
   );
 }

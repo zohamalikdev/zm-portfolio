@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Magnetic from "@/components/Magnetic";
+import type React from "react";
+
+
 
 interface FormData {
   name: string;
@@ -22,80 +24,83 @@ export default function ContactForm() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // TODO: replace with a real submit call (API route, Formspree, etc.)
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    // TODO: replace with a real submit call (API route, Formspree, Resend, etc.)
+    await new Promise((resolve) => setTimeout(resolve, 600));
 
     setFormData({ name: "", email: "", message: "" });
-    setSubmitted(true);
     setIsSubmitting(false);
-
-    setTimeout(() => setSubmitted(false), 3000);
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3500);
   };
 
+  const inputClass =
+    "w-full bg-white border-2 border-gray-500 border-t-gray-700 border-l-gray-700 border-b-white border-r-white px-3 py-2 text-sm text-black focus:outline-none focus:ring-2 focus:ring-blue-600 transition-shadow duration-150";
+
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-xl font-mag-body">
-      <div className="space-y-5">
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="YOUR NAME"
-          required
-          className="w-full bg-transparent border-b-4 border-white py-3 px-0 text-white placeholder-white/40 placeholder:uppercase placeholder:tracking-wide focus:outline-none text-base"
-        />
+    <form onSubmit={handleSubmit} id="contact" className="font-sans text-sm">
+      <div className="space-y-4">
+        <div>
+          <label className="block font-bold text-xs mb-1">NAME:</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className={inputClass}
+          />
+        </div>
 
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="YOUR EMAIL"
-          required
-          className="w-full bg-transparent border-b-4 border-white py-3 px-0 text-white placeholder-white/40 placeholder:uppercase placeholder:tracking-wide focus:outline-none text-base"
-        />
+        <div>
+          <label className="block font-bold text-xs mb-1">EMAIL:</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className={inputClass}
+          />
+        </div>
 
-        <textarea
-          name="message"
-          value={formData.message}
-          onChange={handleChange}
-          placeholder="TELL ME ABOUT YOUR PROJECT..."
-          required
-          rows={4}
-          className="w-full bg-transparent border-b-4 border-white py-3 px-0 text-white placeholder-white/40 placeholder:uppercase placeholder:tracking-wide focus:outline-none text-base resize-none"
-        />
+        <div>
+          <label className="block font-bold text-xs mb-1">MESSAGE:</label>
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            rows={4}
+            className={`${inputClass} resize-none`}
+          />
+        </div>
       </div>
 
-      <div className="mt-8 flex items-center gap-4">
-        <Magnetic strength={0.3}>
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="px-6 py-3 border-2 border-white text-xs tracking-[0.15em] font-bold uppercase hover:bg-white hover:text-black brutal-btn disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
-          </button>
-        </Magnetic>
+      <div className="mt-6 flex items-center gap-4">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="px-6 py-2 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white text-xs font-bold uppercase tracking-wide hover:bg-gray-200 transition-colors duration-150 active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
+        </button>
 
         {submitted && (
-          <span className="text-xs text-white/70 animate-pulse">
-            Message sent — I'll get back to you soon.
+          <span className="text-xs font-bold text-green-700 animate-pulse">
+            ✓ Message sent — I'll reply soon.
           </span>
         )}
       </div>
 
-      <p className="text-xs text-white/40 mt-4 tracking-wide">
-        EXPECTED RESPONSE TIME: 24–48 HOURS
+      <p className="text-xs text-gray-500 mt-4">
+        Expected response time: 24–48 hours
       </p>
     </form>
   );
