@@ -346,7 +346,7 @@ export default function WorkSection() {
                             {/* Features */}
                             <div className="border border-black bg-white p-3 rounded-sm shadow-[2px_2px_0px_rgba(0,0,0,1)]">
                               <h4 className="text-[9px] font-mono font-bold text-black uppercase tracking-wider mb-2 border-b-2 border-black pb-1">
-                                ✔ Features
+                                 Features
                               </h4>
                               <div className="space-y-1 text-xs">
                                 {activeProject.features.map((feat) => (

@@ -104,183 +104,185 @@ export default function ContactForm() {
   return (
     <section
       id="contact"
-      className="relative min-h-screen flex items-center justify-center px-3 md:px-8 py-12 md:py-20 bg-transparent text-black select-none"
+      className="relative bg-transparent px-3 md:px-8 lg:px-12 py-12 md:py-16 text-black select-none"
     >
-      <RetroWindow
-        title="contact_form.bmp - Paint"
-        icon="/projects/paint.png"
-        statusText="For Help, click Help Topics on the Help Menu."
-      >
-        {/* Main Paint Canvas Chassis */}
-        <div className="bg-[#bfbfbf] p-1 font-sans text-xs flex flex-col shadow-[inset_1px_1px_0_#ffffff]">
-          
-          {/* Top Menu Bar */}
-          <div className="flex items-center gap-4 px-2 py-1 border-b border-[#808080] text-gray-900">
-            <span className="cursor-default"><span className="underline">F</span>ile</span>
-            <span className="cursor-default"><span className="underline">E</span>dit</span>
-            <span className="cursor-default"><span className="underline">V</span>iew</span>
-            <span className="cursor-default"><span className="underline">I</span>mage</span>
-            <span className="cursor-default"><span className="underline">C</span>olors</span>
-            <span className="cursor-default"><span className="underline">H</span>elp</span>
-          </div>
-
-          {/* Interface Core Layer */}
-          <div className="flex items-stretch gap-1 p-1 bg-[#bfbfbf] min-h-[550px]">
+      <div className="max-w-6xl mx-auto">
+        <RetroWindow
+          title="contact_form.bmp - Paint"
+          icon="/projects/paint.png"
+          statusText="For Help, click Help Topics on the Help Menu."
+        >
+          {/* Main Paint Canvas Chassis */}
+          <div className="bg-[#bfbfbf] p-1 font-sans text-xs flex flex-col shadow-[inset_1px_1px_0_#ffffff]">
             
-            {/* Left Hand Icon Rails */}
-            <div className="flex flex-col gap-0.5 p-1 bg-[#bfbfbf] self-start w-[56px] shrink-0">
-              <div className="grid grid-cols-2 gap-0.5">
-                {TOOL_ICONS.map((tool) => (
-                  <div
-                    key={tool.key}
-                    title={tool.label}
-                    className={`w-6 h-6 flex items-center justify-center cursor-pointer select-none
-                      ${tool.active
-                        ? "bg-[#dfdfdf] border-2 border-t-[#808080] border-l-[#808080] border-b-white border-r-white shadow-[inset_1px_1px_1px_rgba(0,0,0,0.35)]"
-                        : "bg-[#bfbfbf] border-2 border-t-white border-l-white border-b-[#808080] border-r-[#808080] active:border-t-[#808080] active:border-l-[#808080] active:border-b-white active:border-r-white"
-                      }`}
-                  >
-                    <div className="w-[18px] h-[18px]">{tool.svg}</div>
+            {/* Top Menu Bar */}
+            <div className="flex items-center gap-4 px-2 py-1 border-b border-[#808080] text-gray-900">
+              <span className="cursor-default"><span className="underline">F</span>ile</span>
+              <span className="cursor-default"><span className="underline">E</span>dit</span>
+              <span className="cursor-default"><span className="underline">V</span>iew</span>
+              <span className="cursor-default"><span className="underline">I</span>mage</span>
+              <span className="cursor-default"><span className="underline">C</span>olors</span>
+              <span className="cursor-default"><span className="underline">H</span>elp</span>
+            </div>
+
+            {/* Interface Core Layer */}
+            <div className="flex items-stretch gap-1 p-1 bg-[#bfbfbf] min-h-[550px]">
+              
+              {/* Left Hand Icon Rails */}
+              <div className="flex flex-col gap-0.5 p-1 bg-[#bfbfbf] self-start w-[56px] shrink-0">
+                <div className="grid grid-cols-2 gap-0.5">
+                  {TOOL_ICONS.map((tool) => (
+                    <div
+                      key={tool.key}
+                      title={tool.label}
+                      className={`w-6 h-6 flex items-center justify-center cursor-pointer select-none
+                        ${tool.active
+                          ? "bg-[#dfdfdf] border-2 border-t-[#808080] border-l-[#808080] border-b-white border-r-white shadow-[inset_1px_1px_1px_rgba(0,0,0,0.35)]"
+                          : "bg-[#bfbfbf] border-2 border-t-white border-l-white border-b-[#808080] border-r-[#808080] active:border-t-[#808080] active:border-l-[#808080] active:border-b-white active:border-r-white"
+                        }`}
+                    >
+                      <div className="w-[18px] h-[18px]">{tool.svg}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="h-11 mt-1 bg-[#bfbfbf] border-2 border-t-[#808080] border-l-[#808080] border-b-white border-r-white p-1 flex items-center justify-center">
+                  <div className="w-full h-full bg-[#bfbfbf] border border-t-[#808080] border-l-[#808080] border-b-white border-r-white flex flex-col justify-center gap-1 px-2">
+                    <div className="w-full h-[4px] bg-black" />
+                    <div className="w-full h-[2px] bg-black" />
+                    <div className="w-2/3 h-[1px] bg-black" />
                   </div>
+                </div>
+              </div>
+
+              {/* CANVAS INTERIOR: Expanded Clean Magazine Layout Sheet */}
+              <div className="flex-1 bg-[#262626] p-4 overflow-auto flex items-start justify-center">
+                <div className="bg-white border-[3px] border-black text-black w-full max-w-5xl p-6 md:p-8 font-serif shadow-[6px_6px_0px_rgba(0,0,0,1)] tracking-tight">
+                  
+                  {/* Heading */}
+                  <div className="border-b-[4px] border-black pb-4 mb-6 flex justify-between items-baseline">
+                    <div>
+                      <h2 className="text-3xl font-black font-sans uppercase tracking-tighter leading-none">
+                        CONTACT ME
+                      </h2>
+                      <p className="text-xs font-mono font-bold tracking-widest uppercase mt-1 text-neutral-500">
+                        🟢 Available 24/7
+                      </p>
+                    </div>
+                    <div className="font-mono text-[10px] uppercase text-neutral-400 tracking-wider">
+                      [PAGE 01]
+                    </div>
+                  </div>
+
+                  {/* Form Fields */}
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-xs font-black font-sans uppercase tracking-wider text-black">
+                          Your Name
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="Enter your name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          onMouseEnter={playHover}
+                          onFocus={playClick}
+                          required
+                          className={inputClass}
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-black font-sans uppercase tracking-wider text-black">
+                          Email Address
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="yourname@email.com"
+                          value={formData.email}
+                          onChange={handleChange}
+                          onMouseEnter={playHover}
+                          onFocus={playClick}
+                          required
+                          className={inputClass}
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-black font-sans uppercase tracking-wider text-black">
+                         Your Message
+                      </label>
+                      <textarea
+                        name="message"
+                        placeholder="Write your message here..."
+                        value={formData.message}
+                        onChange={handleChange}
+                        onMouseEnter={playHover}
+                        onFocus={playClick}
+                        required
+                        rows={4}
+                        className={`${inputClass} resize-none`}
+                      />
+                    </div>
+
+                    {/* Submission Row */}
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between pt-4 gap-4 border-t border-neutral-200">
+                      <p className="text-[10px] font-mono text-neutral-400 max-w-xs leading-tight uppercase">
+                        * Messages go straight to my inbox.
+                      </p>
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        onMouseEnter={playHover}
+                        onClick={playClick}
+                        className="px-5 py-2.5 bg-black hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-widest font-mono transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed border border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-0.5 active:translate-y-0.5"
+                      >
+                        {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+
+            {/* Bottom Palette Swatch Belt */}
+            <div className="p-1 bg-[#bfbfbf] border-t-2 border-white flex items-center gap-1.5 overflow-hidden">
+              <div className="w-7 h-7 bg-[#bfbfbf] border-2 border-t-[#808080] border-l-[#808080] border-b-white border-r-white relative shrink-0">
+                <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-black border border-white z-20 shadow-sm" />
+                <div className="absolute bottom-0.5 right-0.5 w-4 h-4 bg-white border border-[#808080] z-10" />
+              </div>
+
+              <div className="grid grid-flow-col grid-rows-2 gap-[1px] bg-black p-[1px] overflow-x-auto max-w-full">
+                {COLOR_PALETTE.map((color, idx) => (
+                  <div
+                    key={idx}
+                    className="w-3 h-3 cursor-pointer border border-transparent hover:border-white"
+                    style={{ backgroundColor: color }}
+                    title={color}
+                  />
                 ))}
               </div>
-              <div className="h-11 mt-1 bg-[#bfbfbf] border-2 border-t-[#808080] border-l-[#808080] border-b-white border-r-white p-1 flex items-center justify-center">
-                <div className="w-full h-full bg-[#bfbfbf] border border-t-[#808080] border-l-[#808080] border-b-white border-r-white flex flex-col justify-center gap-1 px-2">
-                  <div className="w-full h-[4px] bg-black" />
-                  <div className="w-full h-[2px] bg-black" />
-                  <div className="w-2/3 h-[1px] bg-black" />
-                </div>
-              </div>
-            </div>
-
-            {/* CANVAS INTERIOR: Clean Magazine Layout Sheet */}
-            <div className="flex-1 bg-[#262626] p-4 overflow-auto flex items-center justify-center">
-              <div className="bg-white border-[3px] border-black text-black w-full max-w-2xl p-6 md:p-8 font-serif shadow-[6px_6px_0px_rgba(0,0,0,1)] tracking-tight">
-                
-                {/* Heading */}
-                <div className="border-b-[4px] border-black pb-4 mb-6 flex justify-between items-baseline">
-                  <div>
-                    <h2 className="text-3xl font-black font-sans uppercase tracking-tighter leading-none">
-                      CONTACT ME
-                    </h2>
-                    <p className="text-xs font-mono font-bold tracking-widest uppercase mt-1 text-neutral-500">
-                      🟢 Available 24/7
-                    </p>
-                  </div>
-                  <div className="font-mono text-[10px] uppercase text-neutral-400 tracking-wider">
-                    [PAGE 01]
-                  </div>
-                </div>
-
-                {/* Form Fields */}
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-xs font-black font-sans uppercase tracking-wider text-black">
-                        Your Name
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        placeholder="Enter your name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        onMouseEnter={playHover}
-                        onFocus={playClick}
-                        required
-                        className={inputClass}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-black font-sans uppercase tracking-wider text-black">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        placeholder="yourname@email.com"
-                        value={formData.email}
-                        onChange={handleChange}
-                        onMouseEnter={playHover}
-                        onFocus={playClick}
-                        required
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-black font-sans uppercase tracking-wider text-black">
-                       Your Message
-                    </label>
-                    <textarea
-                      name="message"
-                      placeholder="Write your message here..."
-                      value={formData.message}
-                      onChange={handleChange}
-                      onMouseEnter={playHover}
-                      onFocus={playClick}
-                      required
-                      rows={4}
-                      className={`${inputClass} resize-none`}
-                    />
-                  </div>
-
-                  {/* Submission Row */}
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between pt-4 gap-4 border-t border-neutral-200">
-                    <p className="text-[10px] font-mono text-neutral-400 max-w-xs leading-tight uppercase">
-                      * Messages go straight to my inbox.
-                    </p>
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      onMouseEnter={playHover}
-                      onClick={playClick}
-                      className="px-5 py-2.5 bg-black hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-widest font-mono transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Bottom Palette Swatch Belt */}
-          <div className="p-1 bg-[#bfbfbf] border-t-2 border-white flex items-center gap-1.5 overflow-hidden">
-            <div className="w-7 h-7 bg-[#bfbfbf] border-2 border-t-[#808080] border-l-[#808080] border-b-white border-r-white relative shrink-0">
-              <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-black border border-white z-20 shadow-sm" />
-              <div className="absolute bottom-0.5 right-0.5 w-4 h-4 bg-white border border-[#808080] z-10" />
-            </div>
-
-            <div className="grid grid-flow-col grid-rows-2 gap-[1px] bg-black p-[1px] overflow-x-auto max-w-full">
-              {COLOR_PALETTE.map((color, idx) => (
-                <div
-                  key={idx}
-                  className="w-3 h-3 cursor-pointer border border-transparent hover:border-white"
-                  style={{ backgroundColor: color }}
-                  title={color}
-                />
-              ))}
             </div>
           </div>
-        </div>
 
-        {/* Outer Application Action Shelf */}
-        <div className="border-t border-white bg-[#bfbfbf] px-3 py-1.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 text-xs">
-          <span className="text-gray-800 font-sans flex items-center gap-1.5 select-none self-center">
-            <span className="w-2.5 h-2.5 inline-block border border-t-black border-l-black border-b-white border-r-white bg-green-600" />
-            Status: Ready
-          </span>
-          <div className="flex items-center justify-end font-sans">
-            <span className="text-neutral-500 font-mono text-[10px] tracking-widest uppercase">
-              // FILL ALL FIELDS TO SEND
+          {/* Outer Application Action Shelf */}
+          <div className="border-t border-white bg-[#bfbfbf] px-3 py-1.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 text-xs">
+            <span className="text-gray-800 font-sans flex items-center gap-1.5 select-none self-center">
+              <span className="w-2.5 h-2.5 inline-block border border-t-black border-l-black border-b-white border-r-white bg-green-600" />
+              Status: Ready
             </span>
+            <div className="flex items-center justify-end font-sans">
+              <span className="text-neutral-500 font-mono text-[10px] tracking-widest uppercase">
+                 FILL ALL FIELDS TO SEND
+              </span>
+            </div>
           </div>
-        </div>
-      </RetroWindow>
+        </RetroWindow>
+      </div>
 
       {/* Simplified Status Modal */}
       {showStatusModal && (

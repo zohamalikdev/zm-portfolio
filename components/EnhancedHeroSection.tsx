@@ -85,7 +85,7 @@ function BinIcon() {
 }
 
 const desktopIcons = [
-  { Icon: FolderIcon, label: "Projects", href: "#projects" },
+  { Icon: FolderIcon, label: "Projects", href: "#work" },
   { Icon: FileIcon, label: "Resume", href: "#resume" },
   { Icon: MailIcon, label: "Contact", href: "#contact" },
   { Icon: BinIcon, label: "Recycle Bin", href: "#" },
