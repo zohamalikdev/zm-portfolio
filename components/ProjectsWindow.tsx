@@ -41,7 +41,7 @@ const projects = [
     features: ["Dynamic Event Ticketing", "Artist Profiles Engine", "Secure SQL Gateway", "Interactive Layout Maps", "Real-Time Availability Check"],
     metrics: { loc: "8,500+", pages: "12", tables: "6", apis: "9" },
     href: "https://artwala.page.gd",
-    github: "#",
+    github: "https://github.com/zohamalikdev/ArtWala",
   },
   {
     id: "drinkco",
@@ -59,7 +59,7 @@ const projects = [
     features: ["Fluid Layout Systems", "High-Fidelity Animations", "Asynchronous Contact Submissions", "Asset Size Optimization"],
     metrics: { loc: "1,200+", pages: "1", tables: "0", apis: "2" },
     href: "https://zohamalikdev.github.io/DrinkCo/index.html",
-    github: "#",
+    github: "https://github.com/zohamalikdev/DrinkCo",
   },
 ];
 

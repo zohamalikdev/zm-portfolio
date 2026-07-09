@@ -1,288 +1,309 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import RetroWindow from "@/components/RetroWindow";
 import { playClick } from "@/components/Sound";
 
+// ---------------------------------------------------------------------------
+// Static resume data (Standardized headers and plain layout for ATS mapping)
+// ---------------------------------------------------------------------------
+
+interface SkillItem {
+  name: string;
+  level: string;
+}
+
+const CORE_STACK: SkillItem[] = [
+  { name: "React / Next.js", level: "Expert" },
+  { name: "Node.js / Express", level: "Advanced" },
+  { name: "PostgreSQL / SQL", level: "Advanced" },
+  { name: "TypeScript / JS", level: "Expert" },
+  { name: "Tailwind CSS", level: "Expert" },
+];
+
+const ATTRIBUTES: string[] = [
+  "REST Architecture Blueprinting",
+  "Git & Distributed Version Control",
+  "Relational Database Design",
+  "Serverless Computing Architecture",
+];
+
+const PERKS: string[] = [
+  "AWS GameDay Competitor",
+  "Graphic Designing",
+];
+
+const EXPERIENCE_BULLETS: string[] = [
+  "Engineered performance-tuned transactional marketplace interfaces utilizing Next.js server-side patterns.",
+  "Constructed secure database integrations and high-availability REST architecture routing layers.",
+  "Supervised automated production configurations and synchronized staging environment cycles.",
+];
+
+// ---------------------------------------------------------------------------
+// Paint Toolbox Icons (Framing UI Only - Purely Visual)
+// ---------------------------------------------------------------------------
+
+interface ToolIcon {
+  key: string;
+  label: string;
+  active?: boolean;
+  svg: ReactNode;
+}
+
+const TOOL_ICONS: ToolIcon[] = [
+  { key: "free-select", label: "Free-Form Select", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><path d="M4 8 L6 4 L11 3 L16 6 L15 11 L11 16 L6 15 L3 11 Z" fill="none" stroke="#000" strokeWidth="1" strokeDasharray="1.6 1.4" /></svg> },
+  { key: "rect-select", label: "Rectangular Select", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><rect x="3.5" y="4.5" width="13" height="11" fill="none" stroke="#000" strokeWidth="1" strokeDasharray="1.6 1.4" /></svg> },
+  { key: "eraser", label: "Eraser", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><rect x="4" y="8" width="12" height="7" fill="#ff8fc7" stroke="#000" strokeWidth="1" /><rect x="4" y="8" width="12" height="3.2" fill="#ffffff" stroke="#000" strokeWidth="1" /></svg> },
+  { key: "fill", label: "Fill With Color", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><path d="M5 10 L11 4 L16 9 L10 15 Z" fill="#c0c0c0" stroke="#000" strokeWidth="1" /><path d="M10 15 L4 15 L4 17 L10 17 Z" fill="#0000ff" stroke="#000" strokeWidth="1" /><circle cx="15" cy="14" r="1.3" fill="#ff0000" stroke="#000" strokeWidth="0.6" /></svg> },
+  { key: "picker", label: "Pick Color", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><path d="M13 3 L17 7 L9 15 L5 15 L5 11 Z" fill="#ffffff" stroke="#000" strokeWidth="1" /><rect x="4" y="14" width="3" height="3" fill="#000" /></svg> },
+  { key: "magnifier", label: "Magnifier", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><rect x="3" y="3" width="14" height="10" fill="#ffffff" stroke="#000" strokeWidth="1" /><circle cx="8" cy="8" r="3" fill="none" stroke="#000" strokeWidth="1" /><line x1="10.2" y1="10.2" x2="12.5" y2="12.5" stroke="#000" strokeWidth="1.2" /></svg> },
+  { key: "pencil", label: "Pencil", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><path d="M5 15 L13 4 L16 6 L8 17 Z" fill="#ffd84a" stroke="#000" strokeWidth="1" /><path d="M5 15 L4 17 L6 16 Z" fill="#000" /></svg> },
+  { key: "brush", label: "Brush", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><path d="M11 3 L16 8 L9 15 L6 15 L6 12 Z" fill="#8fb8ff" stroke="#000" strokeWidth="1" /><path d="M6 12 L4 17 L9 15 Z" fill="#804000" stroke="#000" strokeWidth="1" /></svg> },
+  { key: "airbrush", label: "Airbrush", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><path d="M4 15 L9 10 L13 6 L16 4 L14 7 L11 11 L6 16 Z" fill="#c0c0c0" stroke="#000" strokeWidth="1" /><circle cx="6" cy="6" r="0.7" fill="#000" /><circle cx="9" cy="4.5" r="0.6" fill="#000" /><circle cx="4.5" cy="9" r="0.6" fill="#000" /></svg> },
+  { key: "text", label: "Text", active: true, svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><text x="10" y="15" textAnchor="middle" fontFamily="Georgia, serif" fontWeight="bold" fontSize="13" fill="#000000">A</text></svg> },
+  { key: "line", label: "Line", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><line x1="4" y1="16" x2="16" y2="4" stroke="#000" strokeWidth="1.4" /></svg> },
+  { key: "curve", label: "Curve", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><path d="M3 14 C 7 4, 13 16, 17 6" fill="none" stroke="#000" strokeWidth="1.3" /></svg> },
+  { key: "rectangle", label: "Rectangle", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><rect x="4" y="5" width="12" height="10" fill="none" stroke="#000" strokeWidth="1.3" /></svg> },
+  { key: "polygon", label: "Polygon", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><path d="M5 15 L4 8 L10 4 L16 7 L14 15 Z" fill="none" stroke="#000" strokeWidth="1.3" /></svg> },
+  { key: "ellipse", label: "Ellipse", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><ellipse cx="10" cy="10" rx="6.5" ry="5" fill="none" stroke="#000" strokeWidth="1.3" /></svg> },
+  { key: "rounded-rect", label: "Rounded Rectangle", svg: <svg viewBox="0 0 20 20" shapeRendering="crispEdges"><rect x="4" y="5" width="12" height="10" rx="3" fill="none" stroke="#000" strokeWidth="1.3" /></svg> },
+];
+
+const COLOR_PALETTE: string[] = [
+  "#000000", "#808080", "#800000", "#808000", "#008000", "#008080", "#000080",
+  "#800080", "#808040", "#004040", "#0080ff", "#004080", "#4000ff", "#804000",
+  "#ffffff", "#c0c0c0", "#ff0000", "#ffff00", "#00ff00", "#00ffff", "#0000ff",
+  "#ff00ff", "#ffff80", "#00ff80", "#80ffff", "#8080ff", "#ff8000", "#ff8080",
+];
+
 export default function ResumeWindow() {
-  const [zoom, setZoom] = useState<number>(100);
+  const [systemOnline] = useState(true);
 
-  const coreStack = [
-    { name: "React / Next.js", level: "95" },
-    { name: "Node.js / Express", level: "90" },
-    { name: "PostgreSQL / SQL", level: "85" },
-    { name: "TypeScript / JS", level: "90" },
-    { name: "Tailwind CSS", level: "95" },
-  ];
-
-  const skills = [
-    { name: "REST Architecture", level: "95" },
-    { name: "Git & Version Control", level: "90" },
-    { name: "Database Design", level: "85" },
-  ];
-
-  const certifications = [
-    "AWS Cloud Practitioner",
-    "Build with Gemma Hackathon",
-    "AWS GameDay Competitor",
-  ];
+  const handleActionClick = () => {
+    playClick();
+  };
 
   return (
     <section
       id="resume"
-      className="relative min-h-screen flex items-center justify-center px-3 md:px-8 py-12 md:py-20 bg-transparent text-gray-900 select-none"
+      className="relative min-h-screen flex items-center justify-center px-3 md:px-8 py-12 md:py-20 bg-transparent text-black select-none"
     >
       <RetroWindow
-        title="ZOHA_MALIK_CV.exe"
-        icon="/projects/pdf.png"
-        statusText="Ready"
+        title="resume.bmp - Paint"
+        icon="/projects/paint.png"
+        statusText="For Help, click Help Topics on the Help Menu."
       >
-        {/* Main Container with Pixel Art Border */}
-        <div className="bg-gradient-to-br from-[#F4ECD8] to-[#F0E8D0] border-8 border-[#0F4C43] shadow-[inset_0_2px_4px_rgba(0,0,0,0.1),0_8px_16px_rgba(0,0,0,0.3)] relative overflow-hidden">
+        {/* Main Interface */}
+        <div className="bg-[#bfbfbf] p-1 font-sans text-xs flex flex-col shadow-[inset_1px_1px_0_#ffffff]">
           
-          {/* Decorative Pixel Art Top Border */}
-          <div className="absolute top-0 left-0 right-0 h-3 bg-gradient-to-b from-[#1c7467] to-[#0F4C43] border-b-2 border-[#0F4C43]" />
-          
-          {/* Decorative Pixel Art Bottom Border */}
-          <div className="absolute bottom-0 left-0 right-0 h-3 bg-gradient-to-t from-[#1c7467] to-[#0F4C43] border-t-2 border-[#0F4C43]" />
+          {/* Menu Strip */}
+          <div className="flex items-center gap-4 px-2 py-1 border-b border-[#808080] text-gray-900">
+            <span className="cursor-default"><span className="underline">F</span>ile</span>
+            <span className="cursor-default"><span className="underline">E</span>dit</span>
+            <span className="cursor-default"><span className="underline">V</span>iew</span>
+            <span className="cursor-default"><span className="underline">I</span>mage</span>
+            <span className="cursor-default"><span className="underline">C</span>olors</span>
+            <span className="cursor-default"><span className="underline">H</span>elp</span>
+          </div>
 
-          {/* Content Wrapper */}
-          <div className="pt-6 pb-12 px-6 md:px-12">
-
-            {/* ═══════════════════════════════════════════════════════════════════ */}
-            {/* HERO SECTION: Centered Profile Area                               */}
-            {/* ═══════════════════════════════════════════════════════════════════ */}
-            <div className="text-center mb-10 border-b-4 border-double border-[#0F4C43] pb-8">
-              
-              {/* Pixel Art Title Frame */}
-              <div className="inline-block bg-[#0F4C43] text-[#F4ECD8] px-6 py-2 mb-6 border-4 border-[#1c7467] shadow-[4px_4px_0px_rgba(0,0,0,0.3)]">
-                <h2 className="text-xs font-bold font-mono tracking-widest uppercase">
-                  ◆ CURRICULUM VITAE ◆
-                </h2>
+          {/* App Workspace Frame */}
+          <div className="flex items-stretch gap-1 p-1 bg-[#bfbfbf] min-h-[600px]">
+            
+            {/* Sidebar Tools Wrapper */}
+            <div className="flex flex-col gap-0.5 p-1 bg-[#bfbfbf] self-start w-[56px] shrink-0">
+              <div className="grid grid-cols-2 gap-0.5">
+                {TOOL_ICONS.map((tool) => (
+                  <div
+                    key={tool.key}
+                    title={tool.label}
+                    className={`w-6 h-6 flex items-center justify-center cursor-pointer select-none
+                      ${tool.active
+                        ? "bg-[#dfdfdf] border-2 border-t-[#808080] border-l-[#808080] border-b-white border-r-white shadow-[inset_1px_1px_1px_rgba(0,0,0,0.35)]"
+                        : "bg-[#bfbfbf] border-2 border-t-white border-l-white border-b-[#808080] border-r-[#808080] active:border-t-[#808080] active:border-l-[#808080] active:border-b-white active:border-r-white"
+                      }`}
+                  >
+                    <div className="w-[18px] h-[18px]">{tool.svg}</div>
+                  </div>
+                ))}
               </div>
-
-              {/* Main Name */}
-              <h1 className="text-4xl md:text-5xl font-black font-mono text-[#0F4C43] tracking-wide mb-2 drop-shadow-[2px_2px_0px_rgba(0,0,0,0.1)]">
-                ZOHA MALIK
-              </h1>
-
-              {/* Subtitle with Pixel Divider */}
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-8 h-0.5 bg-[#0F4C43]" />
-                <p className="text-sm font-bold font-mono text-[#1c7467] tracking-wider uppercase">
-                  // Full Stack Developer Engine
-                </p>
-                <div className="w-8 h-0.5 bg-[#0F4C43]" />
+              <div className="h-11 mt-1 bg-[#bfbfbf] border-2 border-t-[#808080] border-l-[#808080] border-b-white border-r-white p-1 flex items-center justify-center">
+                <div className="w-full h-full bg-[#bfbfbf] border border-t-[#808080] border-l-[#808080] border-b-white border-r-white flex flex-col justify-center gap-1 px-2">
+                  <div className="w-full h-[4px] bg-black" />
+                  <div className="w-full h-[2px] bg-black" />
+                  <div className="w-2/3 h-[1px] bg-black" />
+                </div>
               </div>
-
-              {/* Decorative Pixel Art Elements - Small Hexagons */}
-              <div className="flex items-center justify-center gap-8 mt-6">
-                <div className="w-6 h-6 border-2 border-[#1c7467] transform rotate-45" />
-                <div className="text-xl">⬥</div>
-                <div className="w-6 h-6 border-2 border-[#1c7467] transform rotate-45" />
-              </div>
-
             </div>
 
-            {/* ═══════════════════════════════════════════════════════════════════ */}
-            {/* TWO-COLUMN GRID LAYOUT                                            */}
-            {/* ═══════════════════════════════════════════════════════════════════ */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 font-mono">
-
-              {/* LEFT COLUMN: Experience & Education */}
-              <div className="md:col-span-6 space-y-8">
-
-                {/* Summary Section */}
-                <div className="border-l-4 border-[#0F4C43] pl-4">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 bg-[#0F4C43]" />
-                    <h3 className="font-bold text-xs uppercase tracking-wider text-[#0F4C43]">
-                      ▶ Summary
-                    </h3>
-                  </div>
-                  <p className="text-xs font-sans text-gray-700 leading-relaxed">
-                    Computer Science student engineered to construct optimized web assets, server blueprints, and full-stack solutions built around concrete business growth indicators.
-                  </p>
-                </div>
-
-                {/* Experience Section */}
-                <div className="border-l-4 border-[#0F4C43] pl-4">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="w-2 h-2 bg-[#0F4C43]" />
-                    <h3 className="font-bold text-xs uppercase tracking-wider text-[#0F4C43]">
-                      ▼ Experience
-                    </h3>
-                  </div>
-
-                  <div className="space-y-4">
-                    {/* Experience Item */}
-                    <div className="relative">
-                      <div className="absolute -left-[22px] top-0.5 w-3 h-3 bg-[#1c7467] border-2 border-[#0F4C43]" />
-                      <div className="space-y-1">
-                        <div className="flex justify-between items-baseline">
-                          <span className="font-bold text-xs text-[#0F4C43]">
-                            Freelance Full Stack Dev
-                          </span>
-                          <span className="text-[10px] text-gray-600 font-sans">
-                            2024 — PRES
-                          </span>
-                        </div>
-                        <div className="space-y-1 text-xs text-gray-700 font-sans">
-                          <p>→ Built performance-tuned transactional marketplace interfaces and conversion routes.</p>
-                          <p>→ Created secure database integrations and high-availability REST architecture patterns.</p>
-                          <p>→ Supervised operational staging deployments and automated environment configurations.</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Education Section */}
-                <div className="border-l-4 border-[#0F4C43] pl-4">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 bg-[#0F4C43]" />
-                    <h3 className="font-bold text-xs uppercase tracking-wider text-[#0F4C43]">
-                      ■ Education
-                    </h3>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <span className="font-bold text-xs text-[#0F4C43]">
-                        BS Computer Science
-                      </span>
-                      <span className="text-[10px] text-gray-600 font-sans">
-                        2023 — 2027
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-600 font-sans">
-                      National University of Modern Languages
+            {/* CANVAS INTERIOR: High-Contrast Magazine Style Optimized for ATS Parsing */}
+            <div className="flex-1 bg-[#262626] p-4 overflow-auto">
+              <div className="bg-white border-[3px] border-black text-black min-h-full p-6 md:p-10 font-serif shadow-[6px_6px_0px_rgba(0,0,0,1)] tracking-tight">
+                
+                {/* Header Layout Component */}
+                <div className="border-b-[4px] border-black pb-4 mb-8 flex flex-col sm:flex-row justify-between items-baseline gap-2">
+                  <div>
+                    <h1 className="text-4xl md:text-5xl font-black font-sans uppercase tracking-tighter leading-none">
+                      ZOHA MALIK
+                    </h1>
+                    <p className="text-xs font-mono font-bold tracking-widest uppercase mt-2 text-neutral-600">
+                      Software Engineering & Full-Stack Web Development
                     </p>
                   </div>
-                </div>
-
-              </div>
-
-              {/* RIGHT COLUMN: Skills & Certifications */}
-              <div className="md:col-span-6 space-y-8">
-
-                {/* Core Stack Section */}
-                <div className="border-l-4 border-[#1c7467] pl-4">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="w-2 h-2 bg-[#1c7467]" />
-                    <h3 className="font-bold text-xs uppercase tracking-wider text-[#0F4C43]">
-                      ⚙ Core Systems
-                    </h3>
-                  </div>
-                  <div className="space-y-3">
-                    {coreStack.map((tech) => (
-                      <div key={tech.name}>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="font-bold text-[#0F4C43]">{tech.name}</span>
-                          <span className="text-gray-600 text-[10px]">{tech.level}%</span>
-                        </div>
-                        {/* Pixel Art Skill Bar */}
-                        <div className="h-2 bg-gray-300 border-2 border-[#0F4C43] overflow-hidden shadow-[inset_1px_1px_0_rgba(0,0,0,0.2)]">
-                          <div
-                            className="h-full bg-gradient-to-r from-[#0F4C43] to-[#1c7467] transition-all duration-300"
-                            style={{ width: `${tech.level}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
+                  <div className="font-mono text-[10px] uppercase text-neutral-500 tracking-wider">
+                    [EDITION 2026 // RESUME]
                   </div>
                 </div>
 
-                {/* Additional Skills Section */}
-                <div className="border-l-4 border-[#1c7467] pl-4">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="w-2 h-2 bg-[#1c7467]" />
-                    <h3 className="font-bold text-xs uppercase tracking-wider text-[#0F4C43]">
-                      ✦ Attributes
-                    </h3>
-                  </div>
-                  <div className="space-y-3">
-                    {skills.map((skill) => (
-                      <div key={skill.name}>
-                        <div className="flex justify-between text-xs mb-1">
-                          <span className="font-bold text-[#0F4C43]">{skill.name}</span>
-                          <span className="text-gray-600 text-[10px]">{skill.level}%</span>
-                        </div>
-                        <div className="h-2 bg-gray-300 border-2 border-[#1c7467] overflow-hidden shadow-[inset_1px_1px_0_rgba(0,0,0,0.2)]">
-                          <div
-                            className="h-full bg-gradient-to-r from-[#1c7467] to-[#0F4C43] transition-all duration-300"
-                            style={{ width: `${skill.level}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Certifications Section */}
-                <div className="border-l-4 border-[#0F4C43] pl-4">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="w-2 h-2 bg-[#0F4C43]" />
-                    <h3 className="font-bold text-xs uppercase tracking-wider text-[#0F4C43]">
-                      ▲ Unlocked Perks
-                    </h3>
-                  </div>
+                {/* ATS-Optimized Single Column Linear Flow */}
+                <div className="space-y-8 max-w-3xl">
+                  
+                  {/* 1. Summary Section */}
                   <div className="space-y-2">
-                    {certifications.map((cert) => (
-                      <div
-                        key={cert}
-                        className="text-xs bg-[#fcf9f2] border-2 border-[#0F4C43] p-2 font-sans text-[#0F4C43] shadow-[2px_2px_0px_rgba(0,0,0,0.1)]"
-                      >
-                        ✔ {cert}
-                      </div>
-                    ))}
+                    <h2 className="font-sans font-black text-sm uppercase tracking-wider bg-black text-white px-2 py-0.5 inline-block">
+                      Professional Summary
+                    </h2>
+                    <p className="text-sm leading-relaxed text-neutral-800 antialiased pt-1">
+                      Dedicated software engineer focused on building robust full-stack applications, 
+                      optimized database structures, and high-performance user interfaces. Expert in translating 
+                      complex systemic features into modular, clean components.
+                    </p>
                   </div>
+
+                  {/* 2. Core Experience Section */}
+                  <div className="space-y-3">
+                    <h2 className="font-sans font-black text-sm uppercase tracking-wider bg-black text-white px-2 py-0.5 inline-block">
+                      Professional Experience
+                    </h2>
+                    
+                    <div className="space-y-4">
+                      <div>
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline font-sans font-bold text-xs uppercase tracking-tight">
+                          <span className="text-neutral-900">Independent Full Stack Developer</span>
+                          <span className="font-mono text-[11px] text-neutral-500">2024 — Present</span>
+                        </div>
+                        <ul className="mt-2 space-y-2 text-xs text-neutral-700 list-disc pl-4 font-sans leading-relaxed">
+                          {EXPERIENCE_BULLETS.map((bullet, idx) => (
+                            <li key={idx} className="marker:text-black">{bullet}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3. Tech Stack Matrix */}
+                  <div className="space-y-3">
+                    <h2 className="font-sans font-black text-sm uppercase tracking-wider bg-black text-white px-2 py-0.5 inline-block">
+                      Technical Skills
+                    </h2>
+                    <p className="text-xs font-mono text-neutral-800 leading-relaxed">
+                      <strong>Core Stack:</strong> {CORE_STACK.map(s => `${s.name} (${s.level})`).join(", ")}
+                    </p>
+                    <p className="text-xs font-mono text-neutral-800 leading-relaxed">
+                      <strong>Methodologies:</strong> {ATTRIBUTES.join(", ")}
+                    </p>
+                  </div>
+
+                  {/* 4. Education History */}
+                  <div className="space-y-2">
+                    <h2 className="font-sans font-black text-sm uppercase tracking-wider bg-black text-white px-2 py-0.5 inline-block">
+                      Education
+                    </h2>
+                    <div className="pt-1">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline font-sans font-bold text-xs uppercase tracking-tight">
+                        <span>Bachelor of Science in Computer Science</span>
+                        <span className="font-mono text-[11px] text-neutral-500">2023 — 2027</span>
+                      </div>
+                      <p className="text-xs text-neutral-600 mt-0.5 font-mono">
+                        National University of Modern Languages
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* 5. Projects & Accomplishments */}
+                  <div className="space-y-3">
+                    <h2 className="font-sans font-black text-sm uppercase tracking-wider bg-black text-white px-2 py-0.5 inline-block">
+                      Honors & Certifications
+                    </h2>
+                    <ul className="space-y-1.5 font-mono text-xs text-neutral-800 tracking-tight">
+                      {PERKS.map((perk, idx) => (
+                        <li key={idx} className="flex items-center gap-2">
+                          <span className="text-[9px]">■</span> {perk}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
                 </div>
-
               </div>
+            </div>
+          </div>
 
+          {/* Palette Footer Tray */}
+          <div className="p-1 bg-[#bfbfbf] border-t-2 border-white flex items-center gap-1.5 overflow-hidden">
+            <div className="w-7 h-7 bg-[#bfbfbf] border-2 border-t-[#808080] border-l-[#808080] border-b-white border-r-white relative shrink-0">
+              <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-black border border-white z-20 shadow-sm" />
+              <div className="absolute bottom-0.5 right-0.5 w-4 h-4 bg-white border border-[#808080] z-10" />
             </div>
 
-            {/* Footer Divider */}
-            <div className="mt-8 pt-4 border-t-2 border-dashed border-[#0F4C43] flex justify-between items-center text-[10px] font-mono text-gray-600">
-              <span>PAGES_COMPILED: OK</span>
-              <span>BUILD_VER: 2026.07</span>
-              <span>STATUS: READY_FOR_DEPLOYMENT</span>
+            <div className="grid grid-flow-col grid-rows-2 gap-[1px] bg-black p-[1px] overflow-x-auto max-w-full">
+              {COLOR_PALETTE.map((color, idx) => (
+                <div
+                  key={idx}
+                  className="w-3 h-3 cursor-pointer border border-transparent hover:border-white"
+                  style={{ backgroundColor: color }}
+                  title={color}
+                />
+              ))}
             </div>
-
           </div>
         </div>
 
-        {/* Action Bar */}
-        <div className="bg-gradient-to-r from-[#f0e8d0] to-[#e8dfc5] border-t-2 border-gray-400 px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-          <span className="text-xs font-bold font-mono text-[#0F4C43]">✓ Systems Online</span>
+        {/* System Action Tray */}
+        <div className="border-t border-white bg-[#bfbfbf] px-3 py-1.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 text-xs">
+          <span className="text-gray-800 font-sans flex items-center gap-1.5 select-none self-center">
+            <span
+              className={`w-2.5 h-2.5 inline-block border border-t-black border-l-black border-b-white border-r-white ${
+                systemOnline ? "bg-green-600" : "bg-gray-500"
+              }`}
+            />
+            Status: {systemOnline ? "Online" : "Ready"}
+          </span>
 
-          <div className="flex items-center gap-2 font-mono text-xs">
+          <div className="flex items-center justify-end gap-1 font-sans">
             <button
-              onClick={() => window.print()}
-              className="px-4 py-1.5 bg-gradient-to-b from-white to-gray-100 text-[#0F4C43] font-bold border-2 border-t-white border-l-white border-r-gray-500 border-b-gray-500 hover:from-blue-50 active:border-t-gray-500 active:border-l-gray-500 shadow-[1px_1px_2px_rgba(0,0,0,0.1)]"
+              onClick={() => {
+                handleActionClick();
+                window.print();
+              }}
+              className="px-3 py-0.5 border-2 border-b-black border-r-black border-t-white border-l-white bg-[#bfbfbf]
+                         active:border-t-black active:border-l-black active:border-b-white active:border-r-white
+                         text-black rounded-none font-medium cursor-pointer"
             >
-              📄 Preview
+              Print
             </button>
             <a
-              href="/resume.pdf"
+              href="/Zoha_Malik_Resume.pdf"
               download
-              onClick={() => playClick()}
-              className="px-4 py-1.5 bg-gradient-to-b from-white to-gray-100 text-[#0F4C43] font-bold border-2 border-t-white border-l-white border-r-gray-500 border-b-gray-500 hover:from-blue-50 active:border-t-gray-500 active:border-l-gray-500 shadow-[1px_1px_2px_rgba(0,0,0,0.1)]"
+              onClick={handleActionClick}
+              className="px-3 py-0.5 border-2 border-b-black border-r-black border-t-white border-l-white bg-[#bfbfbf]
+                         active:border-t-black active:border-l-black active:border-b-white active:border-r-white
+                         text-black rounded-none font-medium text-center cursor-pointer"
             >
-              ⬇ Download
+              Save
             </a>
             <a
-              href="https://linkedin.com/in/zoha-malik"
+              href="https://www.linkedin.com/in/zohamalik-/"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => playClick()}
-              className="px-4 py-1.5 bg-gradient-to-b from-[#0F4C43] to-[#093d35] text-white font-bold border-2 border-[#0F4C43] hover:from-[#1c7467] shadow-[1px_1px_2px_rgba(0,0,0,0.2)] active:scale-95 transition-all"
+              onClick={handleActionClick}
+              className="px-3 py-0.5 border-2 border-b-black border-r-black border-t-white border-l-white bg-[#bfbfbf]
+                         active:border-t-black active:border-l-black active:border-b-white active:border-r-white
+                         text-black rounded-none font-medium text-center cursor-pointer"
             >
-              🔗 LinkedIn
+              LinkedIn
             </a>
           </div>
         </div>
-
       </RetroWindow>
     </section>
   );
