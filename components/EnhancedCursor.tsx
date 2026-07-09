@@ -37,7 +37,8 @@ export default function EnhancedCursor() {
   return (
     <div
       ref={cursorRef}
-      className="pointer-events-none fixed top-0 left-0 z-[999] hidden md:block"
+      /*  Bumped z-index to 100001 so it rides above all taskbar & shutdown layers */
+      className="pointer-events-none fixed top-0 left-0 z-[100001] hidden md:block"
       style={{ willChange: "transform", transition: "transform 80ms linear" }}
     >
       {/* Classic Windows arrow cursor, drawn in CSS via clip-path */}

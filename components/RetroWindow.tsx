@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+// 🔊 Import our optimized central audio hooks
+import { playClick, playHover, playClose } from "@/components/Sound";
 
 interface RetroWindowProps {
   title: string;
@@ -44,15 +46,27 @@ export default function RetroWindow({
             </>
           )}
         </div>
-        <span className="text-white font-bold text-sm tracking-wider">{title}</span>
+        <span className="text-white font-bold text-sm tracking-wider select-none">{title}</span>
         <div className="flex gap-2">
-          <button className="w-6 h-6 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white hover:bg-gray-200 transition-colors duration-150 flex items-center justify-center text-xs font-bold active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white">
+          <button 
+            onMouseEnter={playHover}
+            onClick={playClick}
+            className="w-6 h-6 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white hover:bg-gray-200 transition-colors duration-150 flex items-center justify-center text-xs font-bold active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white"
+          >
             _
           </button>
-          <button className="w-6 h-6 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white hover:bg-gray-200 transition-colors duration-150 flex items-center justify-center text-xs font-bold active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white">
+          <button 
+            onMouseEnter={playHover}
+            onClick={playClick}
+            className="w-6 h-6 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white hover:bg-gray-200 transition-colors duration-150 flex items-center justify-center text-xs font-bold active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white"
+          >
             □
           </button>
-          <button className="w-6 h-6 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white hover:bg-red-500 hover:text-white transition-colors duration-150 flex items-center justify-center text-xs font-bold active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white">
+          <button 
+            onMouseEnter={playHover}
+            onClick={playClose} // 🔊 Play critical close effect on window destruction request
+            className="w-6 h-6 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white hover:bg-red-500 hover:text-white transition-colors duration-150 flex items-center justify-center text-xs font-bold active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white"
+          >
             ×
           </button>
         </div>
@@ -64,7 +78,9 @@ export default function RetroWindow({
           {menuItems.map((item) => (
             <button
               key={item}
-              className="px-3 py-1 hover:bg-blue-600 hover:text-white transition-colors duration-150 active:bg-blue-700"
+              onMouseEnter={playHover} // 🔊 Subtle link alignment drift hover accent
+              onClick={playClick}
+              className="px-3 py-1 hover:bg-blue-600 hover:text-white transition-colors duration-150 active:bg-blue-700 select-none"
             >
               {item}
             </button>
@@ -77,7 +93,7 @@ export default function RetroWindow({
 
       {/* Status Bar — optional */}
       {statusBar && (
-        <div className="bg-gray-300 border-t-2 border-black px-4 py-2 flex justify-between items-center text-xs font-bold">
+        <div className="bg-gray-300 border-t-2 border-black px-4 py-2 flex justify-between items-center text-xs font-bold select-none">
           <span>{statusText}</span>
           <div className="flex gap-4">
             <span>🔴 Secure</span>

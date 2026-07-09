@@ -5,6 +5,7 @@ import RetroWindow from "@/components/RetroWindow";
 import PopupWindow from "@/components/PopupWindow";
 import Typewriter from "./TypeWriter";
 import { AnimatePresence, motion } from "framer-motion";
+import { playClick, playOpen, playClose } from "@/components/Sound";
 import Image from "next/image";
 
 type WindowId = "skills" | "tech" | "status" | "journey" | null;
@@ -15,11 +16,13 @@ export default function AboutWindow() {
     const [selectedFile, setSelectedFile] = useState<WindowId>(null);
     const [loading, setLoading] = useState(false);
 
+
+
     const containerVariants = {
         hidden: {},
         visible: {
             transition: {
-                staggerChildren: 0.2,
+                staggerChildren: 0.15,
             },
         },
     };
@@ -27,25 +30,34 @@ export default function AboutWindow() {
     const iconVariants = {
         hidden: {
             opacity: 0,
-            y: 30,
-            scale: 0.8,
+            y: 20,
+            scale: 0.85,
         },
         visible: {
             opacity: 1,
             y: 0,
             scale: 1,
             transition: {
-                duration: 0.35,
+                duration: 0.3,
             },
         },
     };
 
     const openWindow = (id: WindowId) => {
+        playOpen(); // ✨ Step 5: Plays open.wav instantly upon double-click initialization
+        setSelectedFile(id);
         setLoading(true);
+
         setTimeout(() => {
             setLoading(false);
             setActiveWindow(id);
-        }, 500);
+        }, 400); // Snappy 400ms loading window timeout match
+    };
+
+    // Helper wrapper to handle closing audio cleanly
+    const closeWindow = () => {
+        playClose(); // 🔊 Plays the close sound effect
+        setActiveWindow(null);
     };
 
     return (
@@ -61,6 +73,7 @@ export default function AboutWindow() {
                                     alt="Zoha"
                                     width={180}
                                     height={230}
+                                    priority
                                 />
                             </div>
 
@@ -97,7 +110,7 @@ export default function AboutWindow() {
                                 {/* Desktop Divider */}
                                 <div className="flex items-center gap-4 mb-8">
                                     <div className="flex-1 border-b border-dashed border-gray-400" />
-                                    <span className="text-[11px] uppercase tracking-[4px] text-gray-500">
+                                    <span className="text-[11px] uppercase tracking-[4px] text-gray-500 select-none">
                                         Desktop Files
                                     </span>
                                     <div className="flex-1 border-b border-dashed border-gray-400" />
@@ -134,11 +147,22 @@ export default function AboutWindow() {
                                         <motion.button
                                             key={item.id}
                                             variants={iconVariants}
-                                            whileHover={{ scale: 1.08, y: -4 }}
-                                            whileTap={{ scale: 0.95 }}
-                                            onClick={() => setSelectedFile(item.id)}
-                                            onDoubleClick={() => openWindow(item.id)}
-                                            className={`cursor-none group w-32 rounded-lg p-3 flex flex-col items-center transition-all duration-300 border ${selectedFile === item.id
+                                            whileHover={{ scale: 1.05, y: -2 }}
+                                            whileTap={{ scale: 0.98 }}
+
+                                            // Step 4: Play tactile click sound on selection highlight
+                                            onClick={() => {
+                                                playClick();
+                                                setSelectedFile(item.id);
+                                            }}
+
+                                            // Step 5: Direct trigger maps down to sound execution runner
+                                            onDoubleClick={() => {
+                                                 playClick();
+                                                openWindow(item.id);
+                                            }}
+
+                                            className={`cursor-none group w-32 rounded-lg p-3 flex flex-col items-center transition-all duration-200 border ${selectedFile === item.id
                                                     ? "bg-blue-500/20 border-blue-500"
                                                     : "bg-transparent border-transparent hover:bg-blue-500/10"
                                                 }`}
@@ -148,7 +172,7 @@ export default function AboutWindow() {
                                                 alt={item.label}
                                                 width={64}
                                                 height={64}
-                                                className="transition duration-300 group-hover:scale-110"
+                                                className="transition duration-300 group-hover:scale-105"
                                             />
                                             <h3 className="mt-3 text-sm font-semibold text-center group-hover:text-blue-700">
                                                 {item.label}
@@ -165,31 +189,30 @@ export default function AboutWindow() {
                 </RetroWindow>
             </div>
 
-            {loading && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
-
-                    <RetroWindow
-                        title="Loading..."
-                        icon="/projects/loading.png"
+            {/* Smooth Loading Transition Box */}
+            <AnimatePresence>
+                {loading && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/20"
                     >
-
-                        <div className="flex flex-col items-center gap-4 p-6">
-
-                            <Image
-                                src="/projects/loading.gif"
-                                alt=""
-                                width={48}
-                                height={48}
-                            />
-
-                            <p>Opening file...</p>
-
-                        </div>
-
-                    </RetroWindow>
-
-                </div>
-            )}
+                        <RetroWindow title="Loading..." icon="/projects/loading.png">
+                            <div className="flex flex-col items-center gap-4 p-6 min-w-[200px]">
+                                <Image
+                                    src="/projects/loading.gif"
+                                    alt="Loading asset frames"
+                                    width={48}
+                                    height={48}
+                                    unoptimized // Essential to maintain original retro gif looping logic
+                                />
+                                <p className="text-sm font-medium">Opening file...</p>
+                            </div>
+                        </RetroWindow>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Popup Windows Modals */}
             <AnimatePresence>
@@ -198,7 +221,7 @@ export default function AboutWindow() {
                         id="skills"
                         title="Skills.exe"
                         icon="/projects/folder.png"
-                        onClose={() => setActiveWindow(null)}
+                        onClose={closeWindow}
                     >
                         <h2 className="font-bold mb-4 text-lg">Technical Skills</h2>
                         <div className="space-y-5">
@@ -232,7 +255,7 @@ export default function AboutWindow() {
                         id="tech"
                         title="Tech Stack.exe"
                         icon="/projects/about.png"
-                        onClose={() => setActiveWindow(null)}
+                        onClose={closeWindow}
                     >
                         <h2 className="font-bold text-lg mb-4">Installed Technologies</h2>
                         <div className="space-y-5">
@@ -268,7 +291,7 @@ export default function AboutWindow() {
                         id="status"
                         title="Current Status.exe"
                         icon="/projects/status.png"
-                        onClose={() => setActiveWindow(null)}
+                        onClose={closeWindow}
                     >
                         <h2 className="font-bold text-lg mb-5">System Status</h2>
                         <div className="space-y-4 text-sm">
@@ -297,7 +320,7 @@ export default function AboutWindow() {
                         id="journey"
                         title="Journey.txt"
                         icon="/projects/notepad.png"
-                        onClose={() => setActiveWindow(null)}
+                        onClose={closeWindow}
                     >
                         <h2 className="font-bold text-lg mb-4">Career Timeline</h2>
                         <div className="space-y-4">

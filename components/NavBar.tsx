@@ -1,12 +1,23 @@
 "use client";
 
+import { playClick, playHover, playOpen } from "@/components/Sound";
+
 export default function NavBar() {
   const links = [
-    { label: "ABOUT", href: "#about" },
-    { label: "WORK", href: "#work" },
+    { label: "HOME", href: "#hero" },
+        { label: "WORK", href: "#work" },
     { label: "RESUME", href: "#resume" },
     { label: "CONTACT", href: "#contact" },
   ];
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    playOpen(); // Play folder/window open sound for core navigation sections
+    const el = document.querySelector(href);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-[200] bg-gray-300 border-b-4 border-black shadow-md">
@@ -23,7 +34,9 @@ export default function NavBar() {
             <a
               key={link.label}
               href={link.href}
-              className="px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors duration-100"
+              onMouseEnter={playHover} // 🔊 Hover sound effect
+              onClick={(e) => handleLinkClick(e, link.href)} // 🔊 Open sound effect
+              className="px-3 py-1.5 hover:bg-blue-600 hover:text-white transition-colors duration-100 cursor-pointer"
             >
               {link.label}
             </a>
@@ -33,7 +46,14 @@ export default function NavBar() {
         {/* Hire-me, styled like a raised button */}
         <a
           href="#contact"
-          className="px-3 py-1 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white text-m font-bold hover:bg-gray-200 transition-colors duration-100 active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white"
+          onMouseEnter={playHover} // 🔊 Hover sound effect
+          onClick={(e) => {
+            e.preventDefault();
+            playClick(); // 🔊 Click button sound effect
+            const el = document.querySelector("#contact");
+            if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+          className="px-3 py-1 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white text-m font-bold hover:bg-gray-200 transition-colors duration-100 active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white cursor-pointer"
         >
           HIRE ME
         </a>

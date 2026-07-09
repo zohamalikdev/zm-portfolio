@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
-
 import { WindowManagerProvider } from "@/components/WindowManagerContext";
-
 import Image from "next/image";
 import Magnetic from "@/components/Magnetic";
 import NavBar from "@/components/NavBar";
@@ -28,13 +25,15 @@ import TypeWriter from "@/components/TypeWriter";
 import ContactForm from "@/components/ContactForm";
 import ClosingSection from "@/components/ClosingSection";
 
+// 🔊 Import the specialized audio manager hooks
+import { playClick, playStartup } from "@/components/Sound";
+
 export default function Home() {
   const [entered, setEntered] = useState(false);
   const [booting, setBooting] = useState(false);
   const [bootLines, setBootLines] = useState<string[]>([]);
   const [typedText, setTypedText] = useState("");
   const [activeWindow, setActiveWindow] = useState("");
-
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   const heroTitleRef = useRef<HTMLHeadingElement>(null);
@@ -63,30 +62,6 @@ export default function Home() {
   const heroText =
     "I build digital experiences that are clean, interactive, and impossible to ignore.";
 
-  // BOOT ANIMATION
-  useEffect(() => {
-    if (!booting) return;
-
-    let i = 0;
-    setBootLines([]);
-
-    const interval = setInterval(() => {
-      setBootLines((prev) => [...prev, bootSequence[i]]);
-      i++;
-
-      if (i >= bootSequence.length) {
-        clearInterval(interval);
-
-        setTimeout(() => {
-          setBooting(false);
-          setEntered(true);
-        }, 800);
-      }
-    }, 700);
-
-    return () => clearInterval(interval);
-  }, [booting]);
-
   // TYPEWRITER EFFECT
   useEffect(() => {
     if (booting || entered) return;
@@ -102,11 +77,44 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [booting, entered]);
 
-  // ================= BOOT SCREEN =================
+  // BOOT ANIMATION (Fixed Condition & Audio Pre-Warmed)
+  useEffect(() => {
+    // Basic guard: Only run this lifecycle sequence when booting is true!
+    if (!booting) return; 
+
+    let i = 0;
+    let desktopTimeout: NodeJS.Timeout;
+
+    setBootLines([]);
+
+    const interval = setInterval(() => {
+      if (i < bootSequence.length) {
+        setBootLines((prev) => [...prev, bootSequence[i]]);
+        i++;
+      } else {
+        clearInterval(interval);
+
+        // 🔊 Fire the startup audio right at the terminal climax
+        playStartup();
+
+        desktopTimeout = setTimeout(() => {
+          setBooting(false);
+          setEntered(true);
+        }, 1200); // Gives them a second to experience the screen while audio plays
+      }
+    }, 700);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(desktopTimeout);
+    };
+  }, [booting]);
+
+  // ================= BOOT SCREEN (Restored UI view) =================
   if (booting) {
     return (
       <main className="min-h-screen bg-black text-green-500 flex items-center justify-center crt boot-old">
-        <div className="text-4xl tracking-wider space-y-3">
+        <div className="text-4xl tracking-wider space-y-3 font-mono">
           {bootLines.map((line, i) => (
             <p key={i}>{line}</p>
           ))}
@@ -164,7 +172,16 @@ export default function Home() {
 
           <Magnetic>
             <button
-              onClick={() => setBooting(true)}
+              onClick={() => {
+                playClick();
+                
+                // Silently request audio caching to bypass browser async restrictions
+                const audioWarmup = new Audio("/sounds/boot.mp3");
+                audioWarmup.load();
+
+                setBootLines([]); 
+                setBooting(true);
+              }}
               className="mt-10 border-2 border-black px-8 py-3 w-fit hover:bg-black hover:text-white transition"
             >
               ENTER SYSTEM
@@ -177,13 +194,10 @@ export default function Home() {
 
   // ================= DESKTOP =================
   return (
-      < WindowManagerProvider>
-          <main className="relative bg-[url('/projects/windows.jpg')] bg-cover bg-center bg-fixed bg-no-repeat min-h-screen pb-16">
-            <div className="absolute inset-0 bg-black/10 pointer-events-none" />
-
-                <div className="relative z-10">
-
-
+    <WindowManagerProvider>
+      <main className="relative bg-[url('/projects/windows.jpg')] bg-cover bg-center bg-fixed bg-no-repeat min-h-screen pb-16">
+        <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+        <div className="relative z-10">
           <EnhancedCursor />
           <NavBar />
           <RetroTaskbar />
@@ -192,9 +206,8 @@ export default function Home() {
           <ProjectsWindow />
           <Resume />
           <ContactForm />
-                </div>
-        </main>
-
-    </ WindowManagerProvider>
+        </div>
+      </main>
+    </WindowManagerProvider>
   );
 }
