@@ -48,8 +48,8 @@ export default function Home() {
   const bootSequence = [
     "BOOTING ZOHA_OS...",
     "INITIALIZING DESIGN ENGINE...",
-    "LOADING CREATIVE MODULE...",
-    "CHECKING JACK OF ALL TRADES STATUS...",
+    "Loading Components...",
+    "Connecting APIs...",
     "ACCESS GRANTED...",
   ];
 
@@ -108,7 +108,7 @@ export default function Home() {
   if (booting) {
     return (
       <main className="min-h-screen bg-black text-green-500 flex items-center justify-center crt boot-old">
-        <div className="text-4xl tracking-wider space-y-3 font-mono">
+        <div className="text-4xl tracking-wider space-y-3 font-pixel-font">
           {bootLines.map((line, i) => (
             <p key={i}>{line}</p>
           ))}

@@ -63,28 +63,28 @@ export default function ContactForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  setIsSubmitting(true);
-  setShowStatusModal(true);
-  setCurrentStep(0);
-  setProgress(0);
+    setIsSubmitting(true);
+    setShowStatusModal(true);
+    setCurrentStep(0);
+    setProgress(0);
 
-  try {
-    await emailjs.send(
-      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
-      {
-        from_name: formData.name,
-        from_email: formData.email,
-        message: formData.message,
-      },
-      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
-    );
-  } catch (err) {
-    console.error(err);
-  }
-};
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     if (!showStatusModal) return;
@@ -121,7 +121,7 @@ export default function ContactForm() {
   return (
     <section
       id="contact"
-      className="relative bg-transparent px-3 md:px-8 lg:px-12 py-12 md:py-16 text-black select-none"
+      className="relative bg-transparent px-2 sm:px-4 md:px-8 lg:px-12 py-8 md:py-16 text-black select-none"
     >
       <div className="max-w-6xl mx-auto">
         <RetroWindow
@@ -133,7 +133,7 @@ export default function ContactForm() {
           <div className="bg-[#bfbfbf] p-1 font-sans text-xs flex flex-col shadow-[inset_1px_1px_0_#ffffff]">
             
             {/* Top Menu Bar */}
-            <div className="flex items-center gap-4 px-2 py-1 border-b border-[#808080] text-gray-900">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 px-2 py-1 border-b border-[#808080] text-gray-900 text-[11px] sm:text-xs">
               <span className="cursor-default"><span className="underline">F</span>ile</span>
               <span className="cursor-default"><span className="underline">E</span>dit</span>
               <span className="cursor-default"><span className="underline">V</span>iew</span>
@@ -143,10 +143,10 @@ export default function ContactForm() {
             </div>
 
             {/* Interface Core Layer */}
-            <div className="flex items-stretch gap-1 p-1 bg-[#bfbfbf] min-h-[550px]">
+            <div className="flex items-stretch gap-1 p-1 bg-[#bfbfbf] min-h-[480px] md:min-h-[550px]">
               
-              {/* Left Hand Icon Rails */}
-              <div className="flex flex-col gap-0.5 p-1 bg-[#bfbfbf] self-start w-[56px] shrink-0">
+              {/* Left Hand Icon Rails - Hidden on Mobile */}
+              <div className="hidden md:flex flex-col gap-0.5 p-1 bg-[#bfbfbf] self-start w-[56px] shrink-0">
                 <div className="grid grid-cols-2 gap-0.5">
                   {TOOL_ICONS.map((tool) => (
                     <div
@@ -172,27 +172,27 @@ export default function ContactForm() {
               </div>
 
               {/* CANVAS INTERIOR: Expanded Clean Magazine Layout Sheet */}
-              <div className="flex-1 bg-[#262626] p-4 overflow-auto flex items-start justify-center">
-                <div className="bg-white border-[3px] border-black text-black w-full max-w-5xl p-6 md:p-8 font-serif shadow-[6px_6px_0px_rgba(0,0,0,1)] tracking-tight">
+              <div className="flex-1 bg-[#262626] p-2 sm:p-4 overflow-auto flex items-start justify-center">
+                <div className="bg-white border-[3px] border-black text-black w-full max-w-5xl p-4 sm:p-6 md:p-8 font-serif shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[6px_6px_0px_rgba(0,0,0,1)] tracking-tight">
                   
                   {/* Heading */}
-                  <div className="border-b-[4px] border-black pb-4 mb-6 flex justify-between items-baseline">
+                  <div className="border-b-[4px] border-black pb-3 mb-5 flex justify-between items-baseline">
                     <div>
-                      <h2 className="text-3xl font-black font-sans uppercase tracking-tighter leading-none">
+                      <h2 className="text-2xl md:text-3xl font-black font-sans uppercase tracking-tighter leading-none">
                         CONTACT ME
                       </h2>
-                      <p className="text-xs font-mono font-bold tracking-widest uppercase mt-1 text-neutral-500">
+                      <p className="text-[10px] font-mono font-bold tracking-widest uppercase mt-1 text-neutral-500">
                         🟢 Available 24/7
                       </p>
                     </div>
-                    <div className="font-mono text-[10px] uppercase text-neutral-400 tracking-wider">
+                    <div className="font-mono text-[9px] uppercase text-neutral-400 tracking-wider">
                       [PAGE 01]
                     </div>
                   </div>
 
                   {/* Form Fields */}
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
                         <label className="block text-xs font-black font-sans uppercase tracking-wider text-black">
                           Your Name
@@ -230,7 +230,7 @@ export default function ContactForm() {
 
                     <div>
                       <label className="block text-xs font-black font-sans uppercase tracking-wider text-black">
-                         Your Message
+                        Your Message
                       </label>
                       <textarea
                         name="message"
@@ -255,7 +255,7 @@ export default function ContactForm() {
                         disabled={isSubmitting}
                         onMouseEnter={playHover}
                         onClick={playClick}
-                        className="px-5 py-2.5 bg-black hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-widest font-mono transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed border border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-0.5 active:translate-y-0.5"
+                        className="px-5 py-2.5 bg-black hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-widest font-mono transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed border border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-0.5 active:translate-y-0.5 w-full sm:w-auto text-center"
                       >
                         {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
                       </button>
@@ -266,8 +266,8 @@ export default function ContactForm() {
 
             </div>
 
-            {/* Bottom Palette Swatch Belt */}
-            <div className="p-1 bg-[#bfbfbf] border-t-2 border-white flex items-center gap-1.5 overflow-hidden">
+            {/* Bottom Palette Swatch Belt - Hidden on Mobile */}
+            <div className="hidden md:flex p-1 bg-[#bfbfbf] border-t-2 border-white items-center gap-1.5 overflow-hidden">
               <div className="w-7 h-7 bg-[#bfbfbf] border-2 border-t-[#808080] border-l-[#808080] border-b-white border-r-white relative shrink-0">
                 <div className="absolute top-0.5 left-0.5 w-4 h-4 bg-black border border-white z-20 shadow-sm" />
                 <div className="absolute bottom-0.5 right-0.5 w-4 h-4 bg-white border border-[#808080] z-10" />
@@ -288,13 +288,13 @@ export default function ContactForm() {
 
           {/* Outer Application Action Shelf */}
           <div className="border-t border-white bg-[#bfbfbf] px-3 py-1.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 text-xs">
-            <span className="text-gray-800 font-sans flex items-center gap-1.5 select-none self-center">
+            <span className="text-gray-800 font-sans flex items-center justify-center sm:justify-start gap-1.5 select-none text-[11px] sm:text-xs">
               <span className="w-2.5 h-2.5 inline-block border border-t-black border-l-black border-b-white border-r-white bg-green-600" />
               Status: Ready
             </span>
-            <div className="flex items-center justify-end font-sans">
-              <span className="text-neutral-500 font-mono text-[10px] tracking-widest uppercase">
-                 FILL ALL FIELDS TO SEND
+            <div className="flex items-center justify-center sm:justify-end font-sans">
+              <span className="text-neutral-500 font-mono text-[9px] sm:text-[10px] tracking-widest uppercase text-center">
+                FILL ALL FIELDS TO SEND
               </span>
             </div>
           </div>
@@ -304,7 +304,7 @@ export default function ContactForm() {
       {/* Simplified Status Modal */}
       {showStatusModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="w-full max-w-sm bg-white border-[4px] border-black p-6 shadow-[12px_12px_0px_rgba(0,0,0,1)] text-black">
+          <div className="w-full max-w-sm bg-white border-[4px] border-black p-5 sm:p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)] text-black">
             
             <div className="border-b-2 border-black pb-2 mb-4 flex justify-between items-center">
               <span className="font-mono text-xs font-black uppercase tracking-wider">
