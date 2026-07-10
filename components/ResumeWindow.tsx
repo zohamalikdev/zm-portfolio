@@ -14,18 +14,22 @@ interface SkillItem {
 }
 
 const CORE_STACK: SkillItem[] = [
-  { name: "React / Next.js", level: "Expert" },
-  { name: "Node.js / Express", level: "Advanced" },
-  { name: "PostgreSQL / SQL", level: "Advanced" },
-  { name: "TypeScript / JS", level: "Expert" },
-  { name: "Tailwind CSS", level: "Expert" },
+  { name: "React.js", level: "Intermediate" },
+  { name: "Next.js", level: "Beginner" },
+  { name: "Node.js / Express.js", level: "Beginner" },
+  { name: "PostgreSQL / MySQL", level: "Intermediate" },
+  { name: "JavaScript / TypeScript", level: "Intermediate" },
+  { name: "Tailwind CSS", level: "Intermediate" },
+  { name: "Git / GitHub", level: "Intermediate" },
+  { name: "REST API Development", level: "Intermediate" }
+
 ];
 
 const ATTRIBUTES: string[] = [
-  "REST Architecture Blueprinting",
-  "Git & Distributed Version Control",
+  "REST API Development",
+  "Git & Version Control",
   "Relational Database Design",
-  "Serverless Computing Architecture",
+  "Serverless Application Development"
 ];
 
 const PERKS: string[] = [
@@ -34,9 +38,9 @@ const PERKS: string[] = [
 ];
 
 const EXPERIENCE_BULLETS: string[] = [
-  "Engineered performance-tuned transactional marketplace interfaces utilizing Next.js server-side patterns.",
-  "Constructed secure database integrations and high-availability REST architecture routing layers.",
-  "Supervised automated production configurations and synchronized staging environment cycles.",
+"Built scalable full-stack web applications using modern web development technologies.",
+  "Designed efficient database structures and implemented secure backend functionality with REST APIs.",
+  "Developed responsive, user-friendly interfaces while maintaining clean, modular, and maintainable code."
 ];
 
 // ---------------------------------------------------------------------------
@@ -95,7 +99,7 @@ export default function ResumeWindow() {
       >
         {/* Main Interface */}
         <div className="bg-[#bfbfbf] p-1 font-sans text-xs flex flex-col shadow-[inset_1px_1px_0_#ffffff]">
-          
+
           {/* Menu Strip */}
           <div className="flex items-center gap-4 px-2 py-1 border-b border-[#808080] text-gray-900">
             <span className="cursor-default"><span className="underline">F</span>ile</span>
@@ -108,7 +112,7 @@ export default function ResumeWindow() {
 
           {/* App Workspace Frame */}
           <div className="flex items-stretch gap-1 p-1 bg-[#bfbfbf] min-h-[600px]">
-            
+
             {/* Sidebar Tools Wrapper */}
             <div className="flex flex-col gap-0.5 p-1 bg-[#bfbfbf] self-start w-[56px] shrink-0">
               <div className="grid grid-cols-2 gap-0.5">
@@ -138,7 +142,7 @@ export default function ResumeWindow() {
             {/* CANVAS INTERIOR: High-Contrast Magazine Style Optimized for ATS Parsing */}
             <div className="flex-1 bg-[#262626] p-4 overflow-auto">
               <div className="bg-white border-[3px] border-black text-black min-h-full p-6 md:p-10 font-serif shadow-[6px_6px_0px_rgba(0,0,0,1)] tracking-tight">
-                
+
                 {/* Header Layout Component */}
                 <div className="border-b-[4px] border-black pb-4 mb-8 flex flex-col sm:flex-row justify-between items-baseline gap-2">
                   <div>
@@ -156,16 +160,16 @@ export default function ResumeWindow() {
 
                 {/* ATS-Optimized Single Column Linear Flow */}
                 <div className="space-y-8 max-w-3xl">
-                  
+
                   {/* 1. Summary Section */}
                   <div className="space-y-2">
                     <h2 className="font-sans font-black text-sm uppercase tracking-wider bg-black text-white px-2 py-0.5 inline-block">
                       Professional Summary
                     </h2>
                     <p className="text-sm leading-relaxed text-neutral-800 antialiased pt-1">
-                      Dedicated software engineer focused on building robust full-stack applications, 
-                      optimized database structures, and high-performance user interfaces. Expert in translating 
-                      complex systemic features into modular, clean components.
+                      Full-Stack Software Engineer specializing in web application development, database management,
+                      and responsive UI design. Experienced in developing scalable applications, integrating backend
+                      services, and building secure, user-friendly solutions using modern development practices.
                     </p>
                   </div>
 
@@ -174,7 +178,7 @@ export default function ResumeWindow() {
                     <h2 className="font-sans font-black text-sm uppercase tracking-wider bg-black text-white px-2 py-0.5 inline-block">
                       Professional Experience
                     </h2>
-                    
+
                     <div className="space-y-4">
                       <div>
                         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline font-sans font-bold text-xs uppercase tracking-tight">
@@ -262,9 +266,8 @@ export default function ResumeWindow() {
         <div className="border-t border-white bg-[#bfbfbf] px-3 py-1.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 text-xs">
           <span className="text-gray-800 font-sans flex items-center gap-1.5 select-none self-center">
             <span
-              className={`w-2.5 h-2.5 inline-block border border-t-black border-l-black border-b-white border-r-white ${
-                systemOnline ? "bg-green-600" : "bg-gray-500"
-              }`}
+              className={`w-2.5 h-2.5 inline-block border border-t-black border-l-black border-b-white border-r-white ${systemOnline ? "bg-green-600" : "bg-gray-500"
+                }`}
             />
             Status: {systemOnline ? "Online" : "Ready"}
           </span>
@@ -289,7 +292,7 @@ export default function ResumeWindow() {
                          active:border-t-black active:border-l-black active:border-b-white active:border-r-white
                          text-black rounded-none font-medium text-center cursor-pointer"
             >
-              Save
+              Download
             </a>
             <a
               href="https://www.linkedin.com/in/zohamalik-/"

@@ -53,7 +53,7 @@ const projects = [
     solution: "Built a robust end-to-end e-commerce infrastructure supporting products, dynamic categories, shopping cart systems, and secure checkout frameworks.",
     stack: ["React", "Next.js", "Node.js", "Express", "PostgreSQL", "JWT"],
     features: ["User Authentication", "Admin Dashboard", "Shopping Cart Matrix", "REST API Infrastructure", "Database Integration", "Secure Checkout Gateway"],
-    metrics: { loc: "18,000+", pages: "22", tables: "14", apis: "17" },
+    metrics: { loc: "7.5K+", pages: "6+", tables: "3", apis: "18+", },
     href: "https://zohamalikdev.github.io/Bazzar-Shop/index.html",
     github: "https://github.com/zohamalikdev/Bazzar-Shop",
   },
@@ -69,9 +69,9 @@ const projects = [
     screenshot: "/projects/artwala.png",
     problem: "Traditional physical ticketing creates long bottlenecks and lacks an automated tracking hub for local organizers.",
     solution: "Digitizes the ticket-booking lifecycle complete with a real-time availability engine, intuitive scheduling matrices, and an integrated administrative dashboard.",
-    stack: ["PHP", "MySQL", "JavaScript", "Tailwind CSS"],
+    stack: ["PHP", "MySQL", "Tailwind CSS"],
     features: ["Dynamic Event Ticketing", "Artist Profiles Engine", "Secure SQL Gateway", "Interactive Layout Maps", "Real-Time Availability Check"],
-    metrics: { loc: "8,500+", pages: "12", tables: "6", apis: "9" },
+    metrics: { loc: "1,500+", pages: "13", tables: "6",apis: "0"},
     href: "https://artwala.page.gd",
     github: "https://github.com/zohamalikdev/ArtWala",
   },
@@ -159,7 +159,7 @@ export default function WorkSection() {
         >
           {/* Main Paint Chassis Frame */}
           <div className="bg-[#bfbfbf] p-1 font-sans text-xs flex flex-col shadow-[inset_1px_1px_0_#ffffff]">
-            
+
             {/* Context Dropdown Bar Headers */}
             <div className="flex items-center gap-4 px-2 py-1 border-b border-[#808080] text-gray-900">
               <span className="cursor-default"><span className="underline">F</span>ile</span>
@@ -172,7 +172,7 @@ export default function WorkSection() {
 
             {/* Core Interface Workspace Split */}
             <div className="flex items-stretch gap-1 p-1 bg-[#bfbfbf] min-h-[600px]">
-              
+
               {/* MS Paint Classic Left Sidebar Toolset */}
               <div className="flex flex-col gap-0.5 p-1 bg-[#bfbfbf] self-start w-[56px] shrink-0">
                 <div className="grid grid-cols-2 gap-0.5">
@@ -202,19 +202,19 @@ export default function WorkSection() {
               {/* CANVAS INNER SHEET - Split Pane Work Environment */}
               <div className="flex-1 bg-[#262626] p-4 overflow-auto flex items-start justify-center">
                 <div className="bg-white border-[3px] border-black text-black w-full max-w-5xl p-4 font-serif shadow-[6px_6px_0px_rgba(0,0,0,1)] tracking-tight">
-                  
+
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-                    
+
                     {/* LEFT EXPLORER NAVIGATION */}
                     <div className="lg:col-span-4 space-y-2">
-                      <p className="text-[10px] font-bold font-mono text-gray-400 uppercase tracking-wider mb-2 px-2 select-none">
-                        // Installed Systems
+                      <p className="text-[26px] font-bold font-mono text-black-800 uppercase tracking-wider mb-4 px-2 select-none">
+                        PROJECTS
                       </p>
                       <div className="space-y-1.5">
                         {projects.map((project) => {
                           const isCurrent = selected === project.id;
                           const isHovered = hoveredProject === project.id;
-                          
+
                           return (
                             <motion.button
                               key={project.id}
@@ -223,20 +223,19 @@ export default function WorkSection() {
                               onClick={() => handleSelectProject(project.id)}
                               whileHover={{ x: isCurrent ? 0 : 2 }}
                               whileTap={{ scale: 0.98 }}
-                              className={`w-full text-left flex items-center gap-3 px-3 py-2.5 transition-all duration-100 font-mono text-xs cursor-none rounded-sm border ${
-                                isCurrent
+                              className={`w-full text-left flex items-center gap-3 px-3 py-2.5 transition-all duration-100 font-mono text-xs cursor-none rounded-sm border ${isCurrent
                                   ? "bg-black text-white font-bold border-black shadow-[3px_3px_0px_rgba(0,0,0,0.15)]"
                                   : isHovered
-                                  ? "bg-neutral-100 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
-                                  : "bg-white border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]"
-                              }`}
+                                    ? "bg-neutral-100 border-black shadow-[2px_2px_0px_rgba(0,0,0,1)]"
+                                    : "bg-white border-black shadow-[3px_3px_0px_rgba(0,0,0,1)]"
+                                }`}
                             >
-                              <Image 
-                                src={project.icon} 
-                                alt="" 
-                                width={20} 
-                                height={20} 
-                                className={`shrink-0 ${isCurrent ? "invert" : ""}`} 
+                              <Image
+                                src={project.icon}
+                                alt=""
+                                width={20}
+                                height={20}
+                                className={`shrink-0 ${isCurrent ? "invert" : ""}`}
                               />
                               <div className="min-w-0 flex-1">
                                 <p className="truncate text-xs font-bold uppercase tracking-tight">{project.name}</p>
@@ -276,7 +275,7 @@ export default function WorkSection() {
                               ) : (
                                 <div className="w-full h-full p-4 font-mono text-xs text-black flex flex-col justify-between bg-white">
                                   <div>
-                                    <p className="text-neutral-400">// STAGE_RENDER_CONNECTED</p>
+                                    <p className="text-neutral-400"> STAGE_RENDER_CONNECTED</p>
                                     <p className="text-black font-black mt-1">SYS: {activeProject.name}</p>
                                   </div>
                                   <div className="text-center text-neutral-400 text-[10px] animate-pulse">
@@ -291,7 +290,7 @@ export default function WorkSection() {
                           <motion.div variants={rowVariants} className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 border-b-2 border-black pb-3">
                             <div className="min-w-0">
                               <h2 className="text-sm font-black text-gray-900 font-sans uppercase tracking-tight flex items-center gap-2 truncate">
-                                📁 {activeProject.name}
+                                {activeProject.name}
                               </h2>
                               <p className="text-xs text-neutral-500 font-mono mt-0.5">{activeProject.tagline}</p>
                             </div>
@@ -307,20 +306,20 @@ export default function WorkSection() {
                           <motion.div variants={rowVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {/* Problem Statement */}
                             <div className="border-2 border-black bg-white p-3 rounded-sm shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-                              <h4 className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-wider mb-1.5">// Problem</h4>
+                              <h4 className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-wider mb-1.5"> Problem</h4>
                               <p className="text-xs text-gray-700 leading-relaxed font-serif">{activeProject.problem}</p>
                             </div>
 
                             {/* Solution Strategy */}
                             <div className="border-2 border-black bg-white p-3 rounded-sm shadow-[2px_2px_0px_rgba(0,0,0,1)]">
-                              <h4 className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-wider mb-1.5">// Solution</h4>
+                              <h4 className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-wider mb-1.5"> Solution</h4>
                               <p className="text-xs text-gray-700 leading-relaxed font-serif">{activeProject.solution}</p>
                             </div>
                           </motion.div>
 
                           {/* Architecture Metrics */}
                           <motion.div variants={rowVariants}>
-                            <h4 className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-wider mb-2 px-1">// Architecture Metrics</h4>
+                            <h4 className="text-[9px] font-mono font-bold text-neutral-400 uppercase tracking-wider mb-2 px-1"> Architecture Metrics</h4>
                             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-[10px]">
                               {[
                                 { label: "Lines of Code", value: activeProject.metrics.loc },
@@ -346,7 +345,7 @@ export default function WorkSection() {
                             {/* Features */}
                             <div className="border border-black bg-white p-3 rounded-sm shadow-[2px_2px_0px_rgba(0,0,0,1)]">
                               <h4 className="text-[9px] font-mono font-bold text-black uppercase tracking-wider mb-2 border-b-2 border-black pb-1">
-                                 Features
+                                Features
                               </h4>
                               <div className="space-y-1 text-xs">
                                 {activeProject.features.map((feat) => (
@@ -361,7 +360,7 @@ export default function WorkSection() {
                             {/* Tech Stack */}
                             <div className="border border-black bg-white p-3 rounded-sm shadow-[2px_2px_0px_rgba(0,0,0,1)]">
                               <h4 className="text-[9px] font-mono font-bold text-black uppercase tracking-wider mb-2 border-b-2 border-black pb-1">
-                                 Tech Stack
+                                Tech Stack
                               </h4>
                               <div className="flex flex-wrap gap-1.5">
                                 {activeProject.stack.map((tech) => (
@@ -394,7 +393,7 @@ export default function WorkSection() {
                               onClick={handleLinkClick}
                               className="px-4 py-1.5 border-2 border-black bg-white hover:bg-neutral-50 text-black font-bold text-xs rounded-sm shadow-[3px_3px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-0.5 active:translate-y-0.5 transition-all text-center cursor-none select-none uppercase tracking-tight"
                             >
-                               Source Code
+                              Source Code
                             </a>
                           </motion.div>
 

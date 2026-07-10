@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, type ReactNode } from "react";
 import RetroWindow from "@/components/RetroWindow";
+import emailjs from "@emailjs/browser";
 import { playClick, playHover, playType, playSuccess } from "@/components/Sound";
 
 // ---------------------------------------------------------------------------
@@ -62,12 +63,28 @@ export default function ContactForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setShowStatusModal(true);
-    setCurrentStep(0);
-    setProgress(0);
-  };
+  e.preventDefault();
+
+  setIsSubmitting(true);
+  setShowStatusModal(true);
+  setCurrentStep(0);
+  setProgress(0);
+
+  try {
+    await emailjs.send(
+      process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+      process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+      {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+      },
+      process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+    );
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   useEffect(() => {
     if (!showStatusModal) return;

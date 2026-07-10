@@ -1,0 +1,72 @@
+Date : 2026-07-10 20:22:21
+Directory : d:\Desktop\retro-portfolio
+Total : 37 files,  10197 codes, 193 comments, 451 blanks, all 10841 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| JSON               |          2 |      6,919 |          0 |          2 |      6,921 |
+| TypeScript JSX     |         21 |      2,880 |        158 |        347 |      3,385 |
+| PostCSS            |          1 |        269 |         27 |         69 |        365 |
+| TypeScript         |          2 |         44 |          4 |         10 |         58 |
+| JSON with Comments |          1 |         34 |          0 |          1 |         35 |
+| Markdown           |          3 |         26 |          2 |         17 |         45 |
+| JavaScript         |          2 |         20 |          2 |          5 |         27 |
+| XML                |          5 |          5 |          0 |          0 |          5 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                           | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                              |         37 |     10,197 |        193 |        451 |     10,841 |
+| . (Files)                                                      |          9 |      7,003 |          5 |         28 |      7,036 |
+| app                                                            |          3 |        478 |         38 |        110 |        626 |
+| components                                                     |         20 |      2,711 |        150 |        313 |      3,174 |
+| public                                                         |          5 |          5 |          0 |          0 |          5 |
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                       | language           | code       | comment    | blank      | total      |
++----------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| d:\Desktop\retro-portfolio\AGENTS.md                           | Markdown           |          2 |          2 |          2 |          6 |
+| d:\Desktop\retro-portfolio\CLAUDE.md                           | Markdown           |          1 |          0 |          1 |          2 |
+| d:\Desktop\retro-portfolio\README.md                           | Markdown           |         23 |          0 |         14 |         37 |
+| d:\Desktop\retro-portfolio\app\globals.css                     | PostCSS            |        269 |         27 |         69 |        365 |
+| d:\Desktop\retro-portfolio\app\layout.tsx                      | TypeScript JSX     |         45 |          0 |          9 |         54 |
+| d:\Desktop\retro-portfolio\app\page.tsx                        | TypeScript JSX     |        164 |         11 |         32 |        207 |
+| d:\Desktop\retro-portfolio\components\AboutWindow.tsx          | TypeScript JSX     |        385 |         16 |         32 |        433 |
+| d:\Desktop\retro-portfolio\components\ContactForm.tsx          | TypeScript JSX     |        289 |         15 |         36 |        340 |
+| d:\Desktop\retro-portfolio\components\Desktopsection.tsx       | TypeScript JSX     |        135 |          9 |         11 |        155 |
+| d:\Desktop\retro-portfolio\components\EnhancedBootSequence.tsx | TypeScript JSX     |        179 |          6 |         16 |        201 |
+| d:\Desktop\retro-portfolio\components\EnhancedCursor.tsx       | TypeScript JSX     |         45 |          2 |          7 |         54 |
+| d:\Desktop\retro-portfolio\components\EnhancedHeroSection.tsx  | TypeScript JSX     |        200 |         14 |         22 |        236 |
+| d:\Desktop\retro-portfolio\components\Magnetic.tsx             | TypeScript JSX     |         32 |          0 |          4 |         36 |
+| d:\Desktop\retro-portfolio\components\NavBar.tsx               | TypeScript JSX     |         54 |          3 |          6 |         63 |
+| d:\Desktop\retro-portfolio\components\PopupWindow.tsx          | TypeScript JSX     |         78 |          5 |          8 |         91 |
+| d:\Desktop\retro-portfolio\components\ProjectsWindow.tsx       | TypeScript JSX     |        380 |         18 |         37 |        435 |
+| d:\Desktop\retro-portfolio\components\ResumeWindow.tsx         | TypeScript JSX     |        261 |         20 |         32 |        313 |
+| d:\Desktop\retro-portfolio\components\RetroTaskbar.tsx         | TypeScript JSX     |        216 |         13 |         21 |        250 |
+| d:\Desktop\retro-portfolio\components\RetroWindow.tsx          | TypeScript JSX     |         95 |          5 |          6 |        106 |
+| d:\Desktop\retro-portfolio\components\Reveal.tsx               | TypeScript JSX     |         38 |          0 |          3 |         41 |
+| d:\Desktop\retro-portfolio\components\ScrollScrub.tsx          | TypeScript JSX     |         56 |          7 |         12 |         75 |
+| d:\Desktop\retro-portfolio\components\Sound.ts                 | TypeScript         |         40 |          3 |          7 |         50 |
+| d:\Desktop\retro-portfolio\components\TypeWriter.tsx           | TypeScript JSX     |         73 |          1 |         22 |         96 |
+| d:\Desktop\retro-portfolio\components\WelcomeModal.tsx         | TypeScript JSX     |         85 |          7 |         14 |        106 |
+| d:\Desktop\retro-portfolio\components\WindowManagerContext.tsx | TypeScript JSX     |         48 |          0 |         11 |         59 |
+| d:\Desktop\retro-portfolio\components\useScrollSkew.tsx        | TypeScript JSX     |         22 |          6 |          6 |         34 |
+| d:\Desktop\retro-portfolio\eslint.config.mjs                   | JavaScript         |         14 |          2 |          3 |         19 |
+| d:\Desktop\retro-portfolio\next.config.ts                      | TypeScript         |          4 |          1 |          3 |          8 |
+| d:\Desktop\retro-portfolio\package-lock.json                   | JSON               |      6,890 |          0 |          1 |      6,891 |
+| d:\Desktop\retro-portfolio\package.json                        | JSON               |         29 |          0 |          1 |         30 |
+| d:\Desktop\retro-portfolio\postcss.config.mjs                  | JavaScript         |          6 |          0 |          2 |          8 |
+| d:\Desktop\retro-portfolio\public\file.svg                     | XML                |          1 |          0 |          0 |          1 |
+| d:\Desktop\retro-portfolio\public\globe.svg                    | XML                |          1 |          0 |          0 |          1 |
+| d:\Desktop\retro-portfolio\public\next.svg                     | XML                |          1 |          0 |          0 |          1 |
+| d:\Desktop\retro-portfolio\public\vercel.svg                   | XML                |          1 |          0 |          0 |          1 |
+| d:\Desktop\retro-portfolio\public\window.svg                   | XML                |          1 |          0 |          0 |          1 |
+| d:\Desktop\retro-portfolio\tsconfig.json                       | JSON with Comments |         34 |          0 |          1 |         35 |
+| Total                                                          |                    |     10,197 |        193 |        451 |     10,841 |
++----------------------------------------------------------------+--------------------+------------+------------+------------+------------+

@@ -1,11 +1,17 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import ScrollScrub from "@/components/ScrollScrub";
+import { playClick, playHover, playClose } from "@/components/Sound";
 
 export default function DesktopSection() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  if (!isVisible) return null;
+
   return (
-    <section className="relative min-h-screen bg-white text-black px-8 md:px-16 py-24 flex items-center justify-center">
+    <section className="relative min-h-screen bg-white text-black px-8 md:px-16 py-24 flex items-center justify-center select-none">
       {/* Retro Window Container */}
       <div className="w-full max-w-4xl">
         {/* Window Header */}
@@ -17,13 +23,28 @@ export default function DesktopSection() {
           </div>
           <span className="text-white font-bold text-sm tracking-wider">ZOHAMALIK.DEV</span>
           <div className="flex gap-2">
-            <button className="w-6 h-6 bg-white border-2 border-black hover:bg-gray-200 transition-colors flex items-center justify-center text-xs font-bold">
+            <button 
+              onClick={playClick}
+              onMouseEnter={playHover}
+              className="w-6 h-6 bg-white border-2 border-black hover:bg-gray-200 transition-colors flex items-center justify-center text-xs font-bold"
+            >
               _
             </button>
-            <button className="w-6 h-6 bg-white border-2 border-black hover:bg-gray-200 transition-colors flex items-center justify-center text-xs font-bold">
+            <button 
+              onClick={playClick}
+              onMouseEnter={playHover}
+              className="w-6 h-6 bg-white border-2 border-black hover:bg-gray-200 transition-colors flex items-center justify-center text-xs font-bold"
+            >
               □
             </button>
-            <button className="w-6 h-6 bg-red-600 border-2 border-black hover:bg-red-700 transition-colors flex items-center justify-center text-white font-bold text-xs">
+            <button 
+              onClick={() => {
+                playClose();
+                setIsVisible(false);
+              }}
+              onMouseEnter={playHover}
+              className="w-6 h-6 bg-red-600 border-2 border-black hover:bg-red-700 transition-colors flex items-center justify-center text-white font-bold text-xs"
+            >
               ×
             </button>
           </div>
@@ -31,10 +52,10 @@ export default function DesktopSection() {
 
         {/* Menu Bar */}
         <div className="bg-gray-300 px-4 py-2 border-b-2 border-black flex gap-6 font-bold text-sm">
-          <button className="hover:bg-gray-400 px-2 py-1 transition-colors">File</button>
-          <button className="hover:bg-gray-400 px-2 py-1 transition-colors">Edit</button>
-          <button className="hover:bg-gray-400 px-2 py-1 transition-colors">View</button>
-          <button className="hover:bg-gray-400 px-2 py-1 transition-colors">Help</button>
+          <button onClick={playClick} onMouseEnter={playHover} className="hover:bg-gray-400 px-2 py-1 transition-colors">File</button>
+          <button onClick={playClick} onMouseEnter={playHover} className="hover:bg-gray-400 px-2 py-1 transition-colors">Edit</button>
+          <button onClick={playClick} onMouseEnter={playHover} className="hover:bg-gray-400 px-2 py-1 transition-colors">View</button>
+          <button onClick={playClick} onMouseEnter={playHover} className="hover:bg-gray-400 px-2 py-1 transition-colors">Help</button>
         </div>
 
         {/* Window Content */}
@@ -67,22 +88,34 @@ export default function DesktopSection() {
                 </div>
 
                 <div className="bg-gray-50 border-2 border-black p-4">
-                  <p className="text-sm md:text-base leading-relaxed font-mono">
+                  <p className="text-sm md:text-base leading-relaxed font-mono text-black">
                     Full Stack Developer & Designer. I build clean, interactive digital experiences with attention to detail and modern technologies.
                   </p>
                 </div>
 
                 {/* Contact Info Boxes */}
                 <div className="space-y-2">
-                  <div className="bg-white border-2 border-black p-3 flex items-center justify-between hover:bg-gray-50 transition-colors cursor-pointer">
+                  <div 
+                    onClick={playClick}
+                    onMouseEnter={playHover}
+                    className="bg-white border-2 border-black p-3 flex items-center justify-between hover:bg-gray-50 transition-colors cursor-pointer"
+                  >
                     <span className="font-bold text-xs tracking-wider"> EMAIL</span>
-                    <span className="text-xs font-mono">zohamalik.dev@gmail.com</span>
+                    <span className="text-xs font-mono select-all">zohamalik.dev@gmail.com</span>
                   </div>
-                  <div className="bg-white border-2 border-black p-3 flex items-center justify-between hover:bg-gray-50 transition-colors cursor-pointer">
+                  <div 
+                    onClick={playClick}
+                    onMouseEnter={playHover}
+                    className="bg-white border-2 border-black p-3 flex items-center justify-between hover:bg-gray-50 transition-colors cursor-pointer"
+                  >
                     <span className="font-bold text-xs tracking-wider"> LOCATION</span>
                     <span className="text-xs font-mono">Multan, PK</span>
                   </div>
-                  <div className="bg-white border-2 border-black p-3 flex items-center justify-between hover:bg-gray-50 transition-colors cursor-pointer">
+                  <div 
+                    onClick={playClick}
+                    onMouseEnter={playHover}
+                    className="bg-white border-2 border-black p-3 flex items-center justify-between hover:bg-gray-50 transition-colors cursor-pointer"
+                  >
                     <span className="font-bold text-xs tracking-wider"> TIMEZONE</span>
                     <span className="text-xs font-mono">EST/BST</span>
                   </div>
@@ -94,7 +127,9 @@ export default function DesktopSection() {
                     (tech) => (
                       <div
                         key={tech}
-                        className="border-2 border-black px-3 py-1 text-xs font-bold hover:bg-black hover:text-white transition-all"
+                        onClick={playClick}
+                        onMouseEnter={playHover}
+                        className="border-2 border-black px-3 py-1 text-xs font-bold hover:bg-black hover:text-white transition-all cursor-pointer"
                       >
                         {tech}
                       </div>

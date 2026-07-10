@@ -7,14 +7,8 @@ import Magnetic from "@/components/Magnetic";
 import NavBar from "@/components/NavBar";
 import EnhancedCursor from "@/components/EnhancedCursor";
 import EnhancedHeroSection from "@/components/EnhancedHeroSection";
-import ScrollProgressBar from "@/components/ScrollProgressBar";
-import Splitrveal from "@/components/Splitrveal";
-import StickySection from "@/components/StickySection";
-import ScrollScrub from "@/components/ScrollScrub";
-import Projectcard from "@/components/Projectcard";
 import Projectslide from "@/components/ProjectsWindow";
 import { useScrollSkew } from "@/components/useScrollSkew";
-import Marquee from "@/components/Marquee";
 import Desktopsection from "@/components/Desktopsection";
 import RetroTaskbar from "@/components/RetroTaskbar";
 import RetroWindow from "@/components/RetroWindow";
@@ -23,7 +17,7 @@ import ProjectsWindow from "@/components/ProjectsWindow";
 import Resume from "@/components/ResumeWindow";
 import TypeWriter from "@/components/TypeWriter";
 import ContactForm from "@/components/ContactForm";
-import ClosingSection from "@/components/ClosingSection";
+
 
 // 🔊 Import the specialized audio manager hooks
 import { playClick, playStartup } from "@/components/Sound";
@@ -56,7 +50,7 @@ export default function Home() {
     "INITIALIZING DESIGN ENGINE...",
     "LOADING CREATIVE MODULE...",
     "CHECKING JACK OF ALL TRADES STATUS...",
-    "ACCESS GRANTED.",
+    "ACCESS GRANTED...",
   ];
 
   const heroText =
