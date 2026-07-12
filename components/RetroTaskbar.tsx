@@ -115,7 +115,7 @@ export default function XpTaskbar() {
             aria-controls="start-menu"
           >
             <span className="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5 grid place-items-center">
-              <Image src="/windows/start.png" alt="" width={18} height={18} priority />
+              <Image src="/projects/start.png" alt="" width={18} height={18} priority />
             </span>
             <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm tracking-wide lowercase font-bold italic text-white select-none">
               start
