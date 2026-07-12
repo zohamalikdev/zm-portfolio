@@ -73,8 +73,8 @@ export default function XpTaskbar() {
     };
   }, [startOpen]);
 
-  // Unified dynamic styles for Task Tabs with explicit cursor pointer fallback
-  const baseTabClass = "h-[30px] flex items-center gap-2 rounded-[6px] px-2 text-[13px] select-none border border-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),inset_0_-1px_0_rgba(0,0,0,0.18)] transition-all duration-100 min-w-[120px] max-w-[200px] shrink-0 cursor-pointer";
+  // Unified dynamic styles for Task Tabs
+  const baseTabClass = "h-[30px] flex items-center justify-center sm:justify-start gap-2 rounded-[6px] px-2 text-[13px] select-none border border-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.5),inset_0_-1px_0_rgba(0,0,0,0.18)] transition-all duration-100 min-w-[34px] sm:min-w-[120px] max-w-[200px] shrink-0 cursor-pointer";
   const inactiveTabClass = `${baseTabClass} bg-gradient-to-b from-[#6aa7ff] to-[#2d74ff] hover:from-[#7db2ff] hover:to-[#3a7fff] text-white`;
   const activeTabClass = `${baseTabClass} bg-gradient-to-b from-[#ffe78a] to-[#f0b100] text-[#1b2a4a] border-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.65),inset_0_-1px_0_rgba(0,0,0,0.25)]`;
 
@@ -99,8 +99,8 @@ export default function XpTaskbar() {
         </div>
       )}
 
-      {/* Main Bar Wrapper - Catches pointer events for custom interactions */}
-      <div className="h-10 px-2 flex items-center gap-2 pointer-events-auto bg-gradient-to-b from-[#3b7dff] via-[#1f67ff] to-[#0b49d6] border-t border-white/40 shadow-[0_-1px_0_rgba(0,0,0,0.15)]">
+      {/* Main Bar Wrapper */}
+      <div className="h-10 px-2 flex items-center justify-between sm:justify-start gap-1 sm:gap-2 pointer-events-auto bg-gradient-to-b from-[#3b7dff] via-[#1f67ff] to-[#0b49d6] border-t border-white/40 shadow-[0_-1px_0_rgba(0,0,0,0.15)]">
         
         {/* START ANCHOR & DROPDOWN ENGINE */}
         <div ref={startRef} className="relative shrink-0">
@@ -110,14 +110,14 @@ export default function XpTaskbar() {
               playClick();
               setStartOpen((v) => !v);
             }}
-            className="h-8 w-[170px] shrink-0 relative overflow-hidden rounded-full bg-gradient-to-b from-[#55d14a] to-[#1f9b1a] border border-white/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_1px_0_rgba(0,0,0,0.15)] active:translate-y-[1px] cursor-pointer"
+            className="h-8 w-10 sm:w-[170px] shrink-0 relative overflow-hidden rounded-full sm:rounded-r-full bg-gradient-to-b from-[#55d14a] to-[#1f9b1a] border border-white/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_1px_0_rgba(0,0,0,0.15)] active:translate-y-[1px] cursor-pointer"
             aria-expanded={startOpen}
             aria-controls="start-menu"
           >
-            <span className="absolute left-2 top-1/2 -translate-y-1/2 w-5 h-5 grid place-items-center">
+            <span className="absolute left-1/2 sm:left-2 top-1/2 -translate-y-1/2 -translate-x-1/2 sm:translate-x-0 w-5 h-5 grid place-items-center">
               <Image src="/projects/start.png" alt="" width={18} height={18} priority />
             </span>
-            <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm tracking-wide lowercase font-bold italic text-white select-none">
+            <span className="hidden sm:block absolute left-9 top-1/2 -translate-y-1/2 text-sm tracking-wide lowercase font-bold italic text-white select-none">
               start
             </span>
           </button>
@@ -125,7 +125,7 @@ export default function XpTaskbar() {
           {startOpen && (
             <div
               id="start-menu"
-              className="absolute bottom-11 left-0 z-[10000] w-[340px] rounded-[10px] overflow-hidden shadow-[0_18px_45px_rgba(0,0,0,0.45)]"
+              className="absolute bottom-11 left-0 z-[10000] w-[92vw] sm:w-[340px] rounded-[10px] overflow-hidden shadow-[0_18px_45px_rgba(0,0,0,0.45)]"
             >
               {/* Profile Bar Header */}
               <div className="bg-gradient-to-b from-[#2b66ff] to-[#0c3db7] px-3 py-3 text-white flex items-center gap-3 select-none">
@@ -139,9 +139,9 @@ export default function XpTaskbar() {
               </div>
 
               {/* Menu Workspace Matrix */}
-              <div className="bg-[#f3f3f3] grid grid-cols-2">
-                {/* Left Panel: Primary Application Routes */}
-                <div className="p-2 border-r border-black/10">
+              <div className="bg-[#f3f3f3] grid grid-cols-1 sm:grid-cols-2">
+                {/* Left Panel */}
+                <div className="p-2 border-b sm:border-b-0 sm:border-r border-black/10">
                   {TASKS.map((t) => (
                     <a
                       key={t.id}
@@ -162,42 +162,20 @@ export default function XpTaskbar() {
                   ))}
                 </div>
 
-                {/* Right Panel: Integrated System Configuration Links */}
-                <div className="p-2 bg-[#eaf2ff] flex flex-col justify-between">
-                  <div className="space-y-0.5">
-                    <button
-                      onMouseEnter={playHover}
-                      onClick={() => { playClick(); setStartOpen(false); }}
-                      className="w-full flex items-center gap-2 px-2 py-2 rounded-md hover:bg-[#dbe9ff] text-[13px] text-gray-800 text-left transition-colors duration-100 cursor-pointer"
-                    >
-                      <Image src="/projects/control-panel.png" alt="" width={16} height={16} className="pixelated shrink-0" />
-                      <span>Control Panel</span>
-                    </button>
-                    <button
-                      onMouseEnter={playHover}
-                      onClick={() => { playClick(); setStartOpen(false); }}
-                      className="w-full flex items-center gap-2 px-2 py-2 rounded-md hover:bg-[#dbe9ff] text-[13px] text-gray-800 text-left transition-colors duration-100 cursor-pointer"
-                    >
-                      <Image src="/projects/search.png" alt="" width={16} height={16} className="pixelated shrink-0" />
-                      <span>Search</span>
-                    </button>
-                  </div>
-
-                  <div>
-                    <div className="my-2 h-px bg-black/10" />
-                    <button
-                      onMouseEnter={playHover}
-                      onClick={() => { 
-                        playClose(); 
-                        setStartOpen(false);
-                        setIsShutDown(true);
-                      }}
-                      className="w-full flex items-center gap-2 px-2 py-2 rounded-md hover:bg-[#ffd8d8] text-[13px] font-bold text-red-700 text-left transition-colors duration-100 cursor-pointer"
-                    >
-                      <Image src="/projects/turn-off.png" alt="" width={16} height={16} className="pixelated shrink-0" />
-                      <span>Turn Off Computer</span>
-                    </button>
-                  </div>
+                {/* Right Panel - Cleaned up to only include the Turn Off Option */}
+                <div className="p-2 bg-[#eaf2ff] flex flex-col justify-end">
+                  <button
+                    onMouseEnter={playHover}
+                    onClick={() => { 
+                      playClose(); 
+                      setStartOpen(false);
+                      setIsShutDown(true);
+                    }}
+                    className="w-full flex items-center gap-2 px-2 py-2 rounded-md hover:bg-[#ffd8d8] text-[13px] font-bold text-red-700 text-left transition-colors duration-100 cursor-pointer"
+                  >
+                    <Image src="/projects/turn-off.png" alt="" width={16} height={16} className="pixelated shrink-0" />
+                    <span>Turn Off Computer</span>
+                  </button>
                 </div>
               </div>
               <div className="h-2 bg-gradient-to-b from-white/60 to-transparent bg-[#f3f3f3]" />
@@ -206,11 +184,11 @@ export default function XpTaskbar() {
         </div>
 
         {/* Vintage Aesthetic Splitters */}
-        <div className="w-[1px] h-7 bg-white/35 mx-1 shrink-0" />
-        <div className="w-[1px] h-7 bg-black/20 -ml-1 mr-1 shrink-0" />
+        <div className="hidden sm:block w-[1px] h-7 bg-white/35 mx-1 shrink-0" />
+        <div className="hidden sm:block w-[1px] h-7 bg-black/20 -ml-1 mr-1 shrink-0" />
 
         {/* ACTIVE TASKS CHANNEL */}
-        <div className="flex-1 min-w-0 flex gap-2 overflow-x-auto px-1 scrollbar-none">
+        <div className="flex-1 min-w-0 flex gap-1.5 sm:gap-2 overflow-x-auto px-1 scrollbar-none">
           {TASKS.map((task) => {
             const isActive = activeTaskId === task.id;
             return (
@@ -228,17 +206,17 @@ export default function XpTaskbar() {
                 aria-current={isActive ? "page" : undefined}
               >
                 <Image src={task.icon} alt="" width={16} height={16} className="shrink-0 pixelated" />
-                <span className="truncate">{task.title}</span>
+                <span className="hidden sm:inline truncate">{task.title}</span>
               </a>
             );
           })}
         </div>
 
         {/* HARDWARE SYSTEM TRAY */}
-        <div className="h-9 flex items-center gap-2 px-3 rounded-l-[12px] bg-gradient-to-b from-[#7ed2ff] to-[#2aa7ff] border border-white/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] shrink-0 select-none">
-          <Image src="/projects/volume.png" alt="" width={16} height={16} className="pixelated" />
+        <div className="h-9 flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 rounded-l-[12px] bg-gradient-to-b from-[#7ed2ff] to-[#2aa7ff] border border-white/25 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)] shrink-0 select-none">
+          <Image src="/projects/volume.png" alt="" width={16} height={16} className="pixelated hidden xs:block" />
           <Image src="/projects/wifi.png" alt="" width={16} height={16} className="pixelated" />
-          <span className="text-[13px] font-medium text-white tabular-nums drop-shadow-[0_1px_0_rgba(0,0,0,0.25)]">
+          <span className="text-[12px] sm:text-[13px] font-medium text-white tabular-nums drop-shadow-[0_1px_0_rgba(0,0,0,0.25)]">
             {time}
           </span>
         </div>
