@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import { playClick, playHover, playOpen } from "@/components/Sound";
 
 export default function NavBar() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const links = [
     { label: "HOME", href: "#hero" },
-        { label: "WORK", href: "#work" },
+    { label: "WORK", href: "#work" },
     { label: "RESUME", href: "#resume" },
     { label: "CONTACT", href: "#contact" },
   ];
@@ -20,7 +22,7 @@ export default function NavBar() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-[200] bg-gray-300 border-b-4 border-black shadow-md">
+    <header className="hidden md:block fixed top-0 left-0 right-0 z-[200] bg-gray-300 border-b-4 border-black shadow-md relative">
       <div className="flex items-center justify-between px-3 py-1.5">
         {/* System branding — plain, no nested border box */}
         <div className="flex items-center gap-2">
@@ -43,6 +45,8 @@ export default function NavBar() {
           ))}
         </nav>
 
+
+
         {/* Hire-me, styled like a raised button */}
         <a
           href="#contact"
@@ -53,11 +57,33 @@ export default function NavBar() {
             const el = document.querySelector("#contact");
             if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
           }}
-          className="px-3 py-1 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white text-m font-bold hover:bg-gray-200 transition-colors duration-100 active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white cursor-pointer"
+          className="hidden md:block px-3 py-1 bg-gray-300 border-2 border-gray-500 border-t-white border-l-white text-m font-bold hover:bg-gray-200 transition-colors duration-100 active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white cursor-pointer"
         >
           HIRE ME
         </a>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => {
+            playClick();
+            setMenuOpen(!menuOpen);
+          }}
+          className="md:hidden w-9 h-9 flex items-center justify-center bg-gray-300 border-2 border-gray-500 border-t-white border-l-white font-bold active:border-t-gray-500 active:border-l-gray-500 active:border-b-white active:border-r-white"
+        >
+          ☰
+        </button>
       </div>
+
+      <div
+        className={`md:hidden absolute top-full right-3 mt-2 w-52 bg-gray-300 border-2 border-black shadow-xl overflow-hidden transition-all duration-200 ${menuOpen
+            ? "opacity-100 scale-100 visible"
+            : "opacity-0 scale-95 invisible"
+          }`}
+      >
+
+      </div>
+
+
     </header>
   );
 }

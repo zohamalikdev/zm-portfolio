@@ -93,7 +93,7 @@ export default function XpTaskbar() {
               onClick={() => { playOpen(); setIsShutDown(false); }} 
               className="mt-8 text-xs text-blue-400 border border-blue-500/30 px-3 py-1.5 rounded hover:bg-blue-500/10 transition-all active:scale-95 cursor-pointer"
             >
-              🔄 Reboot System
+               Reboot System
             </button>
           </div>
         </div>

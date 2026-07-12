@@ -173,7 +173,7 @@ export default function ContactForm() {
 
               {/* CANVAS INTERIOR: Expanded Clean Magazine Layout Sheet */}
               <div className="flex-1 bg-[#262626] p-2 sm:p-4 overflow-auto flex items-start justify-center">
-                <div className="bg-white border-[3px] border-black text-black w-full max-w-5xl p-4 sm:p-6 md:p-8 font-serif shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[6px_6px_0px_rgba(0,0,0,1)] tracking-tight">
+                <div className="bg-white border-[3px] border-black text-black w-full max-w-6xl p-4 sm:p-6 md:p-19 font-serif shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[6px_6px_0px_rgba(0,0,0,1)] tracking-tight">
                   
                   {/* Heading */}
                   <div className="border-b-[4px] border-black pb-3 mb-5 flex justify-between items-baseline">
