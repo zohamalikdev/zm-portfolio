@@ -1,8 +1,8 @@
 "use client";
 
 import WelcomeModal from "@/components/WelcomeModal";
-import { useState, useRef } from "react";
-// 🔊 Import our optimized central audio hooks
+import { useState } from "react";
+// 🔊 Import our central audio hooks
 import { playClick, playHover, playOpen, playClose } from "@/components/Sound";
 
 // The corners — this is what actually reads as "pixelated" rather than
@@ -93,26 +93,9 @@ const desktopIcons = [
 
 export default function EnhancedHeroSection() {
   const [showRecyclePopup, setShowRecyclePopup] = useState(false);
-  const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  /**
-   * Safe click interceptor that avoids double-click audio race conditions
-   */
-  const executeIconAction = (isDouble: boolean, actionCallback: () => void) => {
-    if (clickTimeoutRef.current) clearTimeout(clickTimeoutRef.current);
-
-    if (isDouble) {
-      playOpen(); // 🔊 Play open instantly on double click
-      actionCallback();
-    } else {
-      clickTimeoutRef.current = setTimeout(() => {
-        playClick(); // 🔊 Play single click track if double-click didn't intercept
-      }, 200);
-    }
-  };
 
   const openRecycleBin = () => {
-    playClose(); // 🔊 Use close/warning tone on pop-up constraint trigger
+    playClose(); // 🔊 Warning sound effect for the recycle popup restriction
     setShowRecyclePopup(true);
   };
 
@@ -127,9 +110,8 @@ export default function EnhancedHeroSection() {
           return isRecycleBin ? (
             <button
               key={label}
-              onMouseEnter={playHover} // 🔊 Hover sound tracking
-              onClick={() => executeIconAction(false, openRecycleBin)}
-              onDoubleClick={() => executeIconAction(true, openRecycleBin)}
+              onMouseEnter={playHover} // 🔊 Hover track sound
+              onClick={openRecycleBin} // Single click execution
               className="group flex flex-col items-center gap-1 w-20 p-2 hover:bg-blue-600/50 rounded-sm transition-colors duration-100"
             >
               <Icon />
@@ -141,15 +123,11 @@ export default function EnhancedHeroSection() {
             <a
               key={label}
               href={href}
-              onMouseEnter={playHover} // 🔊 Hover sound tracking
+              onMouseEnter={playHover} // 🔊 Hover track sound
               onClick={(e) => {
-                e.preventDefault(); // Control behavior for single vs double clicks
-                executeIconAction(false, () => {});
-              }}
-              onDoubleClick={() => {
-                executeIconAction(true, () => {
-                  window.location.hash = href;
-                });
+                e.preventDefault();
+                playOpen(); // 🔊 Play file execution open sound instantly
+                window.location.hash = href; // Route to anchor segment
               }}
               className="group flex flex-col items-center gap-1 w-20 p-2 hover:bg-blue-600/50 rounded-sm transition-colors duration-100"
             >
@@ -168,7 +146,7 @@ export default function EnhancedHeroSection() {
       {/* ===== SYSTEM ERROR OVERLAY ===== */}
       {showRecyclePopup && (
         <>
-          {/* Overlay */}
+          {/* Overlay background blocker */}
           <div
             className="fixed inset-0 bg-black/20 z-[9998]"
             onClick={() => {
@@ -177,7 +155,7 @@ export default function EnhancedHeroSection() {
             }}
           />
 
-          {/* XP Dialog */}
+          {/* XP Dialog Popup Box */}
           <div className="fixed inset-0 flex items-center justify-center z-[9999]">
             <div className="w-[430px] bg-[#ECE9D8] rounded-md overflow-hidden shadow-2xl border border-[#003C74]">
               {/* Title Bar */}
@@ -198,7 +176,7 @@ export default function EnhancedHeroSection() {
                 </button>
               </div>
 
-              {/* Content */}
+              {/* Box Dialog Body Content */}
               <div className="flex gap-4 p-6 bg-[#FCFBE9]/30">
                 <div className="text-5xl select-none">💡</div>
                 <div>
@@ -214,7 +192,7 @@ export default function EnhancedHeroSection() {
                 </div>
               </div>
 
-              {/* Buttons */}
+              {/* Action Buttons footer layout */}
               <div className="flex justify-end gap-3 px-5 pb-5 bg-[#ECE9D8]">
                 <button
                   onMouseEnter={playHover}
