@@ -95,12 +95,12 @@ export default function ContactForm() {
           clearInterval(interval);
           return 100;
         }
-        
+
         const nextProgress = prev + 5;
         if (nextProgress === 25) setCurrentStep(1);
         if (nextProgress === 55) setCurrentStep(2);
         if (nextProgress === 85) setCurrentStep(3);
-        
+
         if (nextProgress === 100) {
           playSuccess();
           setTimeout(() => {
@@ -131,7 +131,7 @@ export default function ContactForm() {
         >
           {/* Main Paint Canvas Chassis */}
           <div className="bg-[#bfbfbf] p-1 font-sans text-xs flex flex-col shadow-[inset_1px_1px_0_#ffffff]">
-            
+
             {/* Top Menu Bar */}
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 px-2 py-1 border-b border-[#808080] text-gray-900 text-[11px] sm:text-xs">
               <span className="cursor-default"><span className="underline">F</span>ile</span>
@@ -144,7 +144,7 @@ export default function ContactForm() {
 
             {/* Interface Core Layer */}
             <div className="flex items-stretch gap-1 p-1 bg-[#bfbfbf] min-h-[480px] md:min-h-[550px]">
-              
+
               {/* Left Hand Icon Rails - Hidden on Mobile */}
               <div className="hidden md:flex flex-col gap-0.5 p-1 bg-[#bfbfbf] self-start w-[56px] shrink-0">
                 <div className="grid grid-cols-2 gap-0.5">
@@ -174,7 +174,7 @@ export default function ContactForm() {
               {/* CANVAS INTERIOR: Expanded Clean Magazine Layout Sheet */}
               <div className="flex-1 bg-[#262626] p-2 sm:p-4 overflow-auto flex items-start justify-center">
                 <div className="bg-white border-[3px] border-black text-black w-full max-w-6xl p-4 sm:p-6 md:p-19 font-serif shadow-[4px_4px_0px_rgba(0,0,0,1)] md:shadow-[6px_6px_0px_rgba(0,0,0,1)] tracking-tight">
-                  
+
                   {/* Heading */}
                   <div className="border-b-[4px] border-black pb-3 mb-5 flex justify-between items-baseline">
                     <div>
@@ -250,15 +250,31 @@ export default function ContactForm() {
                       <p className="text-[10px] font-mono text-neutral-400 max-w-xs leading-tight uppercase">
                         * Messages go straight to my inbox.
                       </p>
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        onMouseEnter={playHover}
-                        onClick={playClick}
-                        className="px-5 py-2.5 bg-black hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-widest font-mono transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed border border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-0.5 active:translate-y-0.5 w-full sm:w-auto text-center"
-                      >
-                        {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
-                      </button>
+
+                      <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                        {/* Quick Contact Link */}
+                        <a
+                          href="https://wa.me/923326254386"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onMouseEnter={playHover}
+                          onClick={playClick}
+                          className="px-5 py-2.5 bg-[#25D366] hover:bg-[#20bf5a] text-white text-xs font-bold uppercase tracking-widest font-mono border border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-0.5 active:translate-y-0.5 text-center transition-colors duration-150"
+                        >
+                           WHATSAPP
+                        </a>
+
+                        {/* Form Submit Button */}
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          onMouseEnter={playHover}
+                          onClick={playClick}
+                          className="px-5 py-2.5 bg-black hover:bg-neutral-800 text-white text-xs font-bold uppercase tracking-widest font-mono transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed border border-black shadow-[3px_3px_0px_rgba(0,0,0,1)] active:shadow-none active:translate-x-0.5 active:translate-y-0.5 w-full sm:w-auto text-center"
+                        >
+                          {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
+                        </button>
+                      </div>
                     </div>
                   </form>
                 </div>
@@ -305,7 +321,7 @@ export default function ContactForm() {
       {showStatusModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
           <div className="w-full max-w-sm bg-white border-[4px] border-black p-5 sm:p-6 shadow-[8px_8px_0px_rgba(0,0,0,1)] text-black">
-            
+
             <div className="border-b-2 border-black pb-2 mb-4 flex justify-between items-center">
               <span className="font-mono text-xs font-black uppercase tracking-wider">
                 Sending Status
@@ -322,7 +338,7 @@ export default function ContactForm() {
 
               {/* Minimal Progress Bar */}
               <div className="w-full h-3 border border-black bg-neutral-100 p-[1px]">
-                <div 
+                <div
                   className="h-full bg-black transition-all duration-100 ease-out"
                   style={{ width: `${progress}%` }}
                 />
