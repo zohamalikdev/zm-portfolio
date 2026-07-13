@@ -1,137 +1,249 @@
 # Zoha Malik — Portfolio
 
-A portfolio site styled as a Windows XP desktop — an interactive "operating system" you navigate to explore my work, skills, and experience, instead of a standard scrolling page.
+A Windows XP-inspired portfolio built with Next.js, where the entire website behaves like a retro desktop operating system. Instead of navigating a traditional scrolling portfolio, visitors interact with desktop icons, application windows, a functional taskbar, and classic Windows-inspired UI to explore my projects, skills, resume, and contact information.
 
-**Live:** [zohamalik.dev](https://zohamalik-six.vercel.app)
-**Repo:** [github.com/zohamalikdev/zm-portfolio](https://github.com/zohamalikdev/zm-portfolio)
+**Live:** https://zohamalik-six.vercel.app  
+**Repository:** https://github.com/zohamalikdev/zm-portfolio
 
 ---
 
 ## Overview
 
-Each section of the site — About, Projects, Resume, Contact — is rendered as an authentic-feeling retro window: title bars, menu bars, an MS Paint-style toolbox, beveled 3D borders, a taskbar with a working Start menu, and popup "applications" for deeper content (Skills, Tech Stack, Status, Career Timeline).
+This project recreates the experience of using a classic Windows XP desktop while showcasing my work as a software developer. Every section opens inside a reusable retro window, complete with authentic UI elements such as title bars, menu bars, beveled borders, desktop icons, a functional Start Menu, and draggable popup applications.
+
+The goal was to combine nostalgia with modern web development practices while maintaining responsive performance and reusable component architecture.
+
+---
 
 ## Features
 
-- **Windows XP-style UI** — title bars, menu bars, taskbar, and MS Paint window chrome, shared across all sections via a single reusable component
-- **Interactive desktop files** — click to select, click again (or double-click) to open, matching real desktop-icon conventions on both mouse and touch
-- **Popup windows** — modal "applications" for Skills, Tech Stack, Current Status, and Career Timeline, each registered with a taskbar so open windows are reflected live
-- **Typewriter intro** — the About section types itself out on scroll-into-view
-- **Retro sound effects** — click/open/close feedback via the Web Audio API
-- **Framer Motion animations** — scroll-triggered reveals, hover lift, and popup enter/exit transitions
-- **Responsive** — mobile layout intentionally differs from desktop (e.g., the tool panel sidebar is hidden on small screens rather than squeezed in)
+- **Windows XP Desktop Experience** — complete desktop interface with taskbar, Start Menu, desktop icons, and classic window styling.
+- **Reusable Window System** — every section is rendered through a shared retro window component for consistency.
+- **Interactive Desktop Navigation** — desktop icons support single-click selection and double-click opening, similar to the original Windows desktop.
+- **Popup Applications** — Skills, Technology Stack, Career Timeline, and Status are displayed as independent draggable windows.
+- **MS Paint Inspired Contact Form** — custom-designed contact section with EmailJS integration and WhatsApp contact support.
+- **Live Email Delivery** — messages are delivered directly through EmailJS without requiring a backend server.
+- **Animated Typewriter Introduction** — About section reveals itself with a typewriter animation.
+- **Retro Sound Effects** — interface interactions include authentic click, open, close, typing, and success sounds using the Web Audio API.
+- **Animated Cursor Companion** — includes a Neko desktop companion that follows the user's cursor across the screen.
+- **Smooth Motion Effects** — page transitions and window animations powered by Framer Motion.
+- **Fully Responsive** — optimized layouts for desktop, tablet, and mobile devices while preserving the retro interface.
+
+---
 
 ## Tech Stack
 
-- **Framework:** Next.js (App Router), React, TypeScript
-- **Styling:** Tailwind CSS
-- **Animation:** Framer Motion
-- **Drag interaction:** react-draggable
-- **Audio:** Web Audio API
+### Frontend
+
+- Next.js 15 (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+
+### Animation & Interaction
+
+- Framer Motion
+- react-draggable
+- Web Audio API
+
+### Services
+
+- EmailJS
+- Vercel Deployment
+
+---
 
 ## Project Structure
 
-```
+```text
 src/
 ├── app/
 │   ├── layout.tsx
 │   └── page.tsx
 │
 ├── components/
-│   ├── MsPaintWindow.tsx        # Shared Paint-style window chrome
-│   ├── RetroWindow.tsx          # Generic retro window frame
-│   ├── PopupWindow.tsx          # Draggable modal popup
-│   ├── WindowManagerContext.tsx # Tracks open popups for the taskbar
-│   ├── Taskbar.tsx
-│   ├── TypeWriter.tsx
-│   ├── Sound.ts
-│   ├── EnhancedCursor.tsx
+│   ├── RetroWindow.tsx
+│   ├── PopupWindow.tsx
+│   ├── WindowManagerContext.tsx
+│   ├── XpTaskbar.tsx
+│   ├── Desktop.tsx
+│   ├── ContactForm.tsx
+│   ├── ResumeWindow.tsx
 │   ├── AboutWindow.tsx
 │   ├── WorkSection.tsx
-│   ├── ResumeWindow.tsx
-│   └── ContactForm.tsx
-│   ├── WelcomeModal.tsx
-│   ├── ScrollScrub.tsx
-│   ├── Magentic.tsx
-│   ├── useScrollScrew.tsx
+│   ├── TypeWriter.tsx
+│   ├── Sound.ts
 │   ├── Reveal.tsx
-    
+│   ├── Neko.tsx
+│   ├── WelcomeModal.tsx
+│   └── ...
 │
 └── public/
-    ├── projects/                # Screenshots and icons
-    └── sounds/                  # Retro sound effects
+    ├── projects/
+    ├── windows/
+    ├── sounds/
+    └── sprites/
 ```
 
-> Structure above reflects the current component set — update this if you reorganize folders later.
-
-## Getting Started
-
-**Prerequisites:** Node.js 18+
-
-```bash
-git clone https://github.com/zohamalikdev/zm-portfolio.git
-cd zm-portfolio
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
-```bash
-# Production build
-npm run build
-npm run start
-```
-
-## Key Components
-
-**`MsPaintWindow`** — the shared Paint-style chrome used by every section:
-
-```tsx
-<MsPaintWindow
-  title="about_me.bmp - Paint"
-  statusText="Section loaded"
-  showToolPanel={false}
->
-  {/* section content */}
-</MsPaintWindow>
-```
-
-**`PopupWindow`** — a draggable modal that auto-registers with the taskbar while open:
-
-```tsx
-<PopupWindow id="skills" title="Skills.exe" onClose={() => setActive(null)}>
-  {/* popup content */}
-</PopupWindow>
-```
-
-**Sound effects:**
-
-```tsx
-import { playClick, playOpen, playClose } from "@/components/Sound";
-```
-
-## Deployment
-
-Deployed on [Vercel](https://vercel.com):
-
-```bash
-npm i -g vercel
-vercel
-```
-
-## Roadmap / Known Gaps
-
-- Contact form currently simulates submission — needs a real backend (API route, Formspree, or similar) wired in
-- Performance and accessibility haven't been formally audited yet (Lighthouse, WCAG) — TODO before calling this production-polished
-- Some desktop icons still use placeholder art pending final assets
-
-## Contact
-
-- **Email:** zohamalik.dev@gmail.com
-- **LinkedIn:** [linkedin.com/in/zohamalik-](https://linkedin.com/in/zohamalik-/)
-- **GitHub:** [@zohamalikdev](https://github.com/zohamalikdev)
+> The structure above reflects the current implementation and may evolve as new features are added.
 
 ---
 
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or later
+- npm
+
+Clone the repository:
+
+```bash
+git clone https://github.com/zohamalikdev/zm-portfolio.git
+
+cd zm-portfolio
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+Visit:
+
+```
+http://localhost:3000
+```
+
+To create a production build:
+
+```bash
+npm run build
+
+npm start
+```
+
+---
+
+## Environment Variables
+
+Create a `.env.local` file in the project root.
+
+```env
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
+
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+These variables are required for the contact form to send emails through EmailJS.
+
+---
+
+## Key Components
+
+### `RetroWindow`
+
+Shared window component responsible for rendering the Windows XP interface.
+
+```tsx
+<RetroWindow
+  title="about_me.txt"
+  icon="/projects/notepad.png"
+  statusText="Ready"
+>
+  {/* Content */}
+</RetroWindow>
+```
+
+---
+
+### `PopupWindow`
+
+Reusable draggable popup window that automatically registers itself with the taskbar.
+
+```tsx
+<PopupWindow
+    id="skills"
+    title="Skills.exe"
+    onClose={() => setActive(null)}
+>
+    {/* Window Content */}
+</PopupWindow>
+```
+
+---
+
+### `Sound`
+
+Retro interface sound effects.
+
+```tsx
+import {
+  playClick,
+  playHover,
+  playOpen,
+  playClose,
+  playSuccess
+} from "@/components/Sound";
+```
+
+---
+
+### `Neko`
+
+Animated desktop companion that follows the user's cursor.
+
+```tsx
+<Neko />
+```
+
+---
+
+## Deployment
+
+The application is deployed on **Vercel**.
+
+```bash
+npm install -g vercel
+
+vercel
+```
+
+For EmailJS to function correctly in production, configure the required environment variables in the Vercel Project Settings.
+
+---
+
+## Future Improvements
+
+- Desktop context menu
+- Window minimize and maximize functionality
+- Draggable desktop icons
+- Browser-based terminal application
+- Additional retro desktop applications
+- Performance optimization and accessibility improvements
+- Dark mode inspired by Windows XP Royale Theme
+
+---
+
+## Contact
+
+**Email**  
+zohamalik.dev@gmail.com
+
+**LinkedIn**  
+https://linkedin.com/in/zohamalik-
+
+**GitHub**  
+https://github.com/zohamalikdev
+
+-
 *Built with Next.js, Tailwind CSS, and Framer Motion.*
