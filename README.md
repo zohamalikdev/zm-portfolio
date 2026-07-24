@@ -3,8 +3,7 @@
 A Windows XP-inspired portfolio built with Next.js, where the entire website behaves like a retro desktop operating system. Instead of navigating a traditional scrolling portfolio, visitors interact with desktop icons, application windows, a functional taskbar, and classic Windows-inspired UI to explore my projects, skills, resume, and contact information.
 
 **Live:** https://zohamalik-six.vercel.app  
-**Repository:** https://github.com/zohamalikdev/zm-portfolio
-
+**Repository:** https://github.com/zoha-malik01/zm-portfolio
 ---
 
 ## Overview
