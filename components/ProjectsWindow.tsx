@@ -21,8 +21,8 @@ const projects = [
     stack: ["React", "Next.js", "Node.js", "Express", "PostgreSQL", "JWT"],
     features: ["User Authentication", "Admin Dashboard", "Shopping Cart Matrix", "REST API Infrastructure", "Database Integration", "Secure Checkout Gateway"],
     metrics: { loc: "7.5K+", pages: "6+", tables: "3", apis: "18+" },
-    href: "https://zohamalikdev.github.io/Bazzar-Shop/index.html",
-    github: "https://github.com/zohamalikdev/Bazzar-Shop",
+    href: "https://zoha-malik01.github.io/Bazzar-Shop/index.html",
+    github: "https://github.com/zoha-malik01/Bazzar-Shop",
   },
   {
     id: "artwala",
@@ -40,7 +40,7 @@ const projects = [
     features: ["Dynamic Event Ticketing", "Artist Profiles Engine", "Secure SQL Gateway", "Interactive Layout Maps", "Real-Time Availability Check"],
     metrics: { loc: "1,500+", pages: "13", tables: "6", apis: "0" },
     href: "https://artwala.page.gd",
-    github: "https://github.com/zohamalikdev/ArtWala",
+    github: "https://github.com/zoha-malik01/ArtWala",
   },
   {
     id: "drinkco",
@@ -57,8 +57,8 @@ const projects = [
     stack: ["HTML", "CSS", "JavaScript", "Vite"],
     features: ["Fluid Layout Systems", "High-Fidelity Animations", "Asynchronous Contact Submissions", "Asset Size Optimization"],
     metrics: { loc: "1,200+", pages: "1", tables: "0", apis: "2" },
-    href: "https://zohamalikdev.github.io/DrinkCo/index.html",
-    github: "https://github.com/zohamalikdev/DrinkCo",
+    href: "https://zoha-malik01.github.io/DrinkCo/index.html",
+    github: "https://github.com/zoha-malik01/DrinkCo",
   },
 ];
 
