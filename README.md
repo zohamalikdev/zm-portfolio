@@ -242,7 +242,7 @@ zohamalik.dev@gmail.com
 https://linkedin.com/in/zohamalik-
 
 **GitHub**  
-https://github.com/zohamalikdev
+https://github.com/zohamalik-01
 
 -
 *Built with Next.js, Tailwind CSS, and Framer Motion.*
